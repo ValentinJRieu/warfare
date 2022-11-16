@@ -1,4 +1,7 @@
 package wargame;
+
+import wargame.soldat.Soldat;
+
 public interface ISoldat {
    static enum TypesH {
       HUMAIN (40,3,10,2), NAIN (80,1,20,0), ELF (70,5,10,6), HOBBIT (20,3,5,2);
