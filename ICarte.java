@@ -1,8 +1,7 @@
 package wargame;
 import java.awt.Graphics;
 import wargame.affichage.PanneauJeu;
-import wargame.soldat.Heros;
-import wargame.soldat.Soldat;
+import wargame.soldats.Heros;
 
 public interface ICarte {
 	Element getElement(Position pos);
