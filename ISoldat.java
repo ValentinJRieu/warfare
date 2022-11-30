@@ -1,5 +1,6 @@
 package wargame;
 
+import wargame.carte.Position;
 import wargame.soldats.Soldat;
 
 public interface ISoldat {
