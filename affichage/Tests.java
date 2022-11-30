@@ -1,6 +1,7 @@
 package wargame.affichage;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class Tests {
     public static void main(String[] args){

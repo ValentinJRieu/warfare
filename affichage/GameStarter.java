@@ -11,6 +11,6 @@ public class GameStarter extends MouseAdapter {
     }
     @Override
     public void mouseClicked(MouseEvent e) {
-        new Game(frame);
+        new GameWindow(frame);
     }
 }
