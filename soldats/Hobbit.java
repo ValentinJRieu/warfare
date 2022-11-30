@@ -1,6 +1,6 @@
 package wargame.soldats;
 
-import wargame.Position;
+import wargame.carte.Position;
 
 public class Hobbit extends Heros{
 
