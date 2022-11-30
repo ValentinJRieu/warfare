@@ -22,7 +22,6 @@ public class Game extends JPanel {
                     y+= height/2;
                 }else{
                     y-= height/2;
-
                 }
                 x+=width * 3/4;
                 c.draw((Graphics2D) g);
