@@ -4,9 +4,12 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GameSideBar extends JPanel {
-    public GameSideBar(){
+    public GameSideBar(GameWindow parent){
         super();
-        setPreferredSize(new Dimension(Option.WIDTH/4,Option.HEIGHT * 3/4));
+        Dimension dim = new Dimension(parent.getWidth() * 2/10, parent.getHeight() * 9/10);
+        setPreferredSize(dim);
+        setMaximumSize(dim);
         setBackground(new Color(30,60,90));
+
     }
 }

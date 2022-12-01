@@ -5,8 +5,10 @@ import java.awt.*;
 
 public class Game extends JPanel {
 
-    Game(){
-        this.setPreferredSize(new Dimension(Option.WIDTH * 3/4,Option.HEIGHT * 3/4));
+    Game(GameWindow parent){
+        Dimension dim = new Dimension(parent.getWidth() * 8/10,parent.getHeight() * 9/10);
+        this.setPreferredSize(dim);
+        this.setMaximumSize(dim);
     }
     public void paint(Graphics g){
         super.paint(g);

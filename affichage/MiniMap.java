@@ -4,10 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MiniMap extends JPanel {
-    MiniMap(){
+    MiniMap(GameSideBar parent){
         super();
-        setPreferredSize(new Dimension(Option.WIDTH/4,Option.HEIGHT/4));
-        setBackground(Color.WHITE);
-
+        Dimension dim = new Dimension(parent.getWidth(), parent.getHeight()*1/4);
+        setPreferredSize(dim);
+        setMaximumSize(dim);
+        setBackground(Color.BLACK);
     }
 }
