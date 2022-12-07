@@ -35,6 +35,8 @@ public class MiniMap extends JPanel {
         }else{
             parent.parent.game.ct.draw(
                     g2,
+                   0,
+                    0,
                    radius,
                     0,
                     0,

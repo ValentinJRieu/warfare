@@ -1,7 +1,7 @@
 package wargame.affichage;
 
-import java.awt.*;
 
+import java.awt.*;
 public class Case {
     public Color color,outlineColor;
     public boolean selected,drawOutline;

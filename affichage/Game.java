@@ -6,48 +6,74 @@ import java.awt.*;
 public class Game extends JPanel {
 
     CaseTable ct;
-    private int iStart = 0, jStart = 0, iSize = 10, jSize = 10, radius;
+    Dimension ctDim;
+    private int iStart = 0, jStart = 0,iEnd = 52, jEnd = 52, radius, minZoomI = 20,minZoomJ = 20;
 
     Game(GameWindow parent) {
         Dimension dim = new Dimension(parent.getWidth() * 8 / 10, parent.getHeight() * 9 / 10);
+        ctDim = new Dimension(52,52);
         this.setPreferredSize(dim);
         this.setMaximumSize(dim);
-        ct = new CaseTable(512, 512);
+        ct = new CaseTable(ctDim.width, ctDim.height);
         GameEventHandler geh = new GameEventHandler(this);
         addMouseListener(geh);
         addMouseMotionListener(geh);
         addMouseWheelListener(geh);
         addKeyListener(geh);
+        setBackground(Color.darkGray);
 
     }
 
-    public void paint(Graphics g) {
+    public void paint(Graphics g) {//TODO
         super.paint(g);
         Graphics2D g2 = (Graphics2D) g;
-        radius = getWidth() < getHeight() ? getHeight() / (jSize) : getWidth() / (iSize);
-        ct.draw(g2, radius, iStart, jStart, iStart + iSize, jStart + jSize);
+        int halfX = 0,halfY = 0;
+        double dbRadius = 0;
+        if(getWidth() > getHeight()){
+            System.out.println("w = "+getWidth()+" & end-start = "+(jEnd-jStart));
+            radius = (getWidth() / ((jEnd-jStart)) );
+            dbRadius = (double)radius * 3/8;
+            radius = radius * 3/8;
+            System.out.println("radius = "+radius+" dbRadius = "+dbRadius);
+        }
+
+        if(getWidth() < getHeight()){
+            radius = getHeight() / (iEnd - iStart);
+            int height = (int)((Math.sqrt(3)*radius));
+        }
+        //radius = getWidth() < getHeight() ? getHeight() / (jEnd-jStart) : getWidth() / (iEnd-iStart);
+        if(getWidth() > getHeight() && jEnd-jStart == ctDim.width){
+            halfX  = (getWidth() - (int)(dbRadius / 0.75) * ctDim.width) /2;
+        }
+        if(getWidth() <= getHeight() && iEnd-iStart == ctDim.height){
+            halfY  = (getWidth() - (int)(dbRadius / 0.75) * ctDim.width) /2;
+        }
+        ct.draw(g2,halfX+0,halfY+0, radius, iStart, jStart, iStart + (iEnd-iStart), jStart + (jEnd-jStart));
     }
 
     public void zoom() {
-        if (jSize > 9 && iSize > 9) {
-            jSize -= 2;
-            iSize -= 2;
-        }
-        if (iStart > 0 && jStart > 0) {
-            jStart--;
-            iStart--;
+        System.out.println("Zooming Size : ("+(iEnd - iStart)+","+(jEnd - jStart)+")");
+        if(iEnd - iStart > 20 && jEnd - jStart > 20){
+            iStart++;
+            jStart++;
+            iEnd--;
+            jEnd--;
         }
         repaint();
     }
 
     public void deZoom() {
-        if (jSize < ct.columns - jStart - 2 && iSize < ct.rows - iStart - 2) {
-            jSize += 2;
-            iSize += 2;
+        if(iStart > 0){
+            iStart--;
         }
-        if (iStart > ct.rows - iSize && jStart > ct.columns - jSize) {
-            jStart++;
-            iStart++;
+        if(iEnd < ct.rows){
+            iEnd++;
+        }
+        if(jStart > 0){
+            jStart--;
+        }
+        if(jEnd < ct.columns){
+            jEnd++;
         }
         repaint();
     }
@@ -60,8 +86,9 @@ public class Game extends JPanel {
     }
 
     public void down() {
-        if (iStart < ct.rows - iSize - 2) {
+        if (iEnd < ct.rows) {
             iStart++;
+            iEnd++;
             repaint();
         }
     }
@@ -75,8 +102,9 @@ public class Game extends JPanel {
     }
 
     public void right() {
-        if (jStart < ct.columns - jSize - 2) {
+        if (jEnd < ct.columns - 2) {
             jStart++;
+            jEnd++;
             repaint();
         }
     }

@@ -42,24 +42,25 @@ public class CaseTable {
         return cases[j][i];
     }
 
-    public void draw(Graphics2D g2,int radius,int iStart, int jStart, int rows,int columns){
-        int x = 0,y = 0;
-        int width = width(radius)* 3/4, height = height(radius);
-        for(int i = iStart;i < rows;i++) {
-            for (int j = jStart; j < columns; j++) {
+    public void draw(Graphics2D g2,int startX,int startY,int radius,int iStart, int jStart, int rows,int columns){
+        int x = startX,y = startY;
+        int width = width(radius), height = height(radius);
+        for (int j = jStart; j < columns; j++) {
+            if(j%2 == 0){
+                y=startY;
+            }else{
+                y =startY + height/2;
+            }
+            for(int i = iStart;i < rows;i++) {
                 g2.setColor(getCase(j,i).color);
                 g2.fill(createHexagon(new Point(x,y),radius));
-                if(j % 2 == 0){
-                    y+= height/2;
-                }else{
-                    y-= height/2;
-                }
-                x+=width;
+                y += height;
             }
-            y += height;
-            x = 0;
+            x+=width*3/4;
         }
     }
+
+
 
     public static Polygon createHexagon(Point center,int radius){
         Polygon p = new Polygon();
