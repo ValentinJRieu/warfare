@@ -41,17 +41,18 @@ public class Game extends JPanel {
         Graphics2D g2 = (Graphics2D) g;
         int halfX = 0, halfY = 0;
         double dbRadius = 0;
-        int rows = iEnd;
         int cols = jEnd;
         dbRadius = ((double)getWidth()/0.75) /((double)jEnd-(double)jStart);
         System.out.println(getWidth() + "/"+getHeight() + " Radius = "+dbRadius);
+        iEnd = iStart + (int)(getHeight()/dbRadius);
+        int rows = iEnd;
         halfX = (int)(getWidth()/0.75) - (int)dbRadius * (jEnd-jStart);
         ct.draw(g2, 0, 0, dbRadius / 2.0, iStart, jStart, rows*2, cols*2);
     }
 
     public void zoom() {
         System.out.println("Zooming Size : (" + (iEnd - iStart) + "," + (jEnd - jStart) + ")");
-        if (iEnd - iStart > 20 && jEnd - jStart > 20) {
+        if (iEnd - iStart > 10 && jEnd - jStart > 10) {
             iStart+=2;
             jStart+=2;
             iEnd-=2;
@@ -136,5 +137,14 @@ public class Game extends JPanel {
 
     public int getjEnd() {
         return jEnd;
+    }
+
+    public void goTo(int i,int j){
+        int iSize = iEnd - iStart,jSize = jEnd - jStart;
+        iStart = i - iSize/2;
+        iEnd = i + iSize/2;
+        jStart = j - jSize/2;
+        jEnd = j + jSize/2;
+        parent.frame.repaint();
     }
 }
