@@ -42,14 +42,20 @@ public class CaseTable {
         return cases[j][i];
     }
 
-    public void draw(Graphics2D g2,int startX,int startY,int radius,int iStart, int jStart, int rows,int columns){
+    public static Point flat_hex_corner(Point center,double size,int i) {
+        var angle_deg = 60 * i;
+        var angle_rad = Math.PI / 180 * angle_deg;
+        return new Point((int)(center.x + size * Math.cos(angle_rad)),(int)(center.y + size * Math.sin(angle_rad)));
+    }
+
+    public void draw(Graphics2D g2,int startX,int startY,double radius,int iStart, int jStart, int rows,int columns){
         int x = startX,y = startY;
-        int width = width(radius), height = height(radius);
+        double width = width(radius), height = height(radius);
         for (int j = jStart; j < columns; j++) {
             if(j%2 == 0){
                 y=startY;
             }else{
-                y =startY + height/2;
+                y =startY + (int)(height/2);
             }
             for(int i = iStart;i < rows;i++) {
                 g2.setColor(getCase(j,i).color);
@@ -60,19 +66,28 @@ public class CaseTable {
         }
     }
 
+    public void drawLine(Graphics2D g2,int startX,int startY,double radius,int i,int jStart,int columns){
+        int x = startX,y = startY;
+        System.out.println("Start : x = "+x+", y="+y+" radius = "+(int)radius+" radius * columns = "+((int)radius*3/4 * columns));
+        for(int j = jStart;j < columns;j++){
+            g2.setColor(getCase(j,i).color);
+            g2.fill(createHexagon(new Point(x,y),radius));
+            x+=radius*3/4;
+            System.out.println(x);
+        }
+    }
 
 
-    public static Polygon createHexagon(Point center,int radius){
+    public static Polygon createHexagon(Point center,double radius){
         Polygon p = new Polygon();
         for (int i = 0; i < 6; i++) {
-            int xVal = (int) (center.x + radius * Math.cos(i * 2 * Math.PI / 6D));
-            int yVal = (int) (center.y + radius * Math.sin(i * 2 * Math.PI / 6D));
-            p.addPoint(xVal, yVal);
+            Point po = flat_hex_corner(center,radius,i);
+            p.addPoint(po.x, po.y);
         }
         return p;
     }
 
-    public static int height(int radius){return Math.abs(((int) (radius * Math.sin(2 * Math.PI / 6D))) - ((int) (radius * Math.sin(10 * Math.PI / 6D))));}
+    public static double height(double radius){return Math.sqrt(3) * radius;}
 
-    public static int width(int radius){return radius*2;}
+    public static double width(double radius){return radius*2;}
 }
