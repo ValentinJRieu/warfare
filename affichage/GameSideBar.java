@@ -17,4 +17,8 @@ public class GameSideBar extends JPanel {
         setLayout(bl);
         this.parent = parent;
     }
+
+    public void paintComponent(Graphics g){
+        super.paintComponent(g);
+    }
 }
