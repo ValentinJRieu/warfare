@@ -11,9 +11,7 @@ public class Game extends JPanel {
     private int jStart;
     private int iEnd;
     private int jEnd;
-    private int radius;
-    private final int minZoomI = 20;
-    private final int minZoomJ = 20;
+    private double radius;
     public GameWindow parent;
     Game(GameWindow parent) {
         Dimension dim = new Dimension(parent.getWidth() * 8 / 10, parent.getHeight() * 9 / 10);
@@ -40,14 +38,13 @@ public class Game extends JPanel {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         int halfX = 0, halfY = 0;
-        double dbRadius = 0;
         int cols = jEnd;
-        dbRadius = ((double)getWidth()/0.75) /((double)jEnd-(double)jStart);
-        System.out.println(getWidth() + "/"+getHeight() + " Radius = "+dbRadius);
-        iEnd = iStart + (int)(getHeight()/dbRadius);
+        radius = ((double)getWidth()/0.75) /((double)jEnd-(double)jStart);
+        System.out.println(getWidth() + "/"+getHeight() + " Radius = "+radius);
+        iEnd = iStart + (int)(getHeight()/radius);
         int rows = iEnd;
-        halfX = (int)(getWidth()/0.75) - (int)dbRadius * (jEnd-jStart);
-        ct.draw(g2, 0, 0, dbRadius / 2.0, iStart, jStart, rows*2, cols*2);
+        halfX = (int)(getWidth()/0.75) - (int)radius * (jEnd-jStart);
+        ct.draw(g2, 0, 0, radius / 2.0, iStart, jStart, rows*2, cols*2);
     }
 
     public void zoom() {
@@ -84,7 +81,7 @@ public class Game extends JPanel {
             iStart-=1;
             iEnd-=1;
             parent.frame.repaint();;
-            
+
         }
     }
 
@@ -117,9 +114,30 @@ public class Game extends JPanel {
         }
     }
 
-    public RCPosition getIJFromXY(int x, int y) {
-        int i = 0, j = 0;
-        return new RCPosition(i, j);
+    public RCPosition getIJFromXY(int x, int y) {//TODO
+        int nx = (int)(x/radius);
+        int ny = (int)(y/CaseTable.height(radius/2));
+        System.out.println(nx+","+ny);
+        for(int i = nx-1; i < nx+1;i++){
+            for(int j = ny-2;j < ny+2;j++) {
+                Case c = ct.getCase(j, i);
+                if (c != null) {
+                    int px=(int)(radius*3/4*i),py;
+                    if(j %2 == 0){
+                        py = (int)CaseTable.height(radius/2)/2;
+                    }else{
+                        py=0;
+                    }
+                    Polygon p = CaseTable.createHexagon(new Point(px,py),radius/2);
+                    System.out.println("[getIJFromXY]"+i+","+j+"("+px+","+py+") contain "+x+","+y+" ? "+p.contains(new Point(x,y)));
+                    if(p.contains(new Point(x,y))){
+                        System.out.println("[getIJFromXY]"+i+","+j);
+                        return new RCPosition(i, j);
+                    }
+                }
+            }
+        }
+        return null;
 
     }
 

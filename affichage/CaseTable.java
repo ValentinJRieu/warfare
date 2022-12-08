@@ -70,7 +70,7 @@ public class CaseTable {
                 g2.fill(createHexagon(new Point(x,y),radius));
                 g2.setColor(Color.BLACK);
                 g2.draw(createHexagon(new Point(x,y),radius));
-                g2.drawString(i+","+j,x-10,y);
+                g2.drawString(j+","+i,x-10,y);
                 y += height;
             }
             x+=width*3/4;

@@ -64,7 +64,7 @@ public class GameEventHandler implements MouseMotionListener, MouseWheelListener
      */
     @Override
     public void mouseClicked(MouseEvent e) {
-
+        game.getIJFromXY(e.getX(),e.getY());
     }
 
     /**
@@ -74,7 +74,7 @@ public class GameEventHandler implements MouseMotionListener, MouseWheelListener
      */
     @Override
     public void mousePressed(MouseEvent e) {
-        System.out.println(game.getIJFromXY(e.getX(),e.getY()));
+        //System.out.println(game.getIJFromXY(e.getX(),e.getY()));
 
     }
 
