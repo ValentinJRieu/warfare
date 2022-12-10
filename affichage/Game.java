@@ -114,31 +114,73 @@ public class Game extends JPanel {
         }
     }
 
-    public RCPosition getIJFromXY(int x, int y) {//TODO
-        int nx = (int)(x/radius);
-        int ny = (int)(y/CaseTable.height(radius/2));
-        System.out.println(nx+","+ny);
-        for(int i = nx-1; i < nx+1;i++){
-            for(int j = ny-2;j < ny+2;j++) {
-                Case c = ct.getCase(j, i);
-                if (c != null) {
-                    int px=(int)(radius*3/4*i),py;
-                    if(j %2 == 0){
-                        py = (int)CaseTable.height(radius/2)/2;
-                    }else{
-                        py=0;
-                    }
-                    Polygon p = CaseTable.createHexagon(new Point(px,py),radius/2);
-                    System.out.println("[getIJFromXY]"+i+","+j+"("+px+","+py+") contain "+x+","+y+" ? "+p.contains(new Point(x,y)));
-                    if(p.contains(new Point(x,y))){
-                        System.out.println("[getIJFromXY]"+i+","+j);
-                        return new RCPosition(i, j);
+    private boolean contient (int i,int j,int x,int y){
+        //System.out.println("HAUTEUR = "+CaseTable.height(radius/2));
+        int ty =(int)((i *  CaseTable.height(radius/2)) - CaseTable.height(radius/2));
+        int tx =(int)(j*radius*3/4);
+        if(j % 2 == 1){
+            ty += CaseTable.height(radius/2);
+        }
+        //System.out.println("(tx min ,tx max) = ("+ ( tx - radius/2) + "," + (tx + radius/2) + ") & x = "+x);
+        //System.out.println("(ty min ,ty max) = ("+ ( ty - CaseTable.height(radius/2)/2) + "," + (ty + CaseTable.height(radius/2)/2) + ") & y = "+y);
+        Polygon p = CaseTable.createHexagon(new Point(tx ,ty),radius/2);
+       return p.contains(new Point(x,y));
+    }
+
+    public RCPosition getIJFromXY(int startX,int endX,int startY,int endY,int startI,int endI,int startJ,int endJ,int x, int y) {//TODO certaines positions ne sont pas détectée
+        int width = endX - startX;
+        int height = endY - startY;
+        int jSize = endJ - startJ;
+        int iSize = endI - startI;
+        /*System.out.println(
+            "startX: "+
+            startX+
+            " endX: "+
+            endX+
+            " startY: "+
+            startY+
+            " endY: "+
+            endY+
+            " startI: "+
+            startI+
+            " endI: "+
+            endI+
+            " startJ: "+
+            startJ+
+            " endJ: "+
+            endJ+
+            " x: "+
+            x+
+            " y: " +
+            y
+        );*/
+        if(endJ < 0 || endI < 0)return new RCPosition(startI,startJ);
+        if(startI >= endI || startJ >= endJ)return new RCPosition(startI,startJ);
+        if(endI-startI == 1 && endJ - startJ == 1){
+            for(int a = startI-iStart-1;a <= startI-iStart+1;a++){
+                for(int b = startJ-jStart-1;b <= startJ-jStart+1;b++){
+                    if(contient(a + (b % 2 == 0 ? 1 : 0) ,b,x,y)){
+                        return  new RCPosition(a+iStart,b+jStart);
                     }
                 }
             }
+            return null;
         }
-        return null;
-
+        if(x < startX + width/2){
+            endX -= width/2;
+            endJ -= jSize/2;
+        }else{
+            startX += width/2;
+            startJ += jSize/2;
+        }
+        if(y < startY + height/2){
+            endY -= height/2;
+            endI -= iSize/2;
+        }else {
+            startY += height/2;
+            startI += iSize/2;
+        }
+        return getIJFromXY(startX,endX,startY,endY,startI,endI,startJ,endJ,x,y);
     }
 
     public int getiStart() {

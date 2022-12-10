@@ -8,6 +8,6 @@ public class RCPosition {
         this.j = j;
     }
     public String toString(){
-        return "["+i+","+j+"]";
+        return "[x(j) = "+j+",y(i)"+i+"]";
     }
 }

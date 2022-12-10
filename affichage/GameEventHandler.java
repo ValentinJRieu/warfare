@@ -64,7 +64,18 @@ public class GameEventHandler implements MouseMotionListener, MouseWheelListener
      */
     @Override
     public void mouseClicked(MouseEvent e) {
-        game.getIJFromXY(e.getX(),e.getY());
+        System.out.println(game.getIJFromXY(
+                0,
+                game.getWidth(),
+                0,
+                game.getHeight(),
+                game.getiStart(),
+                game.getiEnd(),
+                game.getjStart(),
+                game.getjEnd(),
+                e.getX(),
+                e.getY()
+        ));
     }
 
     /**

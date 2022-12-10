@@ -54,6 +54,7 @@ public class CaseTable {
     public void draw(Graphics2D g2,int startX,int startY,double radius,int iStart, int jStart, int rows,int columns){
         int x = (int)(startX - 2*width(radius)*3/4),y =(int)(startY - 2*height(radius));
         double width = width(radius), height = height(radius);
+        System.out.println("HAUTEUR = "+height);
         Font f = new Font("monospace",Font.BOLD,10);
         g2.setFont(f);
         for (int j = jStart-2; j < columns+2; j++) {
