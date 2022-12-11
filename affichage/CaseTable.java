@@ -51,52 +51,40 @@ public class CaseTable {
         return new Point((int)(center.x + size * Math.cos(angle_rad)),(int)(center.y + size * Math.sin(angle_rad)));
     }
 
-    public void draw(Graphics2D g2,int startX,int startY,double radius,int iStart, int jStart, int rows,int columns){
-        int x = (int)(startX - 2*width(radius)*3/4),y =(int)(startY - 2*height(radius));
-        double width = width(radius), height = height(radius);
-        System.out.println("HAUTEUR = "+height);
-        Font f = new Font("monospace",Font.BOLD,10);
-        g2.setFont(f);
-        for (int j = jStart-2; j < columns+2; j++) {
-            if(j%2 == 0){
-                y=(int)(startY - 2*height(radius));
-
-            }else{
-                y =(int)(startY - 2*height) + (int)(height/2);
-            }
-            for(int i = iStart-2;i < rows+2;i++) {
-                if(getCase(j,i) != null)
-                    g2.setColor(getCase(j,i).color);
-                //else System.out.println("["+i+","+j+"] at ("+x+","+y+")");
-                g2.fill(createHexagon(new Point(x,y),radius));
+    public void draw(Graphics2D g2,int radius,int iStart, int jStart, int rows,int columns){
+        for (int j = jStart; j < columns; j++) {
+            for(int i = iStart;i < rows;i++) {
+                Case c = getCase(j, i);
+                if (c != null)
+                    g2.setColor(c.color);
+                else
+                    g2.setColor(Color.BLACK);
+                Polygon p = createHexagon(new RCPosition(i-iStart, j-jStart), radius);
+                g2.fill(p);
                 g2.setColor(Color.BLACK);
-                g2.draw(createHexagon(new Point(x,y),radius));
-                g2.drawString(j+","+i,x-10,y);
-                y += height;
+                g2.draw(p);
+
             }
-            x+=width*3/4;
         }
     }
 
-    public void drawLine(Graphics2D g2,int startX,int startY,double radius,int i,int jStart,int columns){
-        int x = startX,y = startY;
-        System.out.println("Start : x = "+x+", y="+y+" radius = "+(int)radius+" radius * columns = "+((int)radius*3/4 * columns));
-        for(int j = jStart;j < columns;j++){
-            g2.setColor(getCase(j,i).color);
-            g2.fill(createHexagon(new Point(x,y),radius));
-            x+=radius*3/4;
-            System.out.println(x);
-        }
-    }
-
-
-    public static Polygon createHexagon(Point center,double radius){
+    public static Polygon createHexagon(Point center,int radius){
         Polygon p = new Polygon();
         for (int i = 0; i < 6; i++) {
             Point po = flat_hex_corner(center,radius,i);
             p.addPoint(po.x, po.y);
         }
         return p;
+    }
+
+    public static Polygon createHexagon(RCPosition rcp,int radius){
+        int height = (int)CaseTable.height(radius);
+        int width = (int)CaseTable.width(radius);
+        int x = rcp.j * (int)(width*0.75);
+        int y = rcp.i * height;
+        if(rcp.j %2 == 1)
+            y += height/2;
+        return CaseTable.createHexagon(new Point(x,y),(radius));
     }
 
     public static double height(double radius){return Math.sqrt(3) * radius;}

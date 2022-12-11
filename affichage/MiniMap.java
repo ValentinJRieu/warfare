@@ -28,7 +28,7 @@ public class MiniMap extends JPanel {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         CaseTable ct = game.ct;
-        System.out.println(getWidth()+"x"+getHeight());
+        //System.out.println(getWidth()+"x"+getHeight());
         w = getWidth()/(ct.columns) > 0 ? getWidth()/(ct.columns) : 1;
         h = getHeight()/(ct.rows)>0 ? getHeight()/(ct.rows) : 1;
         for(int i = 0;i < ct.rows;i++) {

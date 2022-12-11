@@ -5,6 +5,7 @@ import java.awt.event.*;
 
 public class GameEventHandler implements MouseMotionListener, MouseWheelListener, MouseInputListener, KeyListener {
     Game game;
+    RCPosition oldOvered;
     GameEventHandler(Game game){
         this.game = game;
     }
@@ -29,7 +30,7 @@ public class GameEventHandler implements MouseMotionListener, MouseWheelListener
      */
     @Override
     public void keyPressed(KeyEvent e) {
-        System.out.println("keyPressed");
+        //System.out.println("keyPressed");
         switch (e.getKeyCode()){
             case KeyEvent.VK_UP:
                 game.up();
@@ -64,18 +65,10 @@ public class GameEventHandler implements MouseMotionListener, MouseWheelListener
      */
     @Override
     public void mouseClicked(MouseEvent e) {
-        System.out.println(game.getIJFromXY(
-                0,
-                game.getWidth(),
-                0,
-                game.getHeight(),
-                game.getiStart(),
-                game.getiEnd(),
-                game.getjStart(),
-                game.getjEnd(),
-                e.getX(),
-                e.getY()
-        ));
+        if(e.getButton() == MouseEvent.BUTTON1)
+            System.out.println(game.getIJFromXY(e.getX(), e.getY()));
+        if(e.getButton() == MouseEvent.BUTTON3)
+            System.out.println(game.getiStart() + " " + game.getiEnd() + " " + game.getjStart() + " " + game.getjEnd());
     }
 
     /**
@@ -145,7 +138,24 @@ public class GameEventHandler implements MouseMotionListener, MouseWheelListener
      */
     @Override
     public void mouseMoved(MouseEvent e) {
-
+        game.overedCase = game.getIJFromXY(e.getX(),e.getY());
+        game.repaint();
+        /*RCPosition rp = game.getIJFromXY(e.getX(),e.getY());
+        if(rp != null){
+            if(oldOvered != null){
+                if(rp.i != oldOvered.i || rp.j != oldOvered.j){
+                    Case c = game.ct.getCase(rp.j,rp.i);
+                    c.selected = true;
+                    c = game.ct.getCase(oldOvered.j,oldOvered.i);
+                    c.selected = false;
+                }
+            }else{
+                Case c = game.ct.getCase(rp.j,rp.i);
+                c.selected = true;
+            }
+            oldOvered = rp;
+        }
+        game.repaint();*/
     }
 
     /**

@@ -1,5 +1,6 @@
 package wargame.affichage;
 
+import javax.print.attribute.standard.JobState;
 import javax.swing.*;
 import java.awt.*;
 
@@ -11,14 +12,16 @@ public class Game extends JPanel {
     private int jStart;
     private int iEnd;
     private int jEnd;
-    private double radius;
+    private int radius;
     public GameWindow parent;
+
+    public RCPosition overedCase;
     Game(GameWindow parent) {
         Dimension dim = new Dimension(parent.getWidth() * 8 / 10, parent.getHeight() * 9 / 10);
         ctDim = new Dimension(128, 128);
-        jStart = 0;
+        jStart = ctDim.width-10;
         jEnd = ctDim.width;
-        iStart = 0;
+        iStart = ctDim.height - 10;
         iEnd = ctDim.height;
         this.setPreferredSize(dim);
         this.setMaximumSize(dim);
@@ -30,6 +33,7 @@ public class Game extends JPanel {
         addKeyListener(geh);
         setBackground(Color.BLACK);
         this.parent = parent;
+        overedCase = new RCPosition(iStart,jStart);
 
     }
 
@@ -37,25 +41,26 @@ public class Game extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-        int halfX = 0, halfY = 0;
-        int cols = jEnd;
-        radius = ((double)getWidth()/0.75) /((double)jEnd-(double)jStart);
-        System.out.println(getWidth() + "/"+getHeight() + " Radius = "+radius);
-        iEnd = iStart + (int)(getHeight()/radius);
+        radius = (int)((double)getWidth()/(double)(jEnd-jStart-1)/0.75);
+        iEnd = iStart + (int)Math.round(getHeight()/(CaseTable.height(radius/2))) + 1;
         int rows = iEnd;
-        halfX = (int)(getWidth()/0.75) - (int)radius * (jEnd-jStart);
-        ct.draw(g2, 0, 0, radius / 2.0, iStart, jStart, rows*2, cols*2);
+        int cols = jEnd;
+        ct.draw(g2,radius/2, iStart, jStart, rows, cols);
+        if(overedCase != null){
+            g2.setColor(Color.WHITE);
+            g2.draw(CaseTable.createHexagon(new RCPosition(overedCase.i-iStart,overedCase.j - jStart),radius/2));
+        }
     }
 
     public void zoom() {
-        System.out.println("Zooming Size : (" + (iEnd - iStart) + "," + (jEnd - jStart) + ")");
+        //System.out.println("Zooming Size : (" + (iEnd - iStart) + "," + (jEnd - jStart) + ")");
         if (iEnd - iStart > 10 && jEnd - jStart > 10) {
             iStart+=2;
             jStart+=2;
             iEnd-=2;
             jEnd-=2;
         }
-        System.out.println("Zooming Size : (" + (iEnd - iStart) + "," + (jEnd - jStart) + ")\n");
+        //System.out.println("Zooming Size : (" + (iEnd - iStart) + "," + (jEnd - jStart) + ")\n");
         parent.frame.repaint();;
     }
 
@@ -76,7 +81,7 @@ public class Game extends JPanel {
     }
 
     public void up() {
-        System.out.println("up");
+        //System.out.println("up");
         if (iStart >= -ct.rows) {
             iStart-=1;
             iEnd-=1;
@@ -86,8 +91,8 @@ public class Game extends JPanel {
     }
 
     public void down() {
-        System.out.println("--down--");
-        System.out.println("iStart = "+iStart+" iEnd = "+iEnd+" ct.rows = "+ct.rows);
+        //System.out.println("--down--");
+        //System.out.println("iStart = "+iStart+" iEnd = "+iEnd+" ct.rows = "+ct.rows);
         if (iEnd <= ct.rows*2) {
             iStart+=1;
             iEnd+=1;
@@ -96,7 +101,7 @@ public class Game extends JPanel {
     }
 
     public void left() {
-        System.out.println("left");
+        //System.out.println("left");
         if (jStart >= -ct.columns) {
             jStart -= 2;
             jEnd -= 2;
@@ -106,7 +111,7 @@ public class Game extends JPanel {
     }
 
     public void right() {
-        System.out.println("right");
+        //System.out.println("right");
         if (jEnd <= ct.columns*2) {
             jStart += 2;
             jEnd += 2;
@@ -115,15 +120,7 @@ public class Game extends JPanel {
     }
 
     private boolean contient (int i,int j,int x,int y){
-        //System.out.println("HAUTEUR = "+CaseTable.height(radius/2));
-        int ty =(int)((i *  CaseTable.height(radius/2)) - CaseTable.height(radius/2));
-        int tx =(int)(j*radius*3/4);
-        if(j % 2 == 1){
-            ty += CaseTable.height(radius/2);
-        }
-        //System.out.println("(tx min ,tx max) = ("+ ( tx - radius/2) + "," + (tx + radius/2) + ") & x = "+x);
-        //System.out.println("(ty min ,ty max) = ("+ ( ty - CaseTable.height(radius/2)/2) + "," + (ty + CaseTable.height(radius/2)/2) + ") & y = "+y);
-        Polygon p = CaseTable.createHexagon(new Point(tx ,ty),radius/2);
+        Polygon p = CaseTable.createHexagon(new RCPosition(i,j),radius/2);
        return p.contains(new Point(x,y));
     }
 
@@ -157,9 +154,9 @@ public class Game extends JPanel {
         if(endJ < 0 || endI < 0)return new RCPosition(startI,startJ);
         if(startI >= endI || startJ >= endJ)return new RCPosition(startI,startJ);
         if(endI-startI == 1 && endJ - startJ == 1){
-            for(int a = startI-iStart-1;a <= startI-iStart+1;a++){
-                for(int b = startJ-jStart-1;b <= startJ-jStart+1;b++){
-                    if(contient(a + (b % 2 == 0 ? 1 : 0) ,b,x,y)){
+            for(int a = startI-iStart-2;a <= startI-iStart+2;a++){
+                for(int b = startJ-jStart-2;b <= startJ-jStart+2;b++){
+                    if(contient(a,b,x,y)){
                         return  new RCPosition(a+iStart,b+jStart);
                     }
                 }
@@ -181,6 +178,16 @@ public class Game extends JPanel {
             startI += iSize/2;
         }
         return getIJFromXY(startX,endX,startY,endY,startI,endI,startJ,endJ,x,y);
+    }
+
+    public  RCPosition getIJFromXY(int x,int y){
+        return getIJFromXY(0,getWidth(),0,getHeight(),iStart-2,iEnd+2,jStart-2,jEnd+2,x,y);
+    }
+
+    public Case getCaseFromXY(int x,int y){
+        RCPosition rcp = getIJFromXY( x, y);
+        if(rcp == null)return null;
+        return ct.getCase(rcp.j,rcp.i);
     }
 
     public int getiStart() {
