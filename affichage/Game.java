@@ -53,8 +53,9 @@ public class Game extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         radius = (int) ((double) getWidth() / (double) (jEnd - jStart - 1) / 0.75);
-        iEnd = iStart + (int) Math.round(getHeight() / (CaseTable.height(radius / 2))) + 1;
+        iEnd = iStart + (int) Math.round(getHeight() / (CaseTable.height((int)(radius / 2)))) + 1;
         int rows = iEnd;
         int cols = jEnd;
         ct.draw(g2, radius / 2, iStart, jStart, rows, cols);

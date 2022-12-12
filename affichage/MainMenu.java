@@ -26,7 +26,7 @@ public class MainMenu extends JPanel {
         this.add(settingsButton);
         frame.pack();
     }
-    public void paintComponent(Graphics g) {
+    /*public void paintComponent(Graphics g) {
         super.paintComponent(g);
         try {
             g.setClip(CaseTable.createHexagon(new Point(200,200),50));
@@ -41,5 +41,5 @@ public class MainMenu extends JPanel {
         }
 
 
-    }
+    }*/
 }

@@ -1,16 +1,22 @@
 package wargame.affichage;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class MiniMap extends JPanel {
     public GameSideBar parent;
     public Game game;
 
+    public BufferedImage background;
+
     public int w,h;
-    MiniMap(GameSideBar parent){
+    MiniMap(GameSideBar parent) {
         super();
         Dimension dim = new Dimension(parent.getWidth(), parent.getHeight()*3/10);
         setSize(dim);
@@ -22,13 +28,21 @@ public class MiniMap extends JPanel {
         MiniMapManager mmm = new MiniMapManager(this);
         addMouseListener(mmm);
         addMouseMotionListener(mmm);
+        try {
+            background = ImageIO.read(new File("textures/gui/minimap.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         CaseTable ct = game.ct;
         //System.out.println(getWidth()+"x"+getHeight());
+
+        g2.drawImage(background.getScaledInstance(getWidth(),getHeight(),1),0,0,null);
         w = getWidth()/(ct.columns) > 0 ? getWidth()/(ct.columns) : 1;
         h = getHeight()/(ct.rows)>0 ? getHeight()/(ct.rows) : 1;
         for(int i = 0;i < ct.rows;i++) {

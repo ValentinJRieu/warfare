@@ -2,10 +2,13 @@ package wargame.affichage;
 
 import javax.swing.event.MouseInputListener;
 import java.awt.event.*;
+import java.util.HashSet;
+import java.util.Set;
 
 public class GameEventHandler implements MouseMotionListener, MouseWheelListener, MouseInputListener, KeyListener {
     Game game;
     RCPosition oldOvered;
+    private final Set<Integer> pressed = new HashSet<Integer>();
     GameEventHandler(Game game){
         this.game = game;
     }
@@ -30,21 +33,16 @@ public class GameEventHandler implements MouseMotionListener, MouseWheelListener
      */
     @Override
     public void keyPressed(KeyEvent e) {
-        //System.out.println("keyPressed");
-        switch (e.getKeyCode()){
-            case KeyEvent.VK_UP:
-                game.up();
-                break;
-            case KeyEvent.VK_DOWN:
-                game.down();
-                break;
-            case KeyEvent.VK_RIGHT:
-                game.right();
-                break;
-            case KeyEvent.VK_LEFT:
-                game.left();
-                break;
-        }
+        pressed.add(e.getKeyCode());
+        if(pressed.contains(KeyEvent.VK_UP))
+            game.up();
+        if(pressed.contains(KeyEvent.VK_DOWN))
+            game.down();
+        if(pressed.contains(KeyEvent.VK_RIGHT))
+            game.right();
+        if(pressed.contains(KeyEvent.VK_LEFT))
+            game.left();
+
     }
 
     /**
@@ -55,7 +53,9 @@ public class GameEventHandler implements MouseMotionListener, MouseWheelListener
      * @param e the event to be processed
      */
     @Override
-    public void keyReleased(KeyEvent e) {}
+    public void keyReleased(KeyEvent e) {
+        pressed.remove(e.getKeyCode());
+    }
 
     /**
      * Invoked when the mouse button has been clicked (pressed
@@ -140,22 +140,6 @@ public class GameEventHandler implements MouseMotionListener, MouseWheelListener
     public void mouseMoved(MouseEvent e) {
         game.overedCase = game.getIJFromXY(e.getX(),e.getY());
         game.repaint();
-        /*RCPosition rp = game.getIJFromXY(e.getX(),e.getY());
-        if(rp != null){
-            if(oldOvered != null){
-                if(rp.i != oldOvered.i || rp.j != oldOvered.j){
-                    Case c = game.ct.getCase(rp.j,rp.i);
-                    c.selected = true;
-                    c = game.ct.getCase(oldOvered.j,oldOvered.i);
-                    c.selected = false;
-                }
-            }else{
-                Case c = game.ct.getCase(rp.j,rp.i);
-                c.selected = true;
-            }
-            oldOvered = rp;
-        }
-        game.repaint();*/
     }
 
     /**
