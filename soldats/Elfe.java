@@ -44,4 +44,8 @@ public class Elfe extends Heros{
 	@Override public void seDeplace(Position newPos) {
 		pos = newPos;
 	}
+
+	@Override public void meurt() {
+		this.pointsDeVie = 0;
+	}
 }
