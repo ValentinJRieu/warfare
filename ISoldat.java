@@ -36,10 +36,11 @@ public interface ISoldat {
    }
    int getPoints();
 
-    int getTour();
+   int getTour();
 
-    int getPortee();
+   int getPortee();
    void joueTour(int tour);
    void combat(Soldat soldat);
    void seDeplace(Position newPos);
+   void meurt();
 }

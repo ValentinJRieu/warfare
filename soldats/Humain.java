@@ -44,4 +44,8 @@ public class Humain extends Heros{
 	@Override public void seDeplace(Position newPos) {
 		pos = newPos;
 	}
+
+	@Override public void meurt() {
+
+	}
 }

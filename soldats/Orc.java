@@ -44,4 +44,8 @@ public class Orc extends Monstres{
 	@Override public void seDeplace(Position newPos) {
 		pos = newPos;
 	}
+
+	@Override public void meurt() {
+
+	}
 }
