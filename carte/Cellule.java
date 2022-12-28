@@ -18,6 +18,7 @@ public class Cellule extends Element {
 	private Heros heros;
 	private Monstres monstre;
 	private Position posElem;
+	private boolean estVisible;
 
 	public Cellule() {
 		nord = nordEst = sudEst = sud = sudOuest = nordOuest = null;
@@ -26,6 +27,7 @@ public class Cellule extends Element {
 		heros = null;
 		monstre = null;
 		posElem = null;
+		estVisible = false;
 	}
 
 	public Cellule(Type t) {
@@ -170,5 +172,50 @@ public class Cellule extends Element {
 
 	public Obstacle.TypeObstacle getTypeObstacle() {
 		return obstacle.getTypeObstacle();
+	}
+
+	public boolean getEstVisible() {
+		return estVisible;
+	}
+
+	public void setEstVisible() {
+		if (heros != null) {
+			estVisible = true;
+			setEstVisibleParVosinage(heros.getPortee());
+		}
+	}
+
+	public void forceVisible() {
+		estVisible = true;
+	}
+
+	public void setEstVisibleParVosinage(int level) {
+		if (level == 0) {
+			return;
+		}
+		if (nordEst != null && !nordEst.estVisible) {
+			nordEst.forceVisible();
+			nordEst.setEstVisibleParVosinage(level-1);
+		}
+		if (sudEst != null && !sudEst.estVisible) {
+			sudEst.forceVisible();
+			sudEst.setEstVisibleParVosinage(level-1);
+		}
+		if (sud != null && !sud.estVisible) {
+			sud.forceVisible();
+			sud.setEstVisibleParVosinage(level-1);
+		}
+		if (sudOuest != null && !sudOuest.estVisible) {
+			sudOuest.forceVisible();
+			sudOuest.setEstVisibleParVosinage(level-1);
+		}
+		if (nordOuest != null && !nordOuest.estVisible) {
+			nordOuest.forceVisible();
+			nordOuest.setEstVisibleParVosinage(level-1);
+		}
+		if (nord != null && !nord.estVisible) {
+			nord.forceVisible();
+			nord.setEstVisibleParVosinage(level-1);
+		}
 	}
 }
