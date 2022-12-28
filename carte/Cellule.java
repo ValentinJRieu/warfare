@@ -1,6 +1,5 @@
 package wargame.carte;
 
-import javafx.geometry.Pos;
 import wargame.soldats.Heros;
 import wargame.soldats.Monstres;
 import wargame.soldats.Soldat;

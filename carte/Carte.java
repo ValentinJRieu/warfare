@@ -1,27 +1,24 @@
 package wargame.carte;
 
-import java.awt.*;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-import java.util.Scanner;
-import java.util.TreeMap;
-import javafx.scene.control.Cell;
 import wargame.ICarte;
 import wargame.IConfig;
 import wargame.affichage.PanneauJeu;
 import wargame.soldats.Heros;
 import wargame.soldats.Soldat;
 
+import java.awt.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Map;
+import java.util.Random;
+import java.util.Scanner;
+import java.util.TreeMap;
+
 public class Carte implements ICarte, IConfig {
 
-	/* Du coup, une carte serait considérée comme une Map<String, Element>, où le String est le toString
-	 *  de la position de l'élément sur la map, si d'autres implémentations vous semblent meilleures,
-	 * Ne pas hésiter à les proposer */
+	/* Du coup, une carte serait considï¿½rï¿½e comme une Map<String, Element>, oï¿½ le String est le toString
+	 *  de la position de l'ï¿½lï¿½ment sur la map, si d'autres implï¿½mentations vous semblent meilleures,
+	 * Ne pas hï¿½siter ï¿½ les proposer */
 	private final String PATH_TO_MAPS = "data\\maps\\";
 	private Map<String, Cellule> carte;
 	private String name;
@@ -36,7 +33,7 @@ public class Carte implements ICarte, IConfig {
 		System.out.println(PATH_TO_MAPS + path);
 		File f = new File(PATH_TO_MAPS + path);
 		Scanner myReader = new Scanner(f);
-		/* On va lire le nom de la map à la première ligne */
+		/* On va lire le nom de la map ï¿½ la premiï¿½re ligne */
 		if(myReader.hasNextLine()) {
 			name = myReader.nextLine().trim();
 		}
@@ -47,7 +44,7 @@ public class Carte implements ICarte, IConfig {
 		if(myReader.hasNextLine()) {
 			hauteur = Integer.valueOf(myReader.nextLine().trim());
 		}
-		/* On saute l'espace règlementaire */
+		/* On saute l'espace rï¿½glementaire */
 		if(myReader.hasNextLine()) {
 			System.out.println(myReader.nextLine().trim());
 		}
@@ -122,31 +119,41 @@ public class Carte implements ICarte, IConfig {
 	}
 
 	/*
-	 * On retourne l'élément à la position pos.
+	 * On retourne l'ï¿½lï¿½ment ï¿½ la position pos.
 	 * */
 	@Override public Element getElement(Position pos) {
 		return carte.get(pos.toString());
 	}
 
+	@Override
+	public Position trouvePositionVide() {
+		return null;
+	}
+
+	@Override
+	public Position trouvePositionVide(Position pos) {
+		return null;
+	}
+
 	/*
-	 * On passe un élément de la collection à vide et on retourne sa position
+	 * On passe un ï¿½lï¿½ment de la collection ï¿½ vide et on retourne sa position
 	 * */
-	@Override public Position positionSetVide() {
+	public Position positionSetVide() {
 		Position pos = new Position(new Random().nextInt(LARGEUR_CARTE), new Random().nextInt(HAUTEUR_CARTE));
 		this.carte.get(pos.toString()).setVide();
 		return pos;
 	}
 
 	/*
-	 * On set la position donnée à vide et on la retourne
+	 * On set la position donnï¿½e ï¿½ vide et on la retourne
 	 * */
-	@Override public Position positionSetVide(Position pos) {
+	public Position positionSetVide(Position pos) {
 		this.carte.get(pos.toString()).setVide();
 		return pos;
 	}
 
 	/*
-	 * On parcours la carte pour touver un héros
+	 * On parcours la carte pour touver un hï¿½ros
 	 * */
 	@Override public Heros trouveHeros() {
 		for(Map.Entry<String, Cellule> entry : carte.entrySet()) {
@@ -158,14 +165,14 @@ public class Carte implements ICarte, IConfig {
 	}
 
 	/*
-	 * On renvoie le heros à la position pos (S'il n'y a pas de heros, null est renvoyé)
+	 * On renvoie le heros ï¿½ la position pos (S'il n'y a pas de heros, null est renvoyï¿½)
 	 * */
 	@Override public Heros trouveHeros(Position pos) {
 		return carte.get(pos.toString()).getHeros();
 	}
 
 	/*
-	 * On déplace le soldat si possible (e.g, il n'y a pas d'obstacle, de monstre ou de héros déjà présent, et position différentes)
+	 * On dï¿½place le soldat si possible (e.g, il n'y a pas d'obstacle, de monstre ou de hï¿½ros dï¿½jï¿½ prï¿½sent, et position diffï¿½rentes)
 	 * */
 
 	@Override public boolean deplaceSoldat(Position pos, Soldat soldat) {
