@@ -64,8 +64,8 @@ public class CaseTable {
      * @return Le point :)
      */
     public static Point getCornerPoint(Point center,double size,int i) {
-        var angle_deg = 60 * i;
-        var angle_rad = Math.PI / 180 * angle_deg;
+        int angle_deg = 60 * i;
+        double angle_rad = Math.PI / 180 * angle_deg;
         return new Point((int)(center.x + size * Math.cos(angle_rad)),(int)(center.y + size * Math.sin(angle_rad)));
     }
 
