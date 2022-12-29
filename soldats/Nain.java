@@ -1,6 +1,6 @@
 package wargame.soldats;
 
-import wargame.Position;
+import wargame.carte.Position;
 
 public class Nain extends Heros{
 
@@ -43,5 +43,9 @@ public class Nain extends Heros{
 
 	@Override public void seDeplace(Position newPos) {
 		pos = newPos;
+	}
+
+	@Override public void meurt() {
+
 	}
 }

@@ -2,7 +2,7 @@ package wargame.soldats;
 
 import wargame.carte.Position;
 
-public class Elfe extends Heros{
+public class Gobelin extends Monstres{
 
 	private int pointsDeVie;
 	private int porteeVisuelle;
@@ -10,13 +10,13 @@ public class Elfe extends Heros{
 	private int tir;
 	private Position pos;
 
-	public Elfe() {
-		pointsDeVie = TypesH.ELFE.getPoints();
-		porteeVisuelle = TypesH.ELFE.getPortee();
-		puissance = TypesH.ELFE.getPuissance();
-		tir = TypesH.ELFE.getTir();
+	public Gobelin() {
+		pointsDeVie = TypesM.GOBELIN.getPoints();
+		porteeVisuelle = TypesM.GOBELIN.getPortee();
+		puissance = TypesM.GOBELIN.getPuissance();
+		tir = TypesM.GOBELIN.getTir();
 	}
-	public Elfe(Position pos) {
+	public Gobelin(Position pos) {
 		this();
 		this.pos = pos;
 	}
@@ -46,6 +46,6 @@ public class Elfe extends Heros{
 	}
 
 	@Override public void meurt() {
-		this.pointsDeVie = 0;
+
 	}
 }
