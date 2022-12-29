@@ -12,7 +12,7 @@ public class Cellule extends Element {
 	private Cellule sud;
 	private Cellule sudOuest;
 	private Cellule nordOuest;
-	private Type typeElem;
+	private Terrain typeElem;
 	private Obstacle obstacle;
 	private Heros heros;
 	private Monstres monstre;
@@ -29,17 +29,17 @@ public class Cellule extends Element {
 		estVisible = false;
 	}
 
-	public Cellule(Type t) {
+	public Cellule(Terrain t) {
 		this();
 		typeElem = t;
 	}
 
-	public Cellule(Type t, Obstacle o) {
+	public Cellule(Terrain t, Obstacle o) {
 		this(t);
 		obstacle = o;
 	}
 
-	public Cellule(Type t, Soldat s) {
+	public Cellule(Terrain t, Soldat s) {
 		this(t);
 		if (s instanceof Heros) {
 			heros = (Heros) s;
@@ -49,7 +49,7 @@ public class Cellule extends Element {
 		}
 	}
 
-	public Cellule(Type t, Obstacle o, Cellule nord, Cellule nordEst, Cellule sudEst, Cellule sud, Cellule sudOuest, Cellule nordOuest ) {
+	public Cellule(Terrain t, Obstacle o, Cellule nord, Cellule nordEst, Cellule sudEst, Cellule sud, Cellule sudOuest, Cellule nordOuest ) {
 		this(t, o);
 		nord = nord;
 		nordEst = nordEst;
@@ -59,7 +59,7 @@ public class Cellule extends Element {
 		nordOuest = nordOuest;
 	}
 
-	public Cellule(Type t, Soldat s, Cellule nord, Cellule nordEst, Cellule sudEst, Cellule sud, Cellule sudOuest, Cellule nordOuest ) {
+	public Cellule(Terrain t, Soldat s, Cellule nord, Cellule nordEst, Cellule sudEst, Cellule sud, Cellule sudOuest, Cellule nordOuest ) {
 		this(t, s);
 		nord = nord;
 		nordEst = nordEst;
@@ -69,7 +69,7 @@ public class Cellule extends Element {
 		nordOuest = nordOuest;
 	}
 
-	public Cellule(Type t, Cellule nord, Cellule nordEst, Cellule sudEst, Cellule sud, Cellule sudOuest, Cellule nordOuest ) {
+	public Cellule(Terrain t, Cellule nord, Cellule nordEst, Cellule sudEst, Cellule sud, Cellule sudOuest, Cellule nordOuest ) {
 		this(t);
 		nord = nord;
 		nordEst = nordEst;
@@ -84,7 +84,7 @@ public class Cellule extends Element {
 		posElem = pos;
 	}
 
-	public Cellule(Position pos, Type t) {
+	public Cellule(Position pos, Terrain t) {
 		this(pos);
 		typeElem = t;
 	}
@@ -145,20 +145,20 @@ public class Cellule extends Element {
 		this.posElem = pos;
 	}
 
-	public Type getTypeElem() {
+	public Terrain getTypeElem() {
 		return typeElem;
 	}
 
-	public void setTypeElem(Type typeElem) {
+	public void setTypeElem(Terrain typeElem) {
 		this.typeElem = typeElem;
 	}
 
 	public boolean estInfranchissable() {
-		return this.typeElem==Type.MONTAGNE;
+		return this.typeElem instanceof Infranchissable;
 	}
 
 	public void setVide() {
-		typeElem = Type.VIDE;
+		typeElem = TerrainFactory.getTerrain("vide");
 	}
 
 	public Heros getHeros() {
