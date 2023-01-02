@@ -2,14 +2,10 @@ package wargame.soldats;
 
 import wargame.carte.Position;
 
+import java.awt.*;
+
 public class Orc extends Monstres{
-
-	private int pointsDeVie;
-	private int porteeVisuelle;
-	private int puissance;
-	private int tir;
-	private Position pos;
-
+	private static final Color image = Color.darkGray;
 	public Orc() {
 		pointsDeVie = TypesM.ORC.getPoints();
 		porteeVisuelle = TypesM.ORC.getPortee();
@@ -18,34 +14,11 @@ public class Orc extends Monstres{
 	}
 	public Orc(Position pos) {
 		this();
-		this.pos = pos;
+		position = pos;
 	}
 
-	@Override public int getPoints() {
-		return pointsDeVie;
-	}
-
-	@Override public int getTour() {
-		return 0;
-	}
-
-	@Override public int getPortee() {
-		return porteeVisuelle;
-	}
-
-	@Override public void joueTour(int tour) {
-
-	}
-
-	@Override public void combat(Soldat soldat) {
-		/* TODO */
-	}
-
-	@Override public void seDeplace(Position newPos) {
-		pos = newPos;
-	}
-
-	@Override public void meurt() {
-
+	@Override
+	public Color getImage() {
+		return image;
 	}
 }

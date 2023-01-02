@@ -1,15 +1,16 @@
 package wargame;
 
 import wargame.affichage.PanneauJeu;
-import wargame.carte.Element;
 import wargame.carte.Position;
+import wargame.carte.Terrain;
 import wargame.soldats.Heros;
 import wargame.soldats.Soldat;
 
+import javax.swing.text.Element;
 import java.awt.*;
 
 public interface ICarte {
-    Element getElement(Position pos);
+    Terrain getElement(Position pos);
 
     Position trouvePositionVide(); // Trouve aléatoirement une position vide sur la carte
 

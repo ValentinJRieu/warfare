@@ -6,6 +6,7 @@ import wargame.affichage.PanneauJeu;
 import wargame.soldats.Heros;
 import wargame.soldats.Soldat;
 
+import javax.swing.text.Element;
 import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -121,7 +122,7 @@ public class Carte implements ICarte, IConfig {
 	/*
 	 * On retourne l'element a la position pos.
 	 * */
-	@Override public Element getElement(Position pos) {
+	@Override public Terrain getElement(Position pos) {
 		return carte.get(pos.toString());
 	}
 

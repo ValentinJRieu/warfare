@@ -2,14 +2,11 @@ package wargame.soldats;
 
 import wargame.carte.Position;
 
+import java.awt.*;
+
 public class Troll extends Monstres{
 
-	private int pointsDeVie;
-	private int porteeVisuelle;
-	private int puissance;
-	private int tir;
-	private Position pos;
-
+	private static final Color image = Color.red;
 	public Troll() {
 		pointsDeVie = TypesM.TROLL.getPoints();
 		porteeVisuelle = TypesM.TROLL.getPortee();
@@ -18,34 +15,11 @@ public class Troll extends Monstres{
 	}
 	public Troll(Position pos) {
 		this();
-		this.pos = pos;
+		position = pos;
 	}
 
-	@Override public int getPoints() {
-		return pointsDeVie;
-	}
-
-	@Override public int getTour() {
-		return 0;
-	}
-
-	@Override public int getPortee() {
-		return porteeVisuelle;
-	}
-
-	@Override public void joueTour(int tour) {
-
-	}
-
-	@Override public void combat(Soldat soldat) {
-		/* TODO */
-	}
-
-	@Override public void seDeplace(Position newPos) {
-		pos = newPos;
-	}
-
-	@Override public void meurt() {
-
+	@Override
+	public Color getImage() {
+		return null;
 	}
 }

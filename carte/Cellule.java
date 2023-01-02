@@ -4,7 +4,7 @@ import wargame.soldats.Heros;
 import wargame.soldats.Monstres;
 import wargame.soldats.Soldat;
 
-public class Cellule extends Element {
+public class Cellule {
 
 	private Cellule nord;
 	private Cellule nordEst;
@@ -12,7 +12,7 @@ public class Cellule extends Element {
 	private Cellule sud;
 	private Cellule sudOuest;
 	private Cellule nordOuest;
-	private Terrain typeElem;
+	private Terrain terrain;
 	private Obstacle obstacle;
 	private Heros heros;
 	private Monstres monstre;
@@ -21,7 +21,7 @@ public class Cellule extends Element {
 
 	public Cellule() {
 		nord = nordEst = sudEst = sud = sudOuest = nordOuest = null;
-		typeElem = null;
+		terrain = null;
 		obstacle = null;
 		heros = null;
 		monstre = null;
@@ -31,7 +31,7 @@ public class Cellule extends Element {
 
 	public Cellule(Terrain t) {
 		this();
-		typeElem = t;
+		terrain = t;
 	}
 
 	public Cellule(Terrain t, Obstacle o) {
@@ -86,7 +86,7 @@ public class Cellule extends Element {
 
 	public Cellule(Position pos, Terrain t) {
 		this(pos);
-		typeElem = t;
+		terrain = t;
 	}
 
 	public Cellule getNord() {
@@ -145,20 +145,20 @@ public class Cellule extends Element {
 		this.posElem = pos;
 	}
 
-	public Terrain getTypeElem() {
-		return typeElem;
+	public Terrain getTerrain() {
+		return terrain;
 	}
 
-	public void setTypeElem(Terrain typeElem) {
-		this.typeElem = typeElem;
+	public void setTerrain(Terrain terrain) {
+		this.terrain = terrain;
 	}
 
 	public boolean estInfranchissable() {
-		return this.typeElem instanceof Infranchissable;
+		return this.terrain instanceof Infranchissable;
 	}
 
 	public void setVide() {
-		typeElem = TerrainFactory.getTerrain("vide");
+		terrain = TerrainFactory.getTerrain("vide");
 	}
 
 	public Heros getHeros() {
@@ -216,5 +216,13 @@ public class Cellule extends Element {
 			nord.forceVisible();
 			nord.setEstVisibleParVosinage(level-1);
 		}
+	}
+
+	public int getCoutDeplacement() {
+		return 0;
+	}
+
+	public int getBonusDefense() {
+		return 0;
 	}
 }

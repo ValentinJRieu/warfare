@@ -1,9 +1,14 @@
 package wargame.carte;
 
-public interface Terrain {
+import java.awt.*;
 
-	int getCoutDeDeplacement();
+public abstract class Terrain {
+	protected int coutDeplacement;
+	protected int bonusDefense;
+	 public int getCoutDeDeplacement() {return coutDeplacement;}
 
-	int getBonusDefense();
+	public int getBonusDefense() {return bonusDefense;}
+
+	public abstract Color getImage();
 
 }
