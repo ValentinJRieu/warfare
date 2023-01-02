@@ -25,3 +25,4 @@ public class Obstacle extends Element {
 		return TYPE;
 	}
 }
+

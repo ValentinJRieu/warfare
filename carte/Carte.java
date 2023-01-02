@@ -20,6 +20,7 @@ public class Carte implements ICarte, IConfig {
 	 *  de la position de l'�l�ment sur la map, si d'autres impl�mentations vous semblent meilleures,
 	 * Ne pas h�siter � les proposer */
 	private final String PATH_TO_MAPS = "data\\maps\\";
+
 	private Map<String, Cellule> carte;
 	private String name;
 	private int largeur;
@@ -65,8 +66,6 @@ public class Carte implements ICarte, IConfig {
 				Position pos = new Position(i, j);
 				switch(c) {
 					case ' ':
-					case '\n':
-						continue;
 					case 'P':
 						carte.put(pos.toString(), new Cellule(pos, Type.PLAINE));
 						break;
