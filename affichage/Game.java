@@ -25,7 +25,7 @@ public class Game extends JPanel {
      */
     Game(GameWindow parent) {
         Dimension dim = new Dimension(parent.getWidth() * 8 / 10, parent.getHeight() * 9 / 10);
-        ctDim = new Dimension(128, 128);
+        ctDim = new Dimension(64, 64);
         jStart = ctDim.width - 10;
         jEnd = ctDim.width;
         iStart = ctDim.height - 10;
