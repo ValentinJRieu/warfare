@@ -13,7 +13,6 @@ public class Cellule {
 	private Cellule sudOuest;
 	private Cellule nordOuest;
 	private Terrain terrain;
-	private Obstacle obstacle;
 	private Heros heros;
 	private Monstres monstre;
 	private Position posElem;
@@ -22,7 +21,6 @@ public class Cellule {
 	public Cellule() {
 		nord = nordEst = sudEst = sud = sudOuest = nordOuest = null;
 		terrain = null;
-		obstacle = null;
 		heros = null;
 		monstre = null;
 		posElem = null;
@@ -34,11 +32,6 @@ public class Cellule {
 		terrain = t;
 	}
 
-	public Cellule(Terrain t, Obstacle o) {
-		this(t);
-		obstacle = o;
-	}
-
 	public Cellule(Terrain t, Soldat s) {
 		this(t);
 		if (s instanceof Heros) {
@@ -47,16 +40,6 @@ public class Cellule {
 		if (s instanceof Monstres) {
 			monstre = (Monstres) s;
 		}
-	}
-
-	public Cellule(Terrain t, Obstacle o, Cellule nord, Cellule nordEst, Cellule sudEst, Cellule sud, Cellule sudOuest, Cellule nordOuest ) {
-		this(t, o);
-		nord = nord;
-		nordEst = nordEst;
-		sudEst = sudEst;
-		sud = sud;
-		sudOuest = sudOuest;
-		nordOuest = nordOuest;
 	}
 
 	public Cellule(Terrain t, Soldat s, Cellule nord, Cellule nordEst, Cellule sudEst, Cellule sud, Cellule sudOuest, Cellule nordOuest ) {
@@ -169,10 +152,6 @@ public class Cellule {
 		return monstre;
 	}
 
-	public Obstacle.TypeObstacle getTypeObstacle() {
-		return obstacle.getTypeObstacle();
-	}
-
 	public boolean getEstVisible() {
 		return estVisible;
 	}
@@ -180,7 +159,7 @@ public class Cellule {
 	public void setEstVisible() {
 		if (heros != null) {
 			estVisible = true;
-			setEstVisibleParVosinage(heros.getPortee());
+			//setEstVisibleParVosinage(heros.getPortee());
 		}
 	}
 
