@@ -1,8 +1,10 @@
 package wargame.affichage;
 
 
+import wargame.carte.Cellule;
+
 import java.awt.*;
-public class Case {
+public class Case extends Cellule {
     public Color color,outlineColor;
     public boolean selected,drawOutline;
     Case(){
