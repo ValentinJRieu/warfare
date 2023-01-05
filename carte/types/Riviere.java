@@ -5,7 +5,7 @@ import wargame.carte.Terrain;
 import java.awt.*;
 
 public class Riviere extends Terrain {
-	private static final Color color =  Color.magenta;
+	private static final Color color =  new Color(0, 110,200);
 
 	public Riviere() {
 		this.coutDeplacement = 4;

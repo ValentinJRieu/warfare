@@ -5,7 +5,7 @@ import wargame.carte.Terrain;
 import java.awt.*;
 
 public class Plaine extends Terrain {
-	private static final Color color =  Color.BLACK;
+	private static final Color color =  new Color(0,100,0);
 
 	public Plaine() {
 		this.coutDeplacement = 4;
