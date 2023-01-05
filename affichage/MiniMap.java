@@ -52,7 +52,7 @@ public class MiniMap extends JPanel {
                 if(((i == game.getiStart() || i == game.getiEnd()) && j >= game.getjStart() && j <= game.getjEnd()) || ((i >= game.getiStart() && i <= game.getiEnd() && (j == game.getjStart() || j == game.getjEnd())))){
                     g2.setColor(Color.WHITE);
                 }else{
-                    g2.setColor(ct.getCase(j,i).color);
+                    g2.setColor(ct.getTerrain(j,i).getImage());
                 }
                 g2.fill(r);
             }

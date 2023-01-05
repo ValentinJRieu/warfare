@@ -1,46 +1,38 @@
 package wargame.affichage;
 
+import wargame.carte.Carte;
+import wargame.carte.Position;
+import wargame.carte.Terrain;
+
 import java.awt.*;
 
 public class CaseTable {
-    private final Case cases[][];
+    private final Carte cases;
     int columns;
     int rows;
-    CaseTable(int rows,int columns){
-        this.rows = rows;
-        this.columns = columns;
-        cases = new Case[columns][rows];
-        /*for(int j = 0;j < rows;j++){
-            cases[0][j] = new Case();
-            cases[0][j].color = new Color(100,100,100);
-        }
-        for(int j = 0;j < rows;j++){
-            cases[columns-1][j] = new Case();
-            cases[columns-1][j].color = new Color(100,100,100);
-        }*/
-        for(int i = 0;i < columns;i++){
-            /*cases[i][0] = new Case();
-            cases[i][0].color = new Color(100,100,100);
-            cases[i][rows-1] = new Case();
-            cases[i][rows-1].color = new Color(100,100,100);*/
-            for(int j = 0;j < rows;j++){
-                cases[i][j] = new Case();
-                cases[i][j].color = new Color((int)(Math.random() * 150),(int)(Math.random() * 50),(int)(Math.random() * 150));
+    CaseTable(Carte map){
+        cases = map;
+        int i = 0,j=0;
+        while(true) {
+            try{
+                map.getElement(new Position(i,j));
+            }catch (NullPointerException e){
+                break;
             }
+            j++;
         }
-    }
-
-    /**
-     * Oblige toute les cases à dessiner leurs lignes de surlignage
-     * @param drawOutline La valeur booleenne à assigner
-     * @deprecated Cette fonction peut causer des segfault (jsp pk)
-     */
-    public void setDrawOutline(boolean drawOutline){
-        for(int i = 0;i < columns;i++){
-            for(int j = 0;j < rows;j++){
-                cases[i][j].drawOutline = drawOutline;
+        columns = j;
+        j--;
+        while(true) {
+            try{
+                map.getElement(new Position(i,j));
+            }catch (NullPointerException e){
+                break;
             }
+            i++;
         }
+        rows = i;
+        System.out.println(columns + " -> " + rows);
     }
 
     /**
@@ -49,9 +41,9 @@ public class CaseTable {
      * @param i la ligne
      * @return La case associé ou null si les coordonnées sont invalides
      */
-    public Case getCase(int j,int i) {
+    public Terrain getTerrain(int j, int i) {
         if(j < columns && i < rows && j >= 0 && i >= 0)
-            return cases[j][i];
+            return cases.getElement(new Position(i,j));
         else
             return null;
     }
@@ -81,9 +73,9 @@ public class CaseTable {
     public void draw(Graphics2D g2,int radius,int iStart, int jStart, int rows,int columns){
         for (int j = jStart; j < columns; j++) {
             for(int i = iStart;i < rows;i++) {
-                Case c = getCase(j, i);
+                Terrain c = getTerrain(j, i);
                 if (c != null)
-                    g2.setColor(c.color);
+                    g2.setColor(c.getImage());
                 else
                     g2.setColor(Color.BLACK);
                 Polygon p = createHexagon(new RCPosition(i-iStart, j-jStart), radius);
