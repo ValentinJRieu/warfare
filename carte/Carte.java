@@ -123,7 +123,7 @@ public class Carte implements ICarte, IConfig {
 	 * On retourne l'element a la position pos.
 	 * */
 	@Override public Terrain getElement(Position pos) {
-		return carte.get(pos.toString());
+		return carte.get(pos.toString()).getTerrain();
 	}
 
 	@Override
@@ -177,8 +177,7 @@ public class Carte implements ICarte, IConfig {
 	 * */
 
 	@Override public boolean deplaceSoldat(Position pos, Soldat soldat) {
-		if(carte.get(pos.toString()).getHeros() != null || carte.get(pos.toString()).getMonstre() != null
-			|| carte.get(pos.toString()).getTypeObstacle() != Obstacle.TypeObstacle.VIDE || carte.get(
+		if(carte.get(pos.toString()).getHeros() != null || carte.get(pos.toString()).getMonstre() != null || carte.get(
 			pos.toString()).estInfranchissable()) {
 			return false;
 		}
