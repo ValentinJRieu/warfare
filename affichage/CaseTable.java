@@ -1,5 +1,13 @@
 package wargame.affichage;
 
+<<<<<<< Updated upstream
+=======
+import wargame.carte.Carte;
+import wargame.carte.Cellule;
+import wargame.carte.Position;
+import wargame.carte.Terrain;
+
+>>>>>>> Stashed changes
 import java.awt.*;
 
 public class CaseTable {
@@ -56,6 +64,25 @@ public class CaseTable {
             return null;
     }
 
+    public Cellule getNext(Cellule c) {
+        Cellule next;
+        if (c == null) {
+            return cases.getCellule(new Position(0,0));
+        } else {
+            if (c.getPos().getX()%2 == 0) {
+                System.out.println("Dir sud EST");
+                next = c.getSudEst();
+            } else {
+                System.out.println("Dir Nord Est");
+                next = c.getNordEst();
+            }
+        }
+        if (next == null) {
+            next = cases.getCellule(new Position(0, c.getPos().getY()+2));
+        }
+        return next;
+    }
+
     /**
      * Renvoie le point d'une extremité de l'hexagone
      * @param center le point central
@@ -79,6 +106,7 @@ public class CaseTable {
      * @param columns le nombre de colonnes à dessiner
      */
     public void draw(Graphics2D g2,int radius,int iStart, int jStart, int rows,int columns){
+<<<<<<< Updated upstream
         for (int j = jStart; j < columns; j++) {
             for(int i = iStart;i < rows;i++) {
                 Case c = getCase(j, i);
@@ -90,9 +118,25 @@ public class CaseTable {
                 g2.fill(p);
                 g2.setColor(Color.BLACK);
                 g2.draw(p);
+=======
+        Cellule c = null;
+        //for (int j = jStart; j < columns; j++) {
+        //    for(int i = iStart;i < rows;i++) {
+        do {
+            c = getNext(c);//getTerrain(j, i);
+            if(c != null)
+                g2.setColor(c.getTerrain().getImage());
+            else
+                return;//g2.setColor(Color.BLACK);
+            Polygon p = createHexagon(new RCPosition(/*i-iStart*/ c.getPos().getX()+iStart/2, /*j-jStart*/ c.getPos().getY()+jStart/2), radius);
+            g2.fill(p);
+            g2.setColor(Color.BLACK);
+            g2.draw(p);
+        } while (c != null);
+>>>>>>> Stashed changes
 
-            }
-        }
+        //    }
+        //}
     }
 
     /**

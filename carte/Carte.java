@@ -45,9 +45,10 @@ public class Carte implements ICarte, IConfig {
 		if(myReader.hasNextLine()) {
 			hauteur = Integer.valueOf(myReader.nextLine().trim());
 		}
+		System.out.println(largeur + " " + hauteur);
 		/* On saute l'espace reglementaire */
 		if(myReader.hasNextLine()) {
-			System.out.println(myReader.nextLine().trim());
+			myReader.nextLine().trim();
 		}
 		String map = "";
 		/* On va maintenant lire la carte */
@@ -59,13 +60,13 @@ public class Carte implements ICarte, IConfig {
 		boolean iWantToBreakFree = false;
 		for(int i = 0, k = 0; i <= hauteur && !iWantToBreakFree; i++) {
 			for(int j = 0; j <= largeur && !iWantToBreakFree; j++, k++) {
+				System.out.println(k/(largeur+1) + ", " + k%(largeur+1) + " et " + i + ", " + j);
 				char c = map.charAt(k);
 				if(k >= map.length() - 1) {
 					iWantToBreakFree = true;
 				}
 				Position pos = new Position(i, j);
 				switch(c) {
-					case ' ':
 					case 'P':
 						carte.put(pos.toString(), new Cellule(pos, TerrainFactory.getTerrain("PLAINE")));
 						break;
@@ -88,7 +89,7 @@ public class Carte implements ICarte, IConfig {
 				}
 			}
 		}
-		System.out.println("---------------------------------------------------------");
+		System.out.println(carte.size());
 		carte.forEach((position, cellule) -> {
 			Position voisin = new Position(0, 0);
 			// N-O
@@ -123,6 +124,10 @@ public class Carte implements ICarte, IConfig {
 	 * On retourne l'element a la position pos.
 	 * */
 	@Override public Terrain getElement(Position pos) {
+		return carte.get(pos.toString()).getTerrain();
+	}
+
+	public Cellule getCellule(Position pos) {
 		return carte.get(pos.toString());
 	}
 
@@ -177,8 +182,7 @@ public class Carte implements ICarte, IConfig {
 	 * */
 
 	@Override public boolean deplaceSoldat(Position pos, Soldat soldat) {
-		if(carte.get(pos.toString()).getHeros() != null || carte.get(pos.toString()).getMonstre() != null
-			|| carte.get(pos.toString()).getTypeObstacle() != Obstacle.TypeObstacle.VIDE || carte.get(
+		if(carte.get(pos.toString()).getHeros() != null || carte.get(pos.toString()).getMonstre() != null || carte.get(
 			pos.toString()).estInfranchissable()) {
 			return false;
 		}
