@@ -2,14 +2,11 @@ package wargame.soldats;
 
 import wargame.carte.Position;
 
+import java.awt.*;
+
 public class Elfe extends Heros{
 
-	private int pointsDeVie;
-	private int porteeVisuelle;
-	private int puissance;
-	private int tir;
-	private Position pos;
-
+	private static final Color image = Color.GREEN;
 	public Elfe() {
 		pointsDeVie = TypesH.ELFE.getPoints();
 		porteeVisuelle = TypesH.ELFE.getPortee();
@@ -18,19 +15,11 @@ public class Elfe extends Heros{
 	}
 	public Elfe(Position pos) {
 		this();
-		this.pos = pos;
-	}
-
-	@Override public int getPoints() {
-		return pointsDeVie;
+		this.position = pos;
 	}
 
 	@Override public int getTour() {
 		return 0;
-	}
-
-	@Override public int getPortee() {
-		return porteeVisuelle;
 	}
 
 	@Override public void joueTour(int tour) {
@@ -42,10 +31,15 @@ public class Elfe extends Heros{
 	}
 
 	@Override public void seDeplace(Position newPos) {
-		pos = newPos;
+		position = newPos;
 	}
 
 	@Override public void meurt() {
 		this.pointsDeVie = 0;
+	}
+
+	@Override
+	public Color getImage() {
+		return image;
 	}
 }

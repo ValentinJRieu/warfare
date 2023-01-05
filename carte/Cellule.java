@@ -4,7 +4,7 @@ import wargame.soldats.Heros;
 import wargame.soldats.Monstres;
 import wargame.soldats.Soldat;
 
-public class Cellule extends Element {
+public class Cellule {
 
 	private Cellule nord;
 	private Cellule nordEst;
@@ -12,8 +12,7 @@ public class Cellule extends Element {
 	private Cellule sud;
 	private Cellule sudOuest;
 	private Cellule nordOuest;
-	private Type typeElem;
-	private Obstacle obstacle;
+	private Terrain terrain;
 	private Heros heros;
 	private Monstres monstre;
 	private Position posElem;
@@ -21,25 +20,19 @@ public class Cellule extends Element {
 
 	public Cellule() {
 		nord = nordEst = sudEst = sud = sudOuest = nordOuest = null;
-		typeElem = null;
-		obstacle = null;
+		terrain = null;
 		heros = null;
 		monstre = null;
 		posElem = null;
 		estVisible = false;
 	}
 
-	public Cellule(Type t) {
+	public Cellule(Terrain t) {
 		this();
-		typeElem = t;
+		terrain = t;
 	}
 
-	public Cellule(Type t, Obstacle o) {
-		this(t);
-		obstacle = o;
-	}
-
-	public Cellule(Type t, Soldat s) {
+	public Cellule(Terrain t, Soldat s) {
 		this(t);
 		if (s instanceof Heros) {
 			heros = (Heros) s;
@@ -49,17 +42,7 @@ public class Cellule extends Element {
 		}
 	}
 
-	public Cellule(Type t, Obstacle o, Cellule nord, Cellule nordEst, Cellule sudEst, Cellule sud, Cellule sudOuest, Cellule nordOuest ) {
-		this(t, o);
-		nord = nord;
-		nordEst = nordEst;
-		sudEst = sudEst;
-		sud = sud;
-		sudOuest = sudOuest;
-		nordOuest = nordOuest;
-	}
-
-	public Cellule(Type t, Soldat s, Cellule nord, Cellule nordEst, Cellule sudEst, Cellule sud, Cellule sudOuest, Cellule nordOuest ) {
+	public Cellule(Terrain t, Soldat s, Cellule nord, Cellule nordEst, Cellule sudEst, Cellule sud, Cellule sudOuest, Cellule nordOuest ) {
 		this(t, s);
 		nord = nord;
 		nordEst = nordEst;
@@ -69,7 +52,7 @@ public class Cellule extends Element {
 		nordOuest = nordOuest;
 	}
 
-	public Cellule(Type t, Cellule nord, Cellule nordEst, Cellule sudEst, Cellule sud, Cellule sudOuest, Cellule nordOuest ) {
+	public Cellule(Terrain t, Cellule nord, Cellule nordEst, Cellule sudEst, Cellule sud, Cellule sudOuest, Cellule nordOuest ) {
 		this(t);
 		nord = nord;
 		nordEst = nordEst;
@@ -84,9 +67,9 @@ public class Cellule extends Element {
 		posElem = pos;
 	}
 
-	public Cellule(Position pos, Type t) {
+	public Cellule(Position pos, Terrain t) {
 		this(pos);
-		typeElem = t;
+		terrain = t;
 	}
 
 	public Cellule getNord() {
@@ -145,20 +128,20 @@ public class Cellule extends Element {
 		this.posElem = pos;
 	}
 
-	public Type getTypeElem() {
-		return typeElem;
+	public Terrain getTerrain() {
+		return terrain;
 	}
 
-	public void setTypeElem(Type typeElem) {
-		this.typeElem = typeElem;
+	public void setTerrain(Terrain terrain) {
+		this.terrain = terrain;
 	}
 
 	public boolean estInfranchissable() {
-		return this.typeElem==Type.MONTAGNE;
+		return this.terrain instanceof Infranchissable;
 	}
 
 	public void setVide() {
-		typeElem = Type.VIDE;
+		terrain = TerrainFactory.getTerrain("vide");
 	}
 
 	public Heros getHeros() {
@@ -169,10 +152,6 @@ public class Cellule extends Element {
 		return monstre;
 	}
 
-	public Obstacle.TypeObstacle getTypeObstacle() {
-		return obstacle.getTypeObstacle();
-	}
-
 	public boolean getEstVisible() {
 		return estVisible;
 	}
@@ -180,7 +159,7 @@ public class Cellule extends Element {
 	public void setEstVisible() {
 		if (heros != null) {
 			estVisible = true;
-			setEstVisibleParVosinage(heros.getPortee());
+			//setEstVisibleParVosinage(heros.getPortee());
 		}
 	}
 
@@ -216,5 +195,13 @@ public class Cellule extends Element {
 			nord.forceVisible();
 			nord.setEstVisibleParVosinage(level-1);
 		}
+	}
+
+	public int getCoutDeplacement() {
+		return 0;
+	}
+
+	public int getBonusDefense() {
+		return 0;
 	}
 }

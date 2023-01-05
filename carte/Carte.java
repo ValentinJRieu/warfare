@@ -6,6 +6,7 @@ import wargame.affichage.PanneauJeu;
 import wargame.soldats.Heros;
 import wargame.soldats.Soldat;
 
+import javax.swing.text.Element;
 import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,10 +17,10 @@ import java.util.TreeMap;
 
 public class Carte implements ICarte, IConfig {
 
-	/* Du coup, une carte serait consid�r�e comme une Map<String, Element>, o� le String est le toString
-	 *  de la position de l'�l�ment sur la map, si d'autres impl�mentations vous semblent meilleures,
-	 * Ne pas h�siter � les proposer */
+	/* Du coup, une carte serait consideree comme une Map<String, Element>, ou le String est le toString
+	 *  de la position de l'element sur la map*/
 	private final String PATH_TO_MAPS = "data\\maps\\";
+
 	private Map<String, Cellule> carte;
 	private String name;
 	private int largeur;
@@ -33,7 +34,7 @@ public class Carte implements ICarte, IConfig {
 		System.out.println(PATH_TO_MAPS + path);
 		File f = new File(PATH_TO_MAPS + path);
 		Scanner myReader = new Scanner(f);
-		/* On va lire le nom de la map � la premi�re ligne */
+		/* On va lire le nom de la map a la premiere ligne */
 		if(myReader.hasNextLine()) {
 			name = myReader.nextLine().trim();
 		}
@@ -44,7 +45,7 @@ public class Carte implements ICarte, IConfig {
 		if(myReader.hasNextLine()) {
 			hauteur = Integer.valueOf(myReader.nextLine().trim());
 		}
-		/* On saute l'espace r�glementaire */
+		/* On saute l'espace reglementaire */
 		if(myReader.hasNextLine()) {
 			System.out.println(myReader.nextLine().trim());
 		}
@@ -65,23 +66,23 @@ public class Carte implements ICarte, IConfig {
 				Position pos = new Position(i, j);
 				switch(c) {
 					case ' ':
-					case '\n':
-						continue;
 					case 'P':
-						carte.put(pos.toString(), new Cellule(pos, Type.PLAINE));
+						carte.put(pos.toString(), new Cellule(pos, TerrainFactory.getTerrain("PLAINE")));
 						break;
 					case 'F':
-						carte.put(pos.toString(), new Cellule(pos, Type.FORET));
+						carte.put(pos.toString(), new Cellule(pos, TerrainFactory.getTerrain("FORET")));
 						break;
 					case 'M':
-						carte.put(pos.toString(), new Cellule(pos, Type.MONTAGNE));
+						carte.put(pos.toString(), new Cellule(pos, TerrainFactory.getTerrain("MONTAGNE")));
 						break;
 					case 'R':
-						carte.put(pos.toString(), new Cellule(pos,Type.RIVIERE));
+						carte.put(pos.toString(), new Cellule(pos, TerrainFactory.getTerrain("RIVIERE")));
 						break;
 					case 'V':
-						carte.put(pos.toString(), new Cellule(pos,Type.VILLE));
+						carte.put(pos.toString(), new Cellule(pos, TerrainFactory.getTerrain("VILLE")));
 						break;
+					case 'C':
+						carte.put(pos.toString(), new Cellule(pos, TerrainFactory.getTerrain("CIME")));
 					default:
 						continue;
 				}
@@ -119,10 +120,10 @@ public class Carte implements ICarte, IConfig {
 	}
 
 	/*
-	 * On retourne l'�l�ment � la position pos.
+	 * On retourne l'element a la position pos.
 	 * */
-	@Override public Element getElement(Position pos) {
-		return carte.get(pos.toString());
+	@Override public Terrain getElement(Position pos) {
+		return carte.get(pos.toString()).getTerrain();
 	}
 
 	@Override
@@ -136,7 +137,7 @@ public class Carte implements ICarte, IConfig {
 	}
 
 	/*
-	 * On passe un �l�ment de la collection � vide et on retourne sa position
+	 * On passe un element de la collection a vide et on retourne sa position
 	 * */
 	public Position positionSetVide() {
 		Position pos = new Position(new Random().nextInt(LARGEUR_CARTE), new Random().nextInt(HAUTEUR_CARTE));
@@ -145,7 +146,7 @@ public class Carte implements ICarte, IConfig {
 	}
 
 	/*
-	 * On set la position donn�e � vide et on la retourne
+	 * On set la position donnee a vide et on la retourne
 	 * */
 	public Position positionSetVide(Position pos) {
 		this.carte.get(pos.toString()).setVide();
@@ -153,7 +154,7 @@ public class Carte implements ICarte, IConfig {
 	}
 
 	/*
-	 * On parcours la carte pour touver un h�ros
+	 * On parcours la carte pour touver un heros
 	 * */
 	@Override public Heros trouveHeros() {
 		for(Map.Entry<String, Cellule> entry : carte.entrySet()) {
@@ -165,19 +166,18 @@ public class Carte implements ICarte, IConfig {
 	}
 
 	/*
-	 * On renvoie le heros � la position pos (S'il n'y a pas de heros, null est renvoy�)
+	 * On renvoie le heros a la position pos (S'il n'y a pas de heros, null est renvoye)
 	 * */
 	@Override public Heros trouveHeros(Position pos) {
 		return carte.get(pos.toString()).getHeros();
 	}
 
 	/*
-	 * On d�place le soldat si possible (e.g, il n'y a pas d'obstacle, de monstre ou de h�ros d�j� pr�sent, et position diff�rentes)
+	 * On deplace le soldat si possible (e.g, il n'y a pas d'obstacle, de monstre ou de heros deja present, et position differentes)
 	 * */
 
 	@Override public boolean deplaceSoldat(Position pos, Soldat soldat) {
-		if(carte.get(pos.toString()).getHeros() != null || carte.get(pos.toString()).getMonstre() != null
-			|| carte.get(pos.toString()).getTypeObstacle() != Obstacle.TypeObstacle.VIDE || carte.get(
+		if(carte.get(pos.toString()).getHeros() != null || carte.get(pos.toString()).getMonstre() != null || carte.get(
 			pos.toString()).estInfranchissable()) {
 			return false;
 		}

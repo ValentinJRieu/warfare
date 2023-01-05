@@ -2,13 +2,12 @@ package wargame.soldats;
 
 import wargame.carte.Position;
 
-public class Gobelin extends Monstres{
+import java.awt.*;
 
-	private int pointsDeVie;
-	private int porteeVisuelle;
-	private int puissance;
-	private int tir;
-	private Position pos;
+
+public class Gobelin extends Monstres {
+
+	private static final Color image = Color.DARK_GRAY;
 
 	public Gobelin() {
 		pointsDeVie = TypesM.GOBELIN.getPoints();
@@ -16,36 +15,16 @@ public class Gobelin extends Monstres{
 		puissance = TypesM.GOBELIN.getPuissance();
 		tir = TypesM.GOBELIN.getTir();
 	}
+
 	public Gobelin(Position pos) {
 		this();
-		this.pos = pos;
+		position = pos;
 	}
 
-	@Override public int getPoints() {
-		return pointsDeVie;
+	@Override
+	public Color getImage() {
+		return image;
 	}
 
-	@Override public int getTour() {
-		return 0;
-	}
 
-	@Override public int getPortee() {
-		return porteeVisuelle;
-	}
-
-	@Override public void joueTour(int tour) {
-
-	}
-
-	@Override public void combat(Soldat soldat) {
-		/* TODO */
-	}
-
-	@Override public void seDeplace(Position newPos) {
-		pos = newPos;
-	}
-
-	@Override public void meurt() {
-
-	}
 }

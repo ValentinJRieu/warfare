@@ -2,6 +2,7 @@ package wargame;
 
 import wargame.carte.Position;
 import wargame.soldats.Soldat;
+import java.awt.*;
 
 public interface ISoldat {
    enum TypesH {
@@ -34,13 +35,12 @@ public interface ISoldat {
          return values()[(int)(Math.random()*values().length)];
       }
    }
-   int getPoints();
-
    int getTour();
 
-   int getPortee();
    void joueTour(int tour);
    void combat(Soldat soldat);
    void seDeplace(Position newPos);
    void meurt();
+
+   Color getImage();
 }
