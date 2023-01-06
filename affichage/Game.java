@@ -1,8 +1,12 @@
 package wargame.affichage;
 
+import wargame.carte.Carte;
+import wargame.carte.Terrain;
+
 import javax.print.attribute.standard.JobState;
 import javax.swing.*;
 import java.awt.*;
+import java.io.FileNotFoundException;
 
 public class Game extends JPanel {
 
@@ -25,14 +29,20 @@ public class Game extends JPanel {
      */
     Game(GameWindow parent) {
         Dimension dim = new Dimension(parent.getWidth() * 8 / 10, parent.getHeight() * 9 / 10);
-        ctDim = new Dimension(128, 128);
+        ctDim = new Dimension(25, 12);
         jStart = ctDim.width - 10;
         jEnd = ctDim.width;
         iStart = ctDim.height - 10;
         iEnd = ctDim.height;
         this.setPreferredSize(dim);
         this.setMaximumSize(dim);
-        ct = new CaseTable(ctDim.width, ctDim.height);
+        Carte map = new Carte();
+        try {
+            map.loadCarte("map1.txt");
+        }catch (FileNotFoundException e){
+            System.exit(-1);
+        }
+        ct = new CaseTable(map);
         GameEventHandler geh = new GameEventHandler(this);
         addMouseListener(geh);
         addMouseMotionListener(geh);
@@ -237,10 +247,10 @@ public class Game extends JPanel {
      * @param y la coordonée des ordonnées
      * @return La case
      */
-    public Case getCaseFromXY(int x, int y) {
+    public Terrain getTerrainFromXY(int x, int y) {
         RCPosition rcp = getIJFromXY(x, y);
         if (rcp == null) return null;
-        return ct.getCase(rcp.j, rcp.i);
+        return ct.getTerrain(rcp.j, rcp.i);
     }
 
     public int getiStart() {
