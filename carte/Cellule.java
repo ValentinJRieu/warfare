@@ -37,29 +37,29 @@ public class Cellule {
 		if (s instanceof Heros) {
 			heros = (Heros) s;
 		}
-		if (s instanceof Monstres) {
+		else if(s instanceof Monstres) {
 			monstre = (Monstres) s;
 		}
 	}
 
-	public Cellule(Terrain t, Soldat s, Cellule nord, Cellule nordEst, Cellule sudEst, Cellule sud, Cellule sudOuest, Cellule nordOuest ) {
+	public Cellule(Terrain t, Soldat s, Cellule nord, Cellule nordEst, Cellule sudEst, Cellule sud, Cellule sudOuest, Cellule nordOuest) {
 		this(t, s);
-		nord = nord;
-		nordEst = nordEst;
-		sudEst = sudEst;
-		sud = sud;
-		sudOuest = sudOuest;
-		nordOuest = nordOuest;
+		this.nord = nord;
+		this.nordEst = nordEst;
+		this.sudEst = sudEst;
+		this.sud = sud;
+		this.sudOuest = sudOuest;
+		this.nordOuest = nordOuest;
 	}
 
 	public Cellule(Terrain t, Cellule nord, Cellule nordEst, Cellule sudEst, Cellule sud, Cellule sudOuest, Cellule nordOuest ) {
 		this(t);
-		nord = nord;
-		nordEst = nordEst;
-		sudEst = sudEst;
-		sud = sud;
-		sudOuest = sudOuest;
-		nordOuest = nordOuest;
+		this.nord = nord;
+		this.nordEst = nordEst;
+		this.sudEst = sudEst;
+		this.sud = sud;
+		this.sudOuest = sudOuest;
+		this.nordOuest = nordOuest;
 	}
 
 	public Cellule(Position pos) {

@@ -56,7 +56,7 @@ public abstract class Soldat implements ISoldat {
 
     @Override
     public void joueTour() {
-        this.peutJoueur = false;
+        this.peutJouer = false;
     }
 
 

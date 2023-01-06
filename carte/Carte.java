@@ -53,7 +53,7 @@ public class Carte implements ICarte, IConfig {
 		/* On va maintenant lire la carte */
 		while(myReader.hasNextLine()) {
 			String line = myReader.nextLine();
-			line += line.length() == largeur ? "\n" : " \n";
+			line += "\n";
 			map += line;
 		}
 		boolean iWantToBreakFree = false;
@@ -65,7 +65,6 @@ public class Carte implements ICarte, IConfig {
 				}
 				Position pos = new Position(i, j);
 				switch(c) {
-					case ' ':
 					case 'P':
 						carte.put(pos.toString(), new Cellule(pos, TerrainFactory.getTerrain("PLAINE")));
 						break;
@@ -83,8 +82,6 @@ public class Carte implements ICarte, IConfig {
 						break;
 					case 'C':
 						carte.put(pos.toString(), new Cellule(pos, TerrainFactory.getTerrain("CIME")));
-					default:
-						continue;
 				}
 			}
 		}
@@ -92,29 +89,53 @@ public class Carte implements ICarte, IConfig {
 		carte.forEach((position, cellule) -> {
 			Position voisin = new Position(0, 0);
 			// N-O
-			voisin.setY(cellule.getPos().getY()-1);
-			voisin.setX(cellule.getPos().getX()-1);
-			cellule.setNordOuest(carte.get(voisin.toString()));
+			if (cellule.getPos().getX() % 2 == 0) {
+				voisin.setY(cellule.getPos().getY()-1);
+				voisin.setX(cellule.getPos().getX()-1);
+				cellule.setNordOuest(carte.get(voisin.toString()));
+			} else {
+				voisin.setY(cellule.getPos().getY());
+				voisin.setX(cellule.getPos().getX()-1);
+				cellule.setNordOuest(carte.get(voisin.toString()));
+			}
 			// N-E
-			voisin.setY(cellule.getPos().getY()-1);
-			voisin.setX(cellule.getPos().getX()+1);
-			cellule.setNordEst(carte.get(voisin.toString()));
+			if (cellule.getPos().getX() % 2 == 0) {
+				voisin.setY(cellule.getPos().getY()-1);
+				voisin.setX(cellule.getPos().getX()+1);
+				cellule.setNordEst(carte.get(voisin.toString()));
+			} else {
+				voisin.setY(cellule.getPos().getY());
+				voisin.setX(cellule.getPos().getX()+1);
+				cellule.setNordEst(carte.get(voisin.toString()));
+			}
 			// N
-			voisin.setY(cellule.getPos().getY()-2);
+			voisin.setY(cellule.getPos().getY()-1);
 			voisin.setX(cellule.getPos().getX());
 			cellule.setNord(carte.get(voisin.toString()));
 			// S
-			voisin.setY(cellule.getPos().getY()+2);
+			voisin.setY(cellule.getPos().getY()+1);
 			voisin.setX(cellule.getPos().getX());
 			cellule.setSud(carte.get(voisin.toString()));
 			// S-O
-			voisin.setY(cellule.getPos().getY()+1);
-			voisin.setX(cellule.getPos().getX()-1);
-			cellule.setSudOuest(carte.get(voisin.toString()));
+			if (cellule.getPos().getX() % 2 == 0) {
+				voisin.setY(cellule.getPos().getY()+1);
+				voisin.setX(cellule.getPos().getX()-1);
+				cellule.setSudOuest(carte.get(voisin.toString()));
+			} else {
+				voisin.setY(cellule.getPos().getY());
+				voisin.setX(cellule.getPos().getX()-1);
+				cellule.setSudOuest(carte.get(voisin.toString()));
+			}
 			// S-E
-			voisin.setY(cellule.getPos().getY()+1);
-			voisin.setX(cellule.getPos().getX()+1);
-			cellule.setSudEst(carte.get(voisin.toString()));
+			if (cellule.getPos().getX() % 2 == 0) {
+				voisin.setY(cellule.getPos().getY()+1);
+				voisin.setX(cellule.getPos().getX()+1);
+				cellule.setSudEst(carte.get(voisin.toString()));
+			} else {
+				voisin.setY(cellule.getPos().getY());
+				voisin.setX(cellule.getPos().getX()+1);
+				cellule.setSudEst(carte.get(voisin.toString()));
+			}
 		});
 		System.out.println(carte);
 	}
@@ -189,7 +210,7 @@ public class Carte implements ICarte, IConfig {
 	 * On fait mourir un soldat
 	 * */
 	@Override public void mort(Soldat perso) {
-		perso.meurt();
+		//perso.meurt();
 	}
 
 	/*
@@ -205,5 +226,9 @@ public class Carte implements ICarte, IConfig {
 
 	@Override public void toutDessiner(Graphics g) {
 
+	}
+
+	public Cellule getCellule(Position position) {
+		return carte.get(position.toString());
 	}
 }
