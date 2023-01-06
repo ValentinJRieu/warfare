@@ -1,7 +1,7 @@
 package wargame;
 
 import wargame.carte.Position;
-import wargame.soldats.Soldat;
+
 import java.awt.*;
 
 public interface ISoldat {
@@ -35,12 +35,11 @@ public interface ISoldat {
          return values()[(int)(Math.random()*values().length)];
       }
    }
-   int getTour();
 
-   void joueTour(int tour);
-   void combat(Soldat soldat);
+   void joueTour();
+   void degat(int degats);
    void seDeplace(Position newPos);
-   void meurt();
-
+   boolean estMort();
+   boolean peutJouer();
    Color getImage();
 }

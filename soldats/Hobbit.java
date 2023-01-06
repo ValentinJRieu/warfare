@@ -19,25 +19,7 @@ public class Hobbit extends Heros{
 		this.position = pos;
 	}
 
-	@Override public int getTour() {
-		return 0;
-	}
 
-	@Override public void joueTour(int tour) {
-
-	}
-
-	@Override public void combat(Soldat soldat) {
-		/* TODO */
-	}
-
-	@Override public void seDeplace(Position newPos) {
-		position = newPos;
-	}
-
-	@Override public void meurt() {
-
-	}
 
 	@Override
 	public Color getImage() {

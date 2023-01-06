@@ -3,14 +3,14 @@ package wargame.soldats;
 import wargame.ISoldat;
 import wargame.carte.Position;
 
-import java.awt.*;
-
 public abstract class Soldat implements ISoldat {
     protected int pointsDeVie;
     protected int porteeVisuelle;
     protected int puissance;
     protected int tir;
     protected Position position;
+    protected boolean peutJouer = true;
+
 
     public int getPointsDeVie() {
         return pointsDeVie;
@@ -53,28 +53,36 @@ public abstract class Soldat implements ISoldat {
     }
 
 
-    @Override
-    public int getTour() {
-        return 0;
-    }
 
     @Override
-    public void joueTour(int tour) {
-
+    public void joueTour() {
+        this.peutJoueur = false;
     }
+
+
 
     @Override
-    public void combat(Soldat soldat) {
+    public void degat(int degats) {
 
+        this.pointsDeVie -= degats % this.pointsDeVie;
     }
+
+
+
     @Override
     public void seDeplace(Position newPos) {
+        position = newPos;
 
     }
 
     @Override
-    public void meurt() {
+    public boolean estMort() {
+        return this.pointsDeVie == 0;
+    }
 
+    @Override
+    public boolean peutJouer() {
+        return this.peutJouer;
     }
 
 
