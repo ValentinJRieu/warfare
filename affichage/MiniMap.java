@@ -42,7 +42,7 @@ public class MiniMap extends JPanel {
         CaseTable ct = game.ct;
         //System.out.println(getWidth()+"x"+getHeight());
 
-        g2.drawImage(background.getScaledInstance(getWidth(),getHeight(),1),0,0,null);
+        //g2.drawImage(background.getScaledInstance(getWidth(),getHeight(),Image.SCALE_FAST),0,0,null);
         w = getWidth()/(ct.columns) > 0 ? getWidth()/(ct.columns) : 1;
         h = getHeight()/(ct.rows)>0 ? getHeight()/(ct.rows) : 1;
         for(int i = 0;i < ct.rows;i++) {
@@ -52,7 +52,7 @@ public class MiniMap extends JPanel {
                 if(((i == game.getiStart() || i == game.getiEnd()) && j >= game.getjStart() && j <= game.getjEnd()) || ((i >= game.getiStart() && i <= game.getiEnd() && (j == game.getjStart() || j == game.getjEnd())))){
                     g2.setColor(Color.WHITE);
                 }else{
-                    g2.setColor(ct.getCase(j,i).color);
+                    g2.setColor(ct.getTerrain(j,i).getImage());
                 }
                 g2.fill(r);
             }
