@@ -1,5 +1,6 @@
 package wargame.affichage;
 
+import javafx.scene.shape.Circle;
 import wargame.carte.Carte;
 import wargame.carte.Cellule;
 import wargame.carte.Position;
@@ -73,22 +74,24 @@ public class CaseTable {
      */
     public void draw(Graphics2D g2,int radius,int iStart, int jStart, int rows,int columns){
         Cellule c = null;
-        //for (int j = jStart; j < columns; j++) {
-        //    for(int i = iStart;i < rows;i++) {
-        do {
-            c = getNext(c);//getTerrain(j, i);
-            if(c != null)
-                g2.setColor(c.getTerrain().getImage());
-            else
-                return;//g2.setColor(Color.BLACK);
-            Polygon p = createHexagon(new RCPosition(/*i-iStart*/ c.getPos().getX()+iStart/2, /*j-jStart*/ c.getPos().getY()+jStart/2), radius);
-            g2.fill(p);
-            g2.setColor(Color.BLACK);
-            g2.draw(p);
-        } while (c != null);
+        for (int j = jStart; j < columns; j++) {
+            for(int i = iStart;i < rows;i++) {
+                c = cases.getCellule(new Position(i, j));
+                if (c != null) {
+                    g2.setColor(c.getTerrain().getImage());
 
-        //    }
-        //}
+                } else {
+                    g2.setColor(Color.BLACK);
+                }
+                Polygon p = createHexagon(new RCPosition(i-iStart, j-jStart), radius);
+
+                Circle unit = createCircle(new RCPosition(i-iStart, j-jStart), radius);
+                g2.fill(p);
+                g2.setColor(Color.BLACK);
+                g2.fillOval((int)unit.getCenterX()-(int)unit.getRadius(),(int)unit.getCenterY()-(int)unit.getRadius(),(int)unit.getRadius()*2,(int)unit.getRadius()*2);
+                g2.draw(p);
+            }
+        }
     }
 
     public Cellule getNext(Cellule c) {
@@ -96,14 +99,10 @@ public class CaseTable {
         if (c == null) {
             return cases.getCellule(new Position(0,0));
         } else {
-            if (c.getPos().getX()%2 != 0) {
-                next = c.getSudEst();
-            } else {
-                next = c.getNordEst();
-            }
+            next = c.getSud();
         }
         if (next == null) {
-            next = cases.getCellule(new Position(0, c.getPos().getY()+1));
+            next = cases.getCellule(new Position(c.getPos().getX()+1, 0));
         }
         return next;
     }
@@ -121,6 +120,24 @@ public class CaseTable {
             p.addPoint(po.x, po.y);
         }
         return p;
+    }
+
+    public static Circle createCircle(Point center, int radius){
+        Circle p = new Circle();
+        p.setCenterX(center.x);
+        p.setCenterY(center.y);
+        p.setRadius(radius/2.);
+        return p;
+    }
+
+    public static Circle createCircle(RCPosition rcp,int radius){
+        int height = (int)CaseTable.height(radius);
+        int width = (int)CaseTable.width(radius);
+        int x = rcp.j * (int)(width*0.75);
+        int y = rcp.i * height;
+        if(rcp.j %2 == 1)
+            y += height/2;
+        return CaseTable.createCircle(new Point(x,y),(radius));
     }
 
     /**
