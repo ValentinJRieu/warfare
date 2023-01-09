@@ -81,7 +81,6 @@ public class CaseTable {
         Color colorSoldat;
         for (int j = jStart; j < columns; j++) {
             for(int i = iStart;i < rows;i++) {
-                colorSoldat = Color.BLACK;
                 c = cases.getCellule(new Position(i, j));
                 if (c != null) {
                     colorTerrain = c.getTerrain().getImage();
