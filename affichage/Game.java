@@ -71,7 +71,7 @@ public class Game extends JPanel {
         ct.draw(g2, radius / 2, iStart, jStart, rows, cols);
         if (overedCase != null) {
             g2.setColor(Color.WHITE);
-            g2.draw(CaseTable.createHexagon(new RCPosition(overedCase.i - iStart, overedCase.j - jStart), radius / 2));
+            g2.draw(CaseTable.createHexagon(new RCPosition(overedCase.getX() - iStart, overedCase.getY() - jStart), radius / 2));
         }
     }
 
@@ -250,7 +250,7 @@ public class Game extends JPanel {
     public Terrain getTerrainFromXY(int x, int y) {
         RCPosition rcp = getIJFromXY(x, y);
         if (rcp == null) return null;
-        return ct.getTerrain(rcp.j, rcp.i);
+        return ct.getTerrain(rcp.getY(), rcp.getX());
     }
 
     public int getiStart() {
