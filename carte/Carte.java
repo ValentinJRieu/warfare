@@ -2,11 +2,8 @@ package wargame.carte;
 
 import wargame.ICarte;
 import wargame.IConfig;
-import wargame.affichage.PanneauJeu;
 import wargame.soldats.Heros;
-import wargame.soldats.Soldat;
 
-import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Map;
@@ -195,56 +192,37 @@ public class Carte implements ICarte, IConfig {
 		return carte.get(pos.toString()).getHeros();
 	}
 
-	@Override public boolean deplaceSoldat(Position pos, Soldat soldat) {
-		return false;
-	}
-
-	/*
-	 * On fait mourir un soldat
-	 * */
-	@Override public void mort(Soldat perso) {
-		//perso.meurt();
-	}
-
-	@Override public void action(Cellule cible) {
-
-	}
-
-	@Override public void toutDessiner(Graphics g) {
-
-	}
-
 	/*
 	 * retourne l'action à réaliser entre la cellule active et la cellule cible
 	 *
 	 * en fonction de l'état de la cellule active, l'action diffère.
 	 * */
-	public void action(Position cible) {
+	@Override public boolean action(Position cible) {
 		Cellule celluleCible = carte.get(cible.toString());
 		if(!hasActif()) {
 			System.err.println("nouvel actif");
 			this.active = celluleCible;
-			return;
+			return false;
 		}
 		if(this.active.estInfranchissable()) {
 			System.err.println("actif infranchissable, toute action est par construction impossible. nouvel actif");
 		}
-		if(this.active == celluleCible) {
+		if(this.active.equals(celluleCible)) {
 			System.err.println("double clic sur cellule : inactif");
 			rendInactif();
-			return;
+			return false;
 		}
 
 		if(!this.active.hasSoldat()) {
-			System.err.println("nouvel actif");
+			System.err.println("remplacement de l'actif");
 			this.active = celluleCible;
-			return;
+			return false;
 		}
 
 		if(!aPorteeDeSoldat(celluleCible)) {
 			System.err.println("Cible trop éloignée pour déplacement : nouvel actif");
 			this.active = celluleCible;
-			return;
+			return false;
 		}
 
 		if(!celluleCible.hasSoldat()) {
@@ -252,13 +230,13 @@ public class Carte implements ICarte, IConfig {
 			if(celluleCible.estInfranchissable()) {
 				System.err.println("cible infranchissable");
 				this.active = celluleCible;
-				return;
+				return false;
 			}
 
 			System.err.println("cible accessible, déplacement et actif null");
 			this.active.seDeplace(celluleCible);
 			rendInactif();
-			return;
+			return false;
 		}
 
 		/* cible a un soldat */
@@ -266,18 +244,20 @@ public class Carte implements ICarte, IConfig {
 		if(celluleCible.hasHeros()) {
 			System.err.println("cible a un héros : nouvel actif");
 			this.active = celluleCible;
-			return;
+			return false;
 		}
 
 		if(this.active.estVoisine(celluleCible)) {
 			System.err.println("combat entre deux cellules");
-			this.active.combat(celluleCible);
-			rendInactif();
-			return;
+			// this.active.combat(celluleCible);
+			// rendInactif();
+			/* TODO : ouvre un panel de sélection d'action */
+			return true;
 		}
 
 		System.err.println("ennemi trop éloigné : nouvel actif");
 		this.active = celluleCible;
+		return false;
 	}
 
 	public void rendInactif() { this.active = null; }
@@ -311,6 +291,7 @@ public class Carte implements ICarte, IConfig {
 
 	public boolean hasActif() { return this.active != null; }
 
+	public Cellule actif() { return this.active; }
 
 	public Cellule getCellule(Position position) {
 		return carte.get(position.toString());

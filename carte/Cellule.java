@@ -74,12 +74,12 @@ public class Cellule {
 
 	public boolean estVoisine(Cellule c) {
 
-		return this.nord == c
-				|| this.sud == c
-				|| this.nordEst == c
-				|| this.nordOuest == c
-				|| this.sudEst == c
-				|| this.sudOuest == c;
+		return this.nord.equals(c)
+				|| this.sud.equals(c)
+				|| this.nordEst.equals(c)
+				|| this.nordOuest.equals(c)
+				|| this.sudEst.equals(c)
+				|| this.sudOuest.equals(c);
 	}
 
 	public Cellule getNord() {
@@ -219,11 +219,11 @@ public class Cellule {
 	}
 
 	public int getCoutDeplacement() {
-		return 0;
+		return terrain.getCoutDeplacement();
 	}
 
 	public int getBonusDefense() {
-		return 0;
+		return terrain.getBonusDefense();
 	}
 
 	public void seDeplace(Cellule cible) {
@@ -231,7 +231,26 @@ public class Cellule {
 		this.heros = null;
 	}
 
-	public void combat(Cellule cible) {
+	public void attaque(Cellule cible, int type) {
+		if(type == 1) attaqueCaC(cible);
+
+		else attaqueDist(cible);
+		/*TODO: test si mort */
 
 	}
+
+	public void attaqueCaC(Cellule cible) {
+		int deg = this.heros.getPuissance() - cible.getBonusDefense();
+		if(deg < 0) deg = 0;
+		cible.getMonstre().degat(deg);
+	}
+
+	public void attaqueDist(Cellule cible) {
+		int deg = this.heros.getTir() - cible.getBonusDefense();
+		if(deg < 0) deg = 0;
+		cible.getMonstre().degat(deg);
+	}
+
+
+
 }
