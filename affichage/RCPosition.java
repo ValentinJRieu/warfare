@@ -1,13 +1,9 @@
 package wargame.affichage;
 
-public class RCPosition {
-    public int i;
-    public int j;
+import wargame.carte.Position;
+
+public class RCPosition extends Position {
     RCPosition(int i,int j){
-        this.i = i;
-        this.j = j;
-    }
-    public String toString(){
-        return "[x(j) = "+j+",y(i)"+i+"]";
+        super(i,j);
     }
 }

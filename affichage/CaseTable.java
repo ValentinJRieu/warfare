@@ -1,10 +1,13 @@
 package wargame.affichage;
 
 import javafx.scene.shape.Circle;
+import wargame.ISoldat;
 import wargame.carte.Carte;
 import wargame.carte.Cellule;
 import wargame.carte.Position;
 import wargame.carte.Terrain;
+import wargame.soldats.Heros;
+import wargame.soldats.Soldat;
 
 import java.awt.*;
 
@@ -73,38 +76,36 @@ public class CaseTable {
      * @param columns le nombre de colonnes à dessiner
      */
     public void draw(Graphics2D g2,int radius,int iStart, int jStart, int rows,int columns){
-        Cellule c = null;
+        Cellule c;
+        Color colorTerrain;
+        Color colorSoldat;
         for (int j = jStart; j < columns; j++) {
             for(int i = iStart;i < rows;i++) {
+                colorSoldat = Color.BLACK;
                 c = cases.getCellule(new Position(i, j));
                 if (c != null) {
-                    g2.setColor(c.getTerrain().getImage());
-
+                    colorTerrain = c.getTerrain().getImage();
+                    if (c.getHeros() != null) {
+                        colorSoldat = c.getHeros().getImage();
+                    } else if (c.getMonstre() != null) {
+                        colorSoldat =  c.getMonstre().getImage();
+                    } else {
+                        colorSoldat = colorTerrain;
+                    }
                 } else {
-                    g2.setColor(Color.BLACK);
+                    colorTerrain = Color.BLACK;
+                    colorSoldat = colorTerrain;
                 }
                 Polygon p = createHexagon(new RCPosition(i-iStart, j-jStart), radius);
-
-                Circle unit = createCircle(new RCPosition(i-iStart, j-jStart), radius);
+                g2.setColor(colorTerrain);
                 g2.fill(p);
                 g2.setColor(Color.BLACK);
-                g2.fillOval((int)unit.getCenterX()-(int)unit.getRadius(),(int)unit.getCenterY()-(int)unit.getRadius(),(int)unit.getRadius()*2,(int)unit.getRadius()*2);
                 g2.draw(p);
+                g2.setColor(colorSoldat);
+                Circle unit = createCircle(new RCPosition(i-iStart, j-jStart), radius);
+                g2.fillOval((int)unit.getCenterX()-(int)unit.getRadius(),(int)unit.getCenterY()-(int)unit.getRadius(),(int)unit.getRadius()*2,(int)unit.getRadius()*2);
             }
         }
-    }
-
-    public Cellule getNext(Cellule c) {
-        Cellule next;
-        if (c == null) {
-            return cases.getCellule(new Position(0,0));
-        } else {
-            next = c.getSud();
-        }
-        if (next == null) {
-            next = cases.getCellule(new Position(c.getPos().getX()+1, 0));
-        }
-        return next;
     }
 
     /**
@@ -133,9 +134,9 @@ public class CaseTable {
     public static Circle createCircle(RCPosition rcp,int radius){
         int height = (int)CaseTable.height(radius);
         int width = (int)CaseTable.width(radius);
-        int x = rcp.j * (int)(width*0.75);
-        int y = rcp.i * height;
-        if(rcp.j %2 == 1)
+        int x = rcp.getY() * (int)(width*0.75);
+        int y = rcp.getX() * height;
+        if(rcp.getY() %2 == 1)
             y += height/2;
         return CaseTable.createCircle(new Point(x,y),(radius));
     }
@@ -149,9 +150,9 @@ public class CaseTable {
     public static Polygon createHexagon(RCPosition rcp,int radius){
         int height = (int)CaseTable.height(radius);
         int width = (int)CaseTable.width(radius);
-        int x = rcp.j * (int)(width*0.75);
-        int y = rcp.i * height;
-        if(rcp.j %2 == 1)
+        int x = rcp.getY() * (int)(width*0.75);
+        int y = rcp.getX() * height;
+        if(rcp.getY() %2 == 1)
             y += height/2;
         return CaseTable.createHexagon(new Point(x,y),(radius));
     }
