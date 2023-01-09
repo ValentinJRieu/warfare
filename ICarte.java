@@ -1,12 +1,12 @@
 package wargame;
 
 import wargame.affichage.PanneauJeu;
+import wargame.carte.Cellule;
 import wargame.carte.Position;
 import wargame.carte.Terrain;
 import wargame.soldats.Heros;
 import wargame.soldats.Soldat;
 
-import javax.swing.text.Element;
 import java.awt.*;
 
 public interface ICarte {
@@ -26,9 +26,7 @@ public interface ICarte {
 
     void mort(Soldat perso);
 
-    boolean actionHeros(Position pos, Position pos2);
-
-    void jouerSoldats(PanneauJeu pj);
+    void action(Cellule cible);
 
     void toutDessiner(Graphics g);
 }

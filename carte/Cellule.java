@@ -72,6 +72,16 @@ public class Cellule {
 		terrain = t;
 	}
 
+	public boolean estVoisine(Cellule c) {
+
+		return this.nord == c
+				|| this.sud == c
+				|| this.nordEst == c
+				|| this.nordOuest == c
+				|| this.sudEst == c
+				|| this.sudOuest == c;
+	}
+
 	public Cellule getNord() {
 		return nord;
 	}
@@ -152,6 +162,13 @@ public class Cellule {
 		return monstre;
 	}
 
+	public boolean hasMonstre() { return this.monstre != null; }
+
+	public boolean hasHeros() { return this.heros != null; }
+
+	public boolean hasSoldat() { return hasMonstre() || hasHeros(); }
+
+
 	public boolean getEstVisible() {
 		return estVisible;
 	}
@@ -203,5 +220,14 @@ public class Cellule {
 
 	public int getBonusDefense() {
 		return 0;
+	}
+
+	public void seDeplace(Cellule cible) {
+		cible.heros = this.heros;
+		this.heros = null;
+	}
+
+	public void combat(Cellule cible) {
+
 	}
 }

@@ -30,7 +30,6 @@ public class Game {
 		} catch(FileNotFoundException e) {
 			throw new RuntimeException(e);
 		}
-		run();
 	}
 
 	public void run() {

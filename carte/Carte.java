@@ -6,8 +6,6 @@ import wargame.affichage.PanneauJeu;
 import wargame.soldats.Heros;
 import wargame.soldats.Soldat;
 
-import javax.swing.text.Element;
-import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Map;
@@ -26,12 +24,16 @@ public class Carte implements ICarte, IConfig {
 	private int largeur;
 	private int hauteur;
 
+	private Cellule active = null;
+
+
+
 	public Carte() {
 		carte = new TreeMap<>();
 	}
 
 	public void loadCarte(String path) throws FileNotFoundException {
-		System.out.println(PATH_TO_MAPS + path);
+		System.err.println(PATH_TO_MAPS + path);
 		File f = new File(PATH_TO_MAPS + path);
 		Scanner myReader = new Scanner(f);
 		/* On va lire le nom de la map a la premiere ligne */
@@ -85,7 +87,7 @@ public class Carte implements ICarte, IConfig {
 				}
 			}
 		}
-		System.out.println("---------------------------------------------------------");
+		System.err.println("---------------------------------------------------------");
 		carte.forEach((position, cellule) -> {
 			Position voisin = new Position(0, 0);
 			// N-O
@@ -137,7 +139,7 @@ public class Carte implements ICarte, IConfig {
 				cellule.setSudEst(carte.get(voisin.toString()));
 			}
 		});
-		System.out.println(carte);
+		System.err.println(carte);
 	}
 
 	/*
@@ -194,19 +196,6 @@ public class Carte implements ICarte, IConfig {
 	}
 
 	/*
-	 * On deplace le soldat si possible (e.g, il n'y a pas d'obstacle, de monstre ou de heros deja present, et position differentes)
-	 * */
-
-	@Override public boolean deplaceSoldat(Position pos, Soldat soldat) {
-		if(carte.get(pos.toString()).getHeros() != null || carte.get(pos.toString()).getMonstre() != null || carte.get(
-			pos.toString()).estInfranchissable()) {
-			return false;
-		}
-		soldat.seDeplace(pos);
-		return true;
-	}
-
-	/*
 	 * On fait mourir un soldat
 	 * */
 	@Override public void mort(Soldat perso) {
@@ -214,19 +203,63 @@ public class Carte implements ICarte, IConfig {
 	}
 
 	/*
-	 * Je ne sais plus ce que c'est
+	 * retourne l'action à réaliser entre la cellule active et la cellule cible
+	 *
+	 * en fonction de l'état de la cellule active, l'action diffère.
 	 * */
-	@Override public boolean actionHeros(Position pos, Position pos2) {
-		return false;
+	@Override public void action(Cellule cible) {
+		if(!hasActif()) {
+			System.err.println("nouvel actif");
+			this.active = cible;
+			return;
+		}
+
+		if(!aPorteeDeSoldat()) {
+			System.err.println("Cible trop éloignée pour déplacement : nouvel actif");
+			this.active = cible;
+			return;
+		}
+
+		if(!cible.hasSoldat()) {
+			System.err.println("cible sans soldat");
+			if(cible.estInfranchissable()) {
+				System.err.println("cible infranchissable");
+				this.active = cible;
+				return;
+			}
+
+			System.err.println("cible accessible, déplacement et actif null");
+			this.active.seDeplace(cible);
+			this.active = null;
+			return;
+		}
+
+		/* cible a un soldat */
+
+		if(cible.hasHeros()) {
+			System.err.println("cible a un héros : nouvel actif");
+			this.active = cible;
+			return;
+		}
+
+		if(this.active.estVoisine(cible)) {
+			System.err.println("combat entre deux cellules");
+			this.active.combat(cible);
+			this.active = null;
+			return;
+		}
+
+		System.err.println("ennemi trop éloigné : nouvel actif");
+		this.active = cible;
 	}
 
-	@Override public void jouerSoldats(PanneauJeu pj) {
-
+	public boolean aPorteeDeSoldat(Cellule cible) {
+		return true;
 	}
 
-	@Override public void toutDessiner(Graphics g) {
 
-	}
+	public boolean hasActif() { return this.active != null; }
+
 
 	public Cellule getCellule(Position position) {
 		return carte.get(position.toString());

@@ -38,7 +38,6 @@ public interface ISoldat {
 
    void joueTour();
    void degat(int degats);
-   void seDeplace(Position newPos);
    boolean estMort();
    boolean peutJouer();
    Color getImage();

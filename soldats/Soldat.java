@@ -68,13 +68,6 @@ public abstract class Soldat implements ISoldat {
     }
 
 
-
-    @Override
-    public void seDeplace(Position newPos) {
-        position = newPos;
-
-    }
-
     @Override
     public boolean estMort() {
         return this.pointsDeVie == 0;
