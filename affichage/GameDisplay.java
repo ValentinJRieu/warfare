@@ -40,13 +40,7 @@ public class GameDisplay extends JPanel {
         iEnd = ctDim.height;
         this.setPreferredSize(dim);
         this.setMaximumSize(dim);
-        Carte map = new Carte();
-        try {
-            map.loadCarte("map1.txt");
-        }catch (FileNotFoundException e){
-            System.exit(-1);
-        }
-        ct = new CaseTable(map);
+        ct = new CaseTable(game.getCarte());
         GameEventHandler geh = new GameEventHandler(this);
         addMouseListener(geh);
         addMouseMotionListener(geh);

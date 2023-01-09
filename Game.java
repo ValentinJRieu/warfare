@@ -23,11 +23,11 @@ public class Game {
 	private boolean estTerminee = false;
 
 	public Game() {
-		Carte carte = new Carte();
+		map = new Carte();
 		J1 = new ArrayList<>();
 		J2 = new ArrayList<>();
 		try {
-			carte.loadCarte("map1.txt");
+			map.loadCarte("map1.txt");
 		} catch(FileNotFoundException e) {
 			throw new RuntimeException(e);
 		}

@@ -103,6 +103,10 @@ public class CaseTable {
                 g2.setColor(colorSoldat);
                 Circle unit = createCircle(new RCPosition(i-iStart, j-jStart), radius);
                 g2.fillOval((int)unit.getCenterX()-(int)unit.getRadius(),(int)unit.getCenterY()-(int)unit.getRadius(),(int)unit.getRadius()*2,(int)unit.getRadius()*2);
+                if (cases.actif().equals(c)) {
+                    g2.setColor(Color.GRAY);
+                    g2.draw(CaseTable.createHexagon(new RCPosition(c.getPos().getX() - iStart, c.getPos().getY() - jStart), radius / 2));
+                }
             }
         }
     }
