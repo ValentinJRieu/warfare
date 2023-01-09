@@ -80,7 +80,7 @@ public class GameDisplay extends JPanel {
     }
 
     public Cellule getClickedCellule() {
-
+        return null;
     }
 
 

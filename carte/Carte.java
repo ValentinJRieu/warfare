@@ -6,6 +6,7 @@ import wargame.affichage.PanneauJeu;
 import wargame.soldats.Heros;
 import wargame.soldats.Soldat;
 
+import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Map;
@@ -194,6 +195,10 @@ public class Carte implements ICarte, IConfig {
 		return carte.get(pos.toString()).getHeros();
 	}
 
+	@Override public boolean deplaceSoldat(Position pos, Soldat soldat) {
+		return false;
+	}
+
 	/*
 	 * On fait mourir un soldat
 	 * */
@@ -201,12 +206,20 @@ public class Carte implements ICarte, IConfig {
 		//perso.meurt();
 	}
 
+	@Override public void action(Cellule cible) {
+
+	}
+
+	@Override public void toutDessiner(Graphics g) {
+
+	}
+
 	/*
 	 * retourne l'action à réaliser entre la cellule active et la cellule cible
 	 *
 	 * en fonction de l'état de la cellule active, l'action diffère.
 	 * */
-	@Override public void action(Position cible) {
+	public void action(Position cible) {
 		Cellule celluleCible = carte.get(cible.toString());
 		if(!hasActif()) {
 			System.err.println("nouvel actif");
@@ -228,7 +241,7 @@ public class Carte implements ICarte, IConfig {
 			return;
 		}
 
-		if(!aPorteeDeSoldat()) {
+		if(!aPorteeDeSoldat(celluleCible)) {
 			System.err.println("Cible trop éloignée pour déplacement : nouvel actif");
 			this.active = celluleCible;
 			return;
@@ -287,7 +300,7 @@ public class Carte implements ICarte, IConfig {
 
 		terrain = this.active.getTerrain().toString();
 
-		return new String[2] {soldat, terrain};
+		return new String[] {soldat, terrain};
 	}
 
 
