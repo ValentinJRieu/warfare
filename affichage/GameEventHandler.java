@@ -4,13 +4,15 @@ import javax.swing.event.MouseInputListener;
 import java.awt.event.*;
 import java.util.HashSet;
 import java.util.Set;
+import wargame.carte.Carte;
+import wargame.carte.Position;
 
 public class GameEventHandler implements MouseMotionListener, MouseWheelListener, MouseInputListener, KeyListener {
-    Game game;
+    GameDisplay gameDisplay;
     RCPosition oldOvered;
     private final Set<Integer> pressed = new HashSet<Integer>();
-    GameEventHandler(Game game){
-        this.game = game;
+    GameEventHandler(GameDisplay gameDisplay){
+        this.gameDisplay = gameDisplay;
     }
     /**
      * Invoked when a key has been typed.
@@ -35,13 +37,13 @@ public class GameEventHandler implements MouseMotionListener, MouseWheelListener
     public void keyPressed(KeyEvent e) {
         pressed.add(e.getKeyCode());
         if(pressed.contains(KeyEvent.VK_UP))
-            game.up();
+            gameDisplay.up();
         if(pressed.contains(KeyEvent.VK_DOWN))
-            game.down();
+            gameDisplay.down();
         if(pressed.contains(KeyEvent.VK_RIGHT))
-            game.right();
+            gameDisplay.right();
         if(pressed.contains(KeyEvent.VK_LEFT))
-            game.left();
+            gameDisplay.left();
 
     }
 
@@ -66,9 +68,9 @@ public class GameEventHandler implements MouseMotionListener, MouseWheelListener
     @Override
     public void mouseClicked(MouseEvent e) {
         if(e.getButton() == MouseEvent.BUTTON1)
-            System.out.println(game.getIJFromXY(e.getX(), e.getY()));
+             gameDisplay.getCarte().action(gameDisplay.getIJFromXY(e.getX(), e.getY()));
         if(e.getButton() == MouseEvent.BUTTON3)
-            System.out.println(game.getiStart() + " " + game.getiEnd() + " " + game.getjStart() + " " + game.getjEnd());
+            gameDisplay.getCarte().rendInactif();
     }
 
     /**
@@ -99,7 +101,7 @@ public class GameEventHandler implements MouseMotionListener, MouseWheelListener
      */
     @Override
     public void mouseEntered(MouseEvent e) {
-        game.requestFocus();
+        gameDisplay.requestFocus();
     }
 
     /**
@@ -138,8 +140,8 @@ public class GameEventHandler implements MouseMotionListener, MouseWheelListener
      */
     @Override
     public void mouseMoved(MouseEvent e) {
-        game.overedCase = game.getIJFromXY(e.getX(),e.getY());
-        game.repaint();
+        gameDisplay.overedCase = gameDisplay.getIJFromXY(e.getX(),e.getY());
+        gameDisplay.repaint();
     }
 
     /**
@@ -151,9 +153,9 @@ public class GameEventHandler implements MouseMotionListener, MouseWheelListener
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
         if(e.getWheelRotation()<0){
-            game.zoom();
+            gameDisplay.zoom();
         }else{
-            game.deZoom();
+            gameDisplay.deZoom();
         }
     }
 }
