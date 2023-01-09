@@ -5,7 +5,7 @@ import java.awt.*;
 
 public class GameWindow extends JPanel {
     public JFrame frame;
-    public Game game;
+    public GameDisplay gameDisplay;
 
     public GameSideBar gsb;
 
@@ -20,13 +20,13 @@ public class GameWindow extends JPanel {
         frame.setContentPane(this);
         frame.pack();
         setBackground(Color.black);
-        game = new Game(this);
+        gameDisplay = new GameDisplay(this);
         gsb = new GameSideBar(this);
         gdb = new GameDownBar(this);
         setMaximumSize(new Dimension(frame.getWidth(),frame.getHeight()));
         setLayout(new BorderLayout());
         //------Plateau de jeu------//
-        add(game,BorderLayout.CENTER);
+        add(gameDisplay,BorderLayout.CENTER);
         //--------------------------//
 
         //-------Barre du coté------//
@@ -47,7 +47,7 @@ public class GameWindow extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         gsb.paintComponent(g);
-        game.paintComponents(g);
+        gameDisplay.paintComponents(g);
         gdb.paintComponents(g);
         mm.paintComponent(g);
 

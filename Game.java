@@ -3,6 +3,7 @@ package wargame;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import wargame.affichage.GameDisplay;
 import wargame.carte.Carte;
 import wargame.soldats.Heros;
 import wargame.soldats.Monstres;
@@ -39,4 +40,7 @@ public class Game {
 
 	}
 
+	public Carte getCarte() {
+		return map;
+	}
 }

@@ -1,14 +1,15 @@
 package wargame.affichage;
 
+import wargame.Game;
 import wargame.carte.Carte;
+import wargame.carte.Cellule;
 import wargame.carte.Terrain;
 
-import javax.print.attribute.standard.JobState;
 import javax.swing.*;
 import java.awt.*;
 import java.io.FileNotFoundException;
 
-public class Game extends JPanel {
+public class GameDisplay extends JPanel {
 
     CaseTable ct;
     Dimension ctDim;
@@ -17,6 +18,8 @@ public class Game extends JPanel {
     private int iEnd;
     private int jEnd;
     private int radius;
+
+    private Game game;
     public GameWindow parent;
 
     public RCPosition overedCase;
@@ -27,7 +30,8 @@ public class Game extends JPanel {
      *
      * @param parent la fenêtre actuelle
      */
-    Game(GameWindow parent) {
+    GameDisplay(GameWindow parent) {
+        game = new Game();
         Dimension dim = new Dimension(parent.getWidth() * 8 / 10, parent.getHeight() * 9 / 10);
         ctDim = new Dimension(25, 12);
         jStart = ctDim.width - 10;
@@ -73,6 +77,10 @@ public class Game extends JPanel {
             g2.setColor(Color.WHITE);
             g2.draw(CaseTable.createHexagon(new RCPosition(overedCase.getX() - iStart, overedCase.getY() - jStart), radius / 2));
         }
+    }
+
+    public Cellule getClickedCellule() {
+
     }
 
 
@@ -281,5 +289,9 @@ public class Game extends JPanel {
         jStart = j - jSize / 2;
         jEnd = j + jSize / 2;
         parent.frame.repaint();
+    }
+
+    public Carte getCarte() {
+        return game.getCarte();
     }
 }

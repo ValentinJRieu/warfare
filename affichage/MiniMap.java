@@ -3,15 +3,13 @@ package wargame.affichage;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 public class MiniMap extends JPanel {
     public GameSideBar parent;
-    public Game game;
+    public GameDisplay gameDisplay;
 
     public BufferedImage background;
 
@@ -24,7 +22,7 @@ public class MiniMap extends JPanel {
         setMaximumSize(dim);
         setBackground(Color.DARK_GRAY);
         this.parent = parent;
-        game = parent.parent.game;
+        gameDisplay = parent.parent.gameDisplay;
         MiniMapManager mmm = new MiniMapManager(this);
         addMouseListener(mmm);
         addMouseMotionListener(mmm);
@@ -39,7 +37,7 @@ public class MiniMap extends JPanel {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        CaseTable ct = game.ct;
+        CaseTable ct = gameDisplay.ct;
         //System.out.println(getWidth()+"x"+getHeight());
 
         //g2.drawImage(background.getScaledInstance(getWidth(),getHeight(),Image.SCALE_FAST),0,0,null);
@@ -49,7 +47,7 @@ public class MiniMap extends JPanel {
             for (int j = 0; j < ct.columns; j++) {
                 Rectangle r = new Rectangle();
                 r.setRect((double)j*w+(double)(getWidth()/2)-(double)(w*ct.columns/2),(double)i*h+(double)(getHeight()/2)-(double)(h* ct.rows/2),w,h);
-                if(((i == game.getiStart() || i == game.getiEnd()) && j >= game.getjStart() && j <= game.getjEnd()) || ((i >= game.getiStart() && i <= game.getiEnd() && (j == game.getjStart() || j == game.getjEnd())))){
+                if(((i == gameDisplay.getiStart() || i == gameDisplay.getiEnd()) && j >= gameDisplay.getjStart() && j <= gameDisplay.getjEnd()) || ((i >= gameDisplay.getiStart() && i <= gameDisplay.getiEnd() && (j == gameDisplay.getjStart() || j == gameDisplay.getjEnd())))){
                     g2.setColor(Color.WHITE);
                 }else{
                     g2.setColor(ct.getTerrain(j,i).getImage());
