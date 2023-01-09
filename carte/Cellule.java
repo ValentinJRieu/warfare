@@ -168,6 +168,10 @@ public class Cellule {
 
 	public boolean hasSoldat() { return hasMonstre() || hasHeros(); }
 
+	public Soldat getSoldat() {
+		if(hasMonstre()) return this.monstre;
+		return this.heros;
+	}
 
 	public boolean getEstVisible() {
 		return estVisible;

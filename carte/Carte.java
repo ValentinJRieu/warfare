@@ -16,9 +16,8 @@ import java.util.TreeMap;
 public class Carte implements ICarte, IConfig {
 
 	/* Du coup, une carte serait consideree comme une Map<String, Element>, ou le String est le toString
-	 *  de la position de l'element sur la map*/
+	 *  de la position de l'element sur la map */
 	private final String PATH_TO_MAPS = "data\\maps\\";
-
 	private Map<String, Cellule> carte;
 	private String name;
 	private int largeur;
@@ -207,51 +206,90 @@ public class Carte implements ICarte, IConfig {
 	 *
 	 * en fonction de l'état de la cellule active, l'action diffère.
 	 * */
-	@Override public void action(Cellule cible) {
+	@Override public void action(Position cible) {
+		Cellule celluleCible = carte.get(cible.toString());
 		if(!hasActif()) {
 			System.err.println("nouvel actif");
-			this.active = cible;
+			this.active = celluleCible;
+			return;
+		}
+		if(this.active.estInfranchissable()) {
+			System.err.println("actif infranchissable, toute action est par construction impossible. nouvel actif");
+		}
+		if(this.active == celluleCible) {
+			System.err.println("double clic sur cellule : inactif");
+			rendInactif();
+			return;
+		}
+
+		if(!this.active.hasSoldat()) {
+			System.err.println("nouvel actif");
+			this.active = celluleCible;
 			return;
 		}
 
 		if(!aPorteeDeSoldat()) {
 			System.err.println("Cible trop éloignée pour déplacement : nouvel actif");
-			this.active = cible;
+			this.active = celluleCible;
 			return;
 		}
 
-		if(!cible.hasSoldat()) {
+		if(!celluleCible.hasSoldat()) {
 			System.err.println("cible sans soldat");
-			if(cible.estInfranchissable()) {
+			if(celluleCible.estInfranchissable()) {
 				System.err.println("cible infranchissable");
-				this.active = cible;
+				this.active = celluleCible;
 				return;
 			}
 
 			System.err.println("cible accessible, déplacement et actif null");
-			this.active.seDeplace(cible);
-			this.active = null;
+			this.active.seDeplace(celluleCible);
+			rendInactif();
 			return;
 		}
 
 		/* cible a un soldat */
 
-		if(cible.hasHeros()) {
+		if(celluleCible.hasHeros()) {
 			System.err.println("cible a un héros : nouvel actif");
-			this.active = cible;
+			this.active = celluleCible;
 			return;
 		}
 
-		if(this.active.estVoisine(cible)) {
+		if(this.active.estVoisine(celluleCible)) {
 			System.err.println("combat entre deux cellules");
-			this.active.combat(cible);
-			this.active = null;
+			this.active.combat(celluleCible);
+			rendInactif();
 			return;
 		}
 
 		System.err.println("ennemi trop éloigné : nouvel actif");
-		this.active = cible;
+		this.active = celluleCible;
 	}
+
+	public void rendInactif() { this.active = null; }
+
+	/*
+	* retourne des informations concernant la cellule active
+	*
+	* Utilisé pour l'affichage du panel d'informations
+	*
+	 */
+	public String[] afficheActif() {
+		if(!this.hasActif()) return null;
+
+		String soldat;
+		String terrain;
+
+		if(!this.active.hasSoldat()) soldat = null;
+
+		else soldat = this.active.getSoldat().toString();
+
+		terrain = this.active.getTerrain().toString();
+
+		return new String[2] {soldat, terrain};
+	}
+
 
 	public boolean aPorteeDeSoldat(Cellule cible) {
 		return true;
