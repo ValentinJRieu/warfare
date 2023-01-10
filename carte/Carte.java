@@ -459,8 +459,6 @@ public class Carte implements ICarte, IConfig {
 	/**
 	 *	retourne des informations concernant la cellule active
 	 *
-	 * @param void
-	 *
 	 * @return {@link String}[] informations de la cellule active
 	 * @return null si pas de cellule active
 	 */
@@ -496,8 +494,8 @@ public class Carte implements ICarte, IConfig {
 	}
 
 	public HashMap<String, Integer> listeDeplacementAux(Cellule c, int deplacementDispo) {
-		if(deplacementDispo < c.getTerrain().getCoutDeplacement()) return null;
-		if(c.estInfranchissable()) return null;
+		if(c==null || deplacementDispo < c.getTerrain().getCoutDeplacement()) return new HashMap<>();
+		if(c.estInfranchissable()) return new HashMap<>();
 		deplacementDispo -= c.getTerrain().getCoutDeplacement();
 
 		HashMap<String, Integer> cellules = new HashMap<>();
@@ -549,7 +547,7 @@ public class Carte implements ICarte, IConfig {
 	}
 
 	public void actualiseSpawnChateau(Cellule c, Integer deplacementDispo) {
-		if (c == null || c.estInfranchissable()) {
+		if (c == null || c.estInfranchissable() || deplacementDispo == 0) {
 			return;
 		}
 		deplacementDispo --;
@@ -579,7 +577,7 @@ public class Carte implements ICarte, IConfig {
 	}
 
 	public void actualiseSpawnDonjons(Cellule c, Integer deplacementDispo) {
-		if (c == null || c.estInfranchissable()) {
+		if (c == null || c.estInfranchissable() || deplacementDispo == 0) {
 			return;
 		}
 		deplacementDispo --;
@@ -616,8 +614,6 @@ public class Carte implements ICarte, IConfig {
 		Object celluleSpawnMonstres = spawnMonstresDispo[generateur.nextInt(spawnMonstresDispo.length)];
 		String[] typesHeros = {"ELFE", "HOBBIT", "HUMAIN", "NAIN"}; // why not le mettre en global
 		String[] typesMonstres = {"GOBELIN", "ORC", "TROLL"}; // idem
-		System.out.println(celluleSpawnHeros);
-		System.out.println(celluleSpawnMonstres);
 		Cellule herosSpawn = (Cellule) celluleSpawnHeros;
 		Cellule monstreSpawn = (Cellule) celluleSpawnMonstres;
 		herosSpawn.setHeros((Heros) SoldatFactory.getSoldat(typesHeros[generateur.nextInt(typesHeros.length)]));
