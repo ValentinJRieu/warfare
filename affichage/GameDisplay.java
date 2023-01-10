@@ -24,14 +24,6 @@ public class GameDisplay extends JPanel {
 
     private Carte carte;
 
-    private List<Heros> J1;
-
-    private List<Monstres> J2;
-
-    private int tour = 0;
-
-    private boolean estTerminee = false;
-
     public GameWindow parent;
 
     public RCPosition overedCase;
@@ -44,13 +36,13 @@ public class GameDisplay extends JPanel {
      */
     GameDisplay(GameWindow parent) {
         carte = new Carte();
-        J1 = new ArrayList<>();
-        J2 = new ArrayList<>();
+
         try {
             carte.loadCarte("map1.txt");
         } catch(FileNotFoundException e) {
             throw new RuntimeException(e);
         }
+
         Dimension dim = new Dimension(parent.getWidth() * 8 / 10, parent.getHeight() * 9 / 10);
         ctDim = new Dimension(25, 12);
         jStart = ctDim.width - (10 + ctDim.width%2);
@@ -71,11 +63,7 @@ public class GameDisplay extends JPanel {
 
     }
 
-    public void tourSuivant() {
-        tour++;
-        carte.inverseFinTour();
-        carte.inverseTourHeros();
-    }
+
 
     /**
      * Dessine les cases du plateau de jeu automatiquemet
@@ -84,10 +72,7 @@ public class GameDisplay extends JPanel {
      */
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if(carte.isFinTour()) {
-            this.tourSuivant();
 
-        }
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         radius = (int) ((double) getWidth() / (double) (jEnd - jStart - 1) / 0.75);
