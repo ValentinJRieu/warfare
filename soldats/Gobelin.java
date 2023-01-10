@@ -7,7 +7,7 @@ import java.awt.*;
 
 public class Gobelin extends Monstres {
 
-	private static final Color image = Color.DARK_GRAY;
+	private static final Color image = new Color(0, 77, 0);
 
 	public Gobelin() {
 		pointsDeVie = TypesM.GOBELIN.getPoints();
