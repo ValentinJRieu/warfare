@@ -27,7 +27,7 @@ public class MiniMap extends JPanel {
         addMouseListener(mmm);
         addMouseMotionListener(mmm);
         try {
-            background = ImageIO.read(new File("textures/gui/minimap.png"));
+            background = ImageIO.read(new File("resources/textures/gui/minimap.png"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -4,6 +4,8 @@ import javax.swing.event.MouseInputListener;
 import java.awt.event.*;
 import java.util.HashSet;
 import java.util.Set;
+
+import wargame.affichage.events.UpdateInfoEvent;
 import wargame.carte.Carte;
 import wargame.carte.Position;
 
@@ -68,7 +70,10 @@ public class GameEventHandler implements MouseMotionListener, MouseWheelListener
     @Override
     public void mouseClicked(MouseEvent e) {
         if(e.getButton() == MouseEvent.BUTTON1)
-             gameDisplay.getCarte().action(gameDisplay.getIJFromXY(e.getX(), e.getY()));
+        {
+            gameDisplay.getCarte().action(gameDisplay.getIJFromXY(e.getX(), e.getY()));
+            GraphicEventManager.FireEvent("RefreshSideBar",new UpdateInfoEvent(gameDisplay.getCarte()));
+        }
         if(e.getButton() == MouseEvent.BUTTON3)
             gameDisplay.getCarte().rendInactif();
     }

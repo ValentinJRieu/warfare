@@ -294,6 +294,10 @@ public class Carte implements ICarte, IConfig {
 		return false;
 	}
 
+	private boolean aPorteeDeSoldat(Cellule celluleCible) {
+		return false;
+	}
+
 	public void rendInactif() {
 		this.active = null;
 		this.accessible.clear();

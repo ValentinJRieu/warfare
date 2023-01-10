@@ -34,9 +34,9 @@ public class GameDisplay extends JPanel {
         game = new Game();
         Dimension dim = new Dimension(parent.getWidth() * 8 / 10, parent.getHeight() * 9 / 10);
         ctDim = new Dimension(25, 12);
-        jStart = ctDim.width - 10;
+        jStart = ctDim.width - (10 + ctDim.width%2);
         jEnd = ctDim.width;
-        iStart = ctDim.height - 10;
+        iStart = ctDim.height - (10 + ctDim.width%2);
         iEnd = ctDim.height;
         this.setPreferredSize(dim);
         this.setMaximumSize(dim);

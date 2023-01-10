@@ -39,7 +39,11 @@ public class GameWindow extends JPanel {
         setBackground(Color.BLUE);
         frame.pack();
         mm = new MiniMap(gsb);
-        gsb.add(mm,BorderLayout.NORTH);
+        GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.VERTICAL;
+        c.gridx = 0;
+        c.gridy = 0;
+        gsb.add(mm,c);
         frame.pack();
     }
 
