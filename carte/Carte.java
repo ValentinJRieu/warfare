@@ -240,6 +240,7 @@ public class Carte implements ICarte, IConfig {
 	public boolean action(Position cible) {
 		Cellule celluleCible = carte.get(cible.toString());
 		if(this.isTourHeros()) {
+			sout
 			return this.actionHeros(celluleCible);
 		}
 		return this.actionMonstre(celluleCible);
@@ -407,8 +408,8 @@ public class Carte implements ICarte, IConfig {
 
 		/* cible a un soldat */
 
-		if(cible.hasHeros()) {
-			System.err.println("cible a un héros : nouvel actif");
+		if(cible.hasMonstre()) {
+			System.err.println("cible a un monstre : nouvel actif");
 			this.active = cible;
 			this.accessible.clear();
 			this.accessible.putAll(this.porteeSoldat());
@@ -419,7 +420,7 @@ public class Carte implements ICarte, IConfig {
 			System.err.println("combat entre deux cellules");
 			this.active.attaqueCaC(cible);
 			rendInactif();
-			if(cible.getMonstre().estMort()) {
+			if(cible.getHeros().estMort()) {
 				this.faireMourir(cible);
 			}
 			/* TODO : ouvre un panel de sélection d'action */
@@ -625,4 +626,12 @@ public class Carte implements ICarte, IConfig {
 	}
 
 	public int getTour() { return tour; }
+
+	public ArrayList<Heros> getListeHeros() {
+		return listeHeros;
+	}
+
+	public ArrayList<Monstres> getListeMonstres() {
+		return listeMonstres;
+	}
 }
