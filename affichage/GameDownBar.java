@@ -14,6 +14,9 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.*;
 
+/**
+ * le menu d'en bas permettant de terminer son tour et de voir des information de jeu générales
+ */
 public class GameDownBar extends JPanel {
     private JLabel gameInfo;
     private JLabel TourInfo;
@@ -26,6 +29,10 @@ public class GameDownBar extends JPanel {
     private BufferedImage background;
     private Image bgImage;
 
+    /**
+     * Initialise le menu d'en bas permettant de terminer son tour et de voir des information de jeu générales
+     * @param parent
+     */
     public GameDownBar(GameWindow parent) {
         super();
         this.parent = parent;
@@ -40,6 +47,10 @@ public class GameDownBar extends JPanel {
             throw new RuntimeException(e);
         }
         addComponentListener(new ComponentAdapter() {
+            /**
+             * Adapte la taille de l'image à l'écran
+             * @param e L'event
+             */
             @Override
             public void componentResized(ComponentEvent e) {
                 super.componentResized(e);
@@ -111,12 +122,20 @@ public class GameDownBar extends JPanel {
 
 
     }
+
+    /**
+     * Rafraichit les informations afficher par le jeux
+     */
     public void update()
     {
         gameInfo.setText("<html>Nombre de tours : "+ parent.gameDisplay.getCarte().getTour() +"<br>Nombre de Hero restant : "+ parent.gameDisplay.getCarte().getListeHeros().size() +"<br>Nombre de monstres restants : "+ parent.gameDisplay.getCarte().getListeMonstres().size() +"</html>");
         repaint();
     }
 
+    /**
+     * Affiche l'image en arrière plan
+     * @param g les <code>Graphics</code>
+     */
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
