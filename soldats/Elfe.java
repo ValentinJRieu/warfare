@@ -6,13 +6,14 @@ import java.awt.*;
 
 public class Elfe extends Heros{
 
-	private static final Color image = Color.GREEN;
+	private static final Color image = new Color(102, 255, 102);
 	public Elfe() {
 		pointsDeVie = TypesH.ELFE.getPoints();
 		porteeVisuelle = TypesH.ELFE.getPortee();
 		puissance = TypesH.ELFE.getPuissance();
 		tir = TypesH.ELFE.getTir();
 		deplacement = TypesH.ELFE.getDeplacement();
+		deplacementRestant = deplacement;
 	}
 	public Elfe(Position pos) {
 		this();

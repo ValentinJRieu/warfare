@@ -6,7 +6,7 @@ import java.awt.*;
 
 public class Humain extends Heros{
 
-	private static final Color image =  Color.BLUE;
+	private static final Color image =  new Color(255, 153, 153);
 
 	public Humain() {
 		pointsDeVie = TypesH.HUMAIN.getPoints();
@@ -14,6 +14,7 @@ public class Humain extends Heros{
 		puissance = TypesH.HUMAIN.getPuissance();
 		tir = TypesH.HUMAIN.getTir();
 		deplacement = TypesH.HUMAIN.getDeplacement();
+		deplacementRestant = deplacement;
 	}
 
 	public Humain(Position pos) {

@@ -6,6 +6,7 @@ import java.awt.event.*;
 import java.util.HashSet;
 import java.util.Set;
 
+import wargame.carte.Cellule;
 import wargame.event.GameEventManager;
 import wargame.event.events.UpdateInfoEvent;
 import wargame.carte.Carte;
@@ -81,6 +82,10 @@ public class GameEventHandler implements MouseMotionListener, MouseWheelListener
     public void mouseClicked(MouseEvent e) {
         if(e.getButton() == MouseEvent.BUTTON1)
         {
+            Cellule cell = gameDisplay.getCarte().getCellule(gameDisplay.getIJFromXY(e.getX(), e.getY()));
+            if (cell == null) {
+                return;
+            }
             gameDisplay.getCarte().action(gameDisplay.getIJFromXY(e.getX(), e.getY()));
             GameEventManager.FireEvent("RefreshSideBar",new UpdateInfoEvent(gameDisplay.getCarte()));
         }

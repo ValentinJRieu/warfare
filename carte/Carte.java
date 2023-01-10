@@ -265,98 +265,85 @@ public class Carte implements ICarte, IConfig, Serializable {
 	 * </pre>
 	 * */
 	 public boolean actionHeros(Cellule cible) {
-		if(!hasActif()) {
-			System.err.println("nouvel actif");
-			this.active = cible;
-			if(this.active.hasSoldat()) {
-				this.accessible.putAll(this.porteeSoldat());
-			}
+		 if(!hasActif()) {
+			 System.err.println("nouvel actif");
+			 this.active = cible;
+			 if(this.active.hasSoldat()) {
+				 this.accessible.putAll(this.porteeSoldat());
+			 }
+			 return false;
+		 }
 
-			return false;
-		}
+		 if(this.active.estInfranchissable()) {
+			 System.err.println("actif infranchissable, toute action est par construction impossible. nouvel actif");
+			 this.active = cible;
+			 this.accessible.clear();
+			 if(this.active.hasSoldat()) {
+				 this.accessible.putAll(this.porteeSoldat());
+			 }
+			 return false;
+		 }
 
-		if(this.active.estInfranchissable()) {
-			System.err.println("actif infranchissable, toute action est par construction impossible. nouvel actif");
-			this.active = cible;
-			this.accessible.clear();
-			if(this.active.hasSoldat()) {
-				this.accessible.putAll(this.porteeSoldat());
-			}
-			return false;
-		}
+		 if(this.active.equals(cible)) {
+			 System.err.println("double clic sur cellule : inactif");
+			 rendInactif();
+			 return false;
+		 }
 
-		if(this.active.equals(cible)) {
-			System.err.println("double clic sur cellule : inactif");
-			rendInactif();
-			return false;
-		}
+		 if(!this.active.hasSoldat()) {
+			 System.err.println("remplacement de l'actif");
+			 this.active = cible;
+			 this.accessible.clear();
+			 if(this.active.hasSoldat()) this.accessible.putAll(this.porteeSoldat());
+			 return false;
+		 }
 
-		if(!this.active.hasSoldat()) {
-			System.err.println("remplacement de l'actif");
-			this.active = cible;
-			this.accessible.clear();
-			if(this.active.hasSoldat()) this.accessible.putAll(this.porteeSoldat());
-			return false;
-		}
 
-		if(!this.accessible.containsKey(cible.getPos().toString())) {
-			System.err.println("Cible trop éloignée (ou soldat dessus) pour déplacement : nouvel actif");
-			this.active = cible;
-			this.accessible.clear();
-			if(this.active.hasSoldat()) this.accessible.putAll(this.porteeSoldat());
-			return false;
-		}
+		 if(this.accessible.containsKey(cible.getPos().toString())) {
+			 System.err.println("Cible accessible, on se déplace");
+			 this.active.seDeplace(cible);
+			 rendInactif();
+			 return false;
+		 }
+		 if(!cible.hasSoldat()) {
+			 System.err.println("Cible trop éloignée. nouvel actif");
+			 this.active = cible;
+			 this.accessible.clear();
+			 return false;
+		 }
 
-		if(!cible.hasSoldat()) {
-			System.err.println("cible sans soldat");
-			if(cible.estInfranchissable()) {
-				System.err.println("cible infranchissable");
-				this.active = cible;
-				this.accessible.clear();
-				return false;
-			}
+		 if(cible.hasHeros()) {
+			 System.err.println("cible a un heros : nouvel actif");
+			 this.active = cible;
+			 this.accessible.clear();
+			 this.accessible.putAll(this.porteeSoldat());
+			 return false;
+		 }
+		 if (this.active.hasMonstre()) {
+			 System.err.println("un monstre ne peut pas attaquer un monstre, nouvel actif");
+			 this.active = cible;
+			 this.accessible.clear();
+			 this.accessible.putAll(this.porteeSoldat());
+			 return false;
+		 }
 
-			System.err.println("cible accessible, déplacement et actif null");
-			this.active.seDeplace(cible);
-			rendInactif();
-			return false;
-		}
+		 if(this.active.estVoisine(cible)) {
+			 System.err.println("combat entre deux cellules");
+			 this.active.attaqueCaC(cible);
+			 rendInactif();
+			 if(cible.getMonstre().estMort()) {
+				 this.faireMourir(cible);
+			 }
+			 /* TODO : ouvre un panel de sélection d'action */
+			 return true;
+		 }
 
-		/* cible a un soldat */
-
-		if(cible.hasHeros()) {
-			System.err.println("cible a un héros : nouvel actif");
-			this.active = cible;
-			this.accessible.clear();
-			this.accessible.putAll(this.porteeSoldat());
-			return false;
-		}
-
-		if(this.active.estVoisine(cible)) {
-			if(!this.active.getHeros().peutJouer()) {
-				System.err.println("combat impossible : déjà fait changement actif");
-				this.active = cible;
-				this.accessible.clear();
-				this.accessible.putAll(this.porteeSoldat());
-				return false;
-			}
-			System.err.println("combat entre deux cellules");
-			this.active.attaqueCaC(cible);
-			this.active.getHeros().joueTour();
-			rendInactif();
-			if(cible.getMonstre().estMort()) {
-				this.faireMourir(cible);
-			}
-			/* TODO : ouvre un panel de sélection d'action */
-			return true;
-		}
-
-		System.err.println("ennemi trop éloigné : nouvel actif");
-		this.active = cible;
-		this.accessible.clear();
-		this.accessible.putAll(this.porteeSoldat());
-		return false;
-	}
+		 System.err.println("ennemi trop éloigné : nouvel actif");
+		 this.active = cible;
+		 this.accessible.clear();
+		 this.accessible.putAll(this.porteeSoldat());
+		 return false;
+	 }
 
 
 	/**
@@ -401,33 +388,31 @@ public class Carte implements ICarte, IConfig, Serializable {
 			return false;
 		}
 
-		if(!this.accessible.containsKey(cible.getPos().toString())) {
-			System.err.println("Cible trop éloignée (ou soldat dessus) pour déplacement : nouvel actif");
-			this.active = cible;
-			this.accessible.clear();
-			if(this.active.hasSoldat()) this.accessible.putAll(this.porteeSoldat());
-			return false;
-		}
 
-		if(!cible.hasSoldat()) {
-			System.err.println("cible sans soldat");
-			if(cible.estInfranchissable()) {
-				System.err.println("cible infranchissable");
-				this.active = cible;
-				this.accessible.clear();
-				return false;
-			}
-
-			System.err.println("cible accessible, déplacement et actif null");
+		if(this.accessible.containsKey(cible.getPos().toString())) {
+			System.err.println("Cible accessible, on se déplace");
 			this.active.seDeplace(cible);
 			rendInactif();
 			return false;
 		}
-
-		/* cible a un soldat */
+		if(!cible.hasSoldat()) {
+			System.err.println("Cible trop éloignée. nouvel actif");
+			this.active = cible;
+			this.accessible.clear();
+			return false;
+		}
 
 		if(cible.hasMonstre()) {
 			System.err.println("cible a un monstre : nouvel actif");
+			this.active = cible;
+			this.accessible.clear();
+			this.accessible.putAll(this.porteeSoldat());
+			return false;
+		}
+
+
+		if (this.active.hasHeros()) {
+			System.err.println("un heros ne peut pas attaquer un autre hero, nouvel actif");
 			this.active = cible;
 			this.accessible.clear();
 			this.accessible.putAll(this.porteeSoldat());
@@ -449,10 +434,6 @@ public class Carte implements ICarte, IConfig, Serializable {
 		this.active = cible;
 		this.accessible.clear();
 		this.accessible.putAll(this.porteeSoldat());
-		return false;
-	}
-
-	private boolean aPorteeDeSoldat(Cellule celluleCible) {
 		return false;
 	}
 
@@ -517,37 +498,123 @@ public class Carte implements ICarte, IConfig, Serializable {
 		HashMap<String, Integer> cellules = new HashMap<>();
 		int deplacementDispo = active.getSoldat().getDeplacementRestant();
 
-		cellules.putAll(this.listeDeplacementAux(this.active, deplacementDispo));
+		cellules.putAll(this.listeDeplacementAux(this.active, deplacementDispo, this.active));
 		return cellules;
 	}
 
 	public HashMap<String, Integer> listeDeplacementAux(Cellule c, int deplacementDispo) {
-		if(c==null || deplacementDispo < c.getTerrain().getCoutDeplacement()) return new HashMap<>();
-		if(c.estInfranchissable()) return new HashMap<>();
+		if(c==null || deplacementDispo < c.getTerrain().getCoutDeplacement()){
+			return new HashMap<>();
+		}
+		if(c.estInfranchissable()) {
+			return new HashMap<>();
+		}
 		deplacementDispo -= c.getTerrain().getCoutDeplacement();
+
+		if (deplacementDispo <= 0) {
+			return new HashMap<>();
+		}
 
 		HashMap<String, Integer> cellules = new HashMap<>();
 		if(!c.hasSoldat()) {
 			cellules.put(c.getPos().toString(), deplacementDispo);
 		}
 
-		if(c.getNord() != null && this.accessible.containsKey(c.getNord().getPos().toString())) {
-			cellules.putAll(listeDeplacementAux(c.getNord(), deplacementDispo));
+		if(c.getNord() != null) {
+			if (!this.accessible.containsKey(c.getNord().getPos().toString())) {
+				if ( !c.getNord().hasSoldat() && deplacementDispo < c.getNord().getCoutDeplacement()) {
+					cellules.put(c.getNord().getPos().toString(), deplacementDispo - c.getNord().getCoutDeplacement());
+					HashMap<String, Integer> listeDepNord = listeDeplacementAux(c.getNord(), deplacementDispo);
+					if (!listeDepNord.isEmpty()) {
+						cellules.putAll(listeDepNord);
+					}
+				}
+			} else {
+				HashMap<String, Integer> listeDepNord = listeDeplacementAux(c.getNord(), deplacementDispo);
+				if (!listeDepNord.isEmpty()) {
+					cellules.putAll(listeDepNord);
+				}
+			}
 		}
-		if(c.getSud() != null && this.accessible.containsKey(c.getSud().getPos().toString())) {
-			cellules.putAll(listeDeplacementAux(c.getSud(), deplacementDispo));
+		if(c.getSud() != null) {
+			if (!this.accessible.containsKey(c.getSud().getPos().toString())) {
+				if ( !c.getSud().hasSoldat() && deplacementDispo < c.getSud().getCoutDeplacement()) {
+					cellules.put(c.getSud().getPos().toString(), deplacementDispo - c.getSud().getCoutDeplacement());
+					HashMap<String, Integer> listeDepSud = listeDeplacementAux(c.getSud(), deplacementDispo);
+					if (!listeDepSud.isEmpty()) {
+						cellules.putAll(listeDepSud);
+					}
+				}
+			} else {
+				HashMap<String, Integer> listeDepSud = listeDeplacementAux(c.getSud(), deplacementDispo);
+				if (!listeDepSud.isEmpty()) {
+					cellules.putAll(listeDepSud);
+				}
+			}
 		}
-		if(c.getNordEst() != null && this.accessible.containsKey(c.getNordEst().getPos().toString())) {
-			cellules.putAll(listeDeplacementAux(c.getNordEst(), deplacementDispo));
+		if(c.getNordEst() != null) {
+			if (!this.accessible.containsKey(c.getNord().getPos().toString())) {
+				if ( !c.getNordEst().hasSoldat() && deplacementDispo < c.getNordEst().getCoutDeplacement()) {
+					cellules.put(c.getNordEst().getPos().toString(), deplacementDispo - c.getNordEst().getCoutDeplacement());
+					HashMap<String, Integer> listeDepNordEst = listeDeplacementAux(c.getNordEst(), deplacementDispo);
+					if (!listeDepNordEst.isEmpty()) {
+						cellules.putAll(listeDepNordEst);
+					}
+				}
+			} else {
+				HashMap<String, Integer> listeDepNordEst = listeDeplacementAux(c.getNordEst(), deplacementDispo);
+				if (!listeDepNordEst.isEmpty()) {
+					cellules.putAll(listeDepNordEst);
+				}
+			}
 		}
-		if(c.getNordOuest() != null && this.accessible.containsKey(c.getNordOuest().getPos().toString())) {
-			cellules.putAll(listeDeplacementAux(c.getNordOuest(), deplacementDispo));
+		if(c.getNordOuest() != null) {
+			if (!this.accessible.containsKey(c.getNordOuest().getPos().toString())) {
+				if ( !c.getNordOuest().hasSoldat() && deplacementDispo < c.getNordOuest().getCoutDeplacement()) {
+					cellules.put(c.getNordOuest().getPos().toString(), deplacementDispo - c.getNordOuest().getCoutDeplacement());
+					HashMap<String, Integer> listeDepNordOuest = listeDeplacementAux(c.getNordOuest(), deplacementDispo);
+					if (!listeDepNordOuest.isEmpty()) {
+						cellules.putAll(listeDepNordOuest);
+					}
+				}
+			} else {
+				HashMap<String, Integer> listeDepNordOuest = listeDeplacementAux(c.getNordOuest(), deplacementDispo);
+				if (!listeDepNordOuest.isEmpty()) {
+					cellules.putAll(listeDepNordOuest);
+				}
+			}
 		}
-		if(c.getSudEst() != null && this.accessible.containsKey(c.getSudEst().getPos().toString())) {
-			cellules.putAll(listeDeplacementAux(c.getSudEst(), deplacementDispo));
+		if(c.getSudEst() != null) {
+			if (!this.accessible.containsKey(c.getSudEst().getPos().toString())) {
+				if ( !c.getSudEst().hasSoldat() && deplacementDispo < c.getSudEst().getCoutDeplacement()) {
+					cellules.put(c.getSudEst().getPos().toString(), deplacementDispo - c.getSudEst().getCoutDeplacement());
+					HashMap<String, Integer> listeDepSudEst = listeDeplacementAux(c.getSudEst(), deplacementDispo);
+					if (!listeDepSudEst.isEmpty()) {
+						cellules.putAll(listeDepSudEst);
+					}
+				}
+			} else {
+				HashMap<String, Integer> listeDepSudEst = listeDeplacementAux(c.getSudEst(), deplacementDispo);
+				if (!listeDepSudEst.isEmpty()) {
+					cellules.putAll(listeDepSudEst);
+				}
+			}
 		}
-		if(c.getSudOuest() != null && this.accessible.containsKey(c.getSudOuest().getPos().toString())) {
-			cellules.putAll(listeDeplacementAux(c.getSudOuest(), deplacementDispo));
+		if(c.getSudOuest() != null) {
+			if (!this.accessible.containsKey(c.getSudOuest().getPos().toString())) {
+				if ( !c.getSudOuest().hasSoldat() && deplacementDispo < c.getSudOuest().getCoutDeplacement()) {
+					cellules.put(c.getSudOuest().getPos().toString(), deplacementDispo - c.getSudOuest().getCoutDeplacement());
+					HashMap<String, Integer> listeDepSudOuest = listeDeplacementAux(c.getSudOuest(), deplacementDispo);
+					if (!listeDepSudOuest.isEmpty()) {
+						cellules.putAll(listeDepSudOuest);
+					}
+				}
+			} else {
+				HashMap<String, Integer> listeDepSudOuest = listeDeplacementAux(c.getSudOuest(), deplacementDispo);
+				if (!listeDepSudOuest.isEmpty()) {
+					cellules.putAll(listeDepSudOuest);
+				}
+			}
 		}
 		return cellules;
 	}
@@ -644,12 +711,16 @@ public class Carte implements ICarte, IConfig, Serializable {
 		String[] typesMonstres = {"GOBELIN", "ORC", "TROLL"}; // idem
 		Cellule herosSpawn = (Cellule) celluleSpawnHeros;
 		Cellule monstreSpawn = (Cellule) celluleSpawnMonstres;
-		herosSpawn.setHeros((Heros) SoldatFactory.getSoldat(typesHeros[generateur.nextInt(typesHeros.length)]));
-		monstreSpawn.setMonstre((Monstres) SoldatFactory.getSoldat(typesMonstres[generateur.nextInt(typesMonstres.length)]));
-		actualiseSpawnDonjons(donjon, DISTANCE_SPAWN);
-		actualiseSpawnChateau(chateau, DISTANCE_SPAWN);
-		listeHeros.add(herosSpawn.getHeros());
-		listeMonstres.add(monstreSpawn.getMonstre());
+		if(!herosSpawn.hasSoldat()) {
+			herosSpawn.setHeros((Heros) SoldatFactory.getSoldat(typesHeros[generateur.nextInt(typesHeros.length)]));
+			actualiseSpawnDonjons(donjon, DISTANCE_SPAWN);
+			listeHeros.add(herosSpawn.getHeros());
+		}
+		if(!monstreSpawn.hasSoldat()) {
+			monstreSpawn.setMonstre((Monstres) SoldatFactory.getSoldat(typesMonstres[generateur.nextInt(typesMonstres.length)]));
+			actualiseSpawnChateau(chateau, DISTANCE_SPAWN);
+			listeMonstres.add(monstreSpawn.getMonstre());
+		}
 	}
 
 	public void faireMourir(Cellule c) {

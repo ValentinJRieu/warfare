@@ -14,6 +14,7 @@ import java.awt.*;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Le plateau de jeu
@@ -115,23 +116,30 @@ public class GameDisplay extends JPanel {
 
     /**
      * Renvoie la couleur de la case donnée en paramètre
-     * @param overedCase la case
+     * @param hoveredCase la case
      * @return <code>Color</code> - la couleur de la case
      */
-    private Color getColorFromActiveDistance(RCPosition overedCase) {
+    private Color getColorFromActiveDistance(RCPosition hoveredCase) {
         Cellule active = carte.actif();
-        Cellule overed = carte.getCellule(overedCase);
-        if (overed == null) {
+        Cellule hovered = carte.getCellule(hoveredCase);
+        if (hovered == null) {
             return Color.BLACK;
         }
         if (active == null) {
             return Color.WHITE;
         }
-        if (active.getSoldat() == null) {
-            if (carte.getAccessible().get(overed.getPos()) == null) {
+        if (active.getSoldat() != null) {
+            Map<String, Integer> accessible = carte.getAccessible();
+            if (accessible == null || accessible.isEmpty()) {
                 return Color.red;
             }
-            return Color.green;
+            Integer integer = accessible.get(hovered.getPos());
+            int deplacementRestant = active.getSoldat().getDeplacementRestant();
+
+            if (integer != null && integer < deplacementRestant) {
+                return Color.green;
+            }
+            return Color.red;
         }
         return Color.WHITE;
     }

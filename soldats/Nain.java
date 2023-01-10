@@ -6,7 +6,7 @@ import java.awt.*;
 
 public class Nain extends Heros{
 
-	private static final Color image = Color.GRAY;
+	private static final Color image = new Color(255, 102, 0);
 
 
 	public Nain() {
@@ -15,6 +15,7 @@ public class Nain extends Heros{
 		puissance = TypesH.NAIN.getPuissance();
 		tir = TypesH.NAIN.getTir();
 		deplacement = TypesH.NAIN.getDeplacement();
+		deplacementRestant = deplacement;
 	}
 	public Nain(Position pos) {
 		this();
