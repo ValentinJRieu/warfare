@@ -5,7 +5,11 @@ import wargame.carte.types.*;
 import java.io.Serializable;
 
 public class TerrainFactory implements Serializable {
-
+	/**
+	 * Renvoie un terrain dont le type correspond au string attaché
+	 * @param terrainTypeStr le type terrain
+	 * @return <code>Terrain</code> - le terrain généré
+	 */
 	public static Terrain getTerrain(String terrainTypeStr) {
 		if (terrainTypeStr == null) {
 			return null;

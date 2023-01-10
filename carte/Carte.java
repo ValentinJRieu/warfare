@@ -65,6 +65,10 @@ public class Carte implements ICarte, IConfig, Serializable {
 		}
 	}
 
+	/**
+	 * Charge la carte passée en paramètre
+	 * @param path le chemin d'accès au fichier (dans un dossier spécifié)
+	 */
 
 	public void loadCarte(String path) throws FileNotFoundException {
 		System.err.println(PATH_TO_MAPS + path);
@@ -227,7 +231,7 @@ public class Carte implements ICarte, IConfig, Serializable {
 	}
 
 	/**
-	 * parcoure la carte pour touver un heros
+	 * parcour la carte pour touver un heros
 	 * */
 	@Override public Heros trouveHeros() {
 		for(Map.Entry<String, Cellule> entry : carte.entrySet()) {
@@ -504,6 +508,15 @@ public class Carte implements ICarte, IConfig, Serializable {
 		return cellules;
 	}
 
+	/**
+	 * retourne une hashmap des cases accessibles depuis la cellule c, en comptant les coup de déplacement, récursif
+	 *
+	 * @param c la cellule actuelle
+	 * @param deplacementDispo le deplacement restant
+	 * @return {@link HashMap} liste des cellules accessibles depuis c
+	 * </pre>
+	 * */
+
 	public HashMap<String, Integer> listeDeplacementAux(Cellule c, int deplacementDispo) {
 		if(c==null || deplacementDispo < c.getTerrain().getCoutDeplacement()){
 			return new HashMap<>();
@@ -644,6 +657,10 @@ public class Carte implements ICarte, IConfig, Serializable {
 		return this.accessible;
 	}
 
+	/**
+	 * Actualise la hashmap des cases accessibles au spawn depuis le chateau
+	 * */
+
 	public void actualiseSpawnChateau(Cellule c, Integer deplacementDispo) {
 		if (c == null || c.estInfranchissable() || deplacementDispo == 0) {
 			return;
@@ -674,6 +691,10 @@ public class Carte implements ICarte, IConfig, Serializable {
 		}
 	}
 
+	/**
+	 * Actualise la hashmap des cases accessibles au spawn depuis le donjon
+	 * */
+
 	public void actualiseSpawnDonjons(Cellule c, Integer deplacementDispo) {
 		if (c == null || c.estInfranchissable() || deplacementDispo == 0) {
 			return;
@@ -703,6 +724,10 @@ public class Carte implements ICarte, IConfig, Serializable {
 			actualiseSpawnDonjons(c.getSudOuest(), deplacementDispo);
 		}
 	}
+
+	/**
+	 * Spawn des soldats et actualise la hashmap des cases accessibles au spawn depuis le chateau
+	 * */
 
 	public void spawnSoldats() {
 		Random generateur = new Random();
