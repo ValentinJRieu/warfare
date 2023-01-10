@@ -103,8 +103,10 @@ public class GameDisplay extends JPanel {
             }
             Integer integer = accessible.get(overed.getPos());
             int deplacementRestant = active.getSoldat().getDeplacementRestant();
-            if (integer < deplacementRestant) {
-                return Color.green;
+            if (integer != null) {
+                if (integer < deplacementRestant) {
+                    return Color.green;
+                }
             }
             return Color.red;
         }

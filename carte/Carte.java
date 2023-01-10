@@ -499,32 +499,118 @@ public class Carte implements ICarte, IConfig {
 	}
 
 	public HashMap<String, Integer> listeDeplacementAux(Cellule c, int deplacementDispo) {
-		if(c==null || deplacementDispo < c.getTerrain().getCoutDeplacement()) return new HashMap<>();
-		if(c.estInfranchissable()) return new HashMap<>();
+		if(c==null || deplacementDispo < c.getTerrain().getCoutDeplacement()){
+			return new HashMap<>();
+		}
+		if(c.estInfranchissable()) {
+			return new HashMap<>();
+		}
 		deplacementDispo -= c.getTerrain().getCoutDeplacement();
+
+		if (deplacementDispo <= 0) {
+			return new HashMap<>();
+		}
 
 		HashMap<String, Integer> cellules = new HashMap<>();
 		if(!c.hasSoldat()) {
 			cellules.put(c.getPos().toString(), deplacementDispo);
 		}
 
-		if(c.getNord() != null && !this.accessible.containsKey(c.getNord().getPos().toString())) {
-			cellules.putAll(listeDeplacementAux(c.getNord(), deplacementDispo));
+		if(c.getNord() != null) {
+			if (!this.accessible.containsKey(c.getNord().getPos().toString())) {
+				if ( !c.getNord().hasSoldat() && deplacementDispo < c.getNord().getCoutDeplacement()) {
+					cellules.put(c.getNord().getPos().toString(), deplacementDispo - c.getNord().getCoutDeplacement());
+					HashMap<String, Integer> listeDepNord = listeDeplacementAux(c.getNord(), deplacementDispo);
+					if (!listeDepNord.isEmpty()) {
+						cellules.putAll(listeDepNord);
+					}
+				}
+			} else {
+				HashMap<String, Integer> listeDepNord = listeDeplacementAux(c.getNord(), deplacementDispo);
+				if (!listeDepNord.isEmpty()) {
+					cellules.putAll(listeDepNord);
+				}
+			}
 		}
-		if(c.getSud() != null && !this.accessible.containsKey(c.getSud().getPos().toString())) {
-			cellules.putAll(listeDeplacementAux(c.getSud(), deplacementDispo));
+		if(c.getSud() != null) {
+			if (!this.accessible.containsKey(c.getSud().getPos().toString())) {
+				if ( !c.getSud().hasSoldat() && deplacementDispo < c.getSud().getCoutDeplacement()) {
+					cellules.put(c.getSud().getPos().toString(), deplacementDispo - c.getSud().getCoutDeplacement());
+					HashMap<String, Integer> listeDepSud = listeDeplacementAux(c.getSud(), deplacementDispo);
+					if (!listeDepSud.isEmpty()) {
+						cellules.putAll(listeDepSud);
+					}
+				}
+			} else {
+				HashMap<String, Integer> listeDepSud = listeDeplacementAux(c.getSud(), deplacementDispo);
+				if (!listeDepSud.isEmpty()) {
+					cellules.putAll(listeDepSud);
+				}
+			}
 		}
-		if(c.getNordEst() != null && !this.accessible.containsKey(c.getNordEst().getPos().toString())) {
-			cellules.putAll(listeDeplacementAux(c.getNordEst(), deplacementDispo));
+		if(c.getNordEst() != null) {
+			if (!this.accessible.containsKey(c.getNord().getPos().toString())) {
+				if ( !c.getNordEst().hasSoldat() && deplacementDispo < c.getNordEst().getCoutDeplacement()) {
+					cellules.put(c.getNordEst().getPos().toString(), deplacementDispo - c.getNordEst().getCoutDeplacement());
+					HashMap<String, Integer> listeDepNordEst = listeDeplacementAux(c.getNordEst(), deplacementDispo);
+					if (!listeDepNordEst.isEmpty()) {
+						cellules.putAll(listeDepNordEst);
+					}
+				}
+			} else {
+				HashMap<String, Integer> listeDepNordEst = listeDeplacementAux(c.getNordEst(), deplacementDispo);
+				if (!listeDepNordEst.isEmpty()) {
+					cellules.putAll(listeDepNordEst);
+				}
+			}
 		}
-		if(c.getNordOuest() != null && !this.accessible.containsKey(c.getNordOuest().getPos().toString())) {
-			cellules.putAll(listeDeplacementAux(c.getNordOuest(), deplacementDispo));
+		if(c.getNordOuest() != null) {
+			if (!this.accessible.containsKey(c.getNordOuest().getPos().toString())) {
+				if ( !c.getNordOuest().hasSoldat() && deplacementDispo < c.getNordOuest().getCoutDeplacement()) {
+					cellules.put(c.getNordOuest().getPos().toString(), deplacementDispo - c.getNordOuest().getCoutDeplacement());
+					HashMap<String, Integer> listeDepNordOuest = listeDeplacementAux(c.getNordOuest(), deplacementDispo);
+					if (!listeDepNordOuest.isEmpty()) {
+						cellules.putAll(listeDepNordOuest);
+					}
+				}
+			} else {
+				HashMap<String, Integer> listeDepNordOuest = listeDeplacementAux(c.getNordOuest(), deplacementDispo);
+				if (!listeDepNordOuest.isEmpty()) {
+					cellules.putAll(listeDepNordOuest);
+				}
+			}
 		}
-		if(c.getSudEst() != null && !this.accessible.containsKey(c.getSudEst().getPos().toString())) {
-			cellules.putAll(listeDeplacementAux(c.getSudEst(), deplacementDispo));
+		if(c.getSudEst() != null) {
+			if (!this.accessible.containsKey(c.getSudEst().getPos().toString())) {
+				if ( !c.getSudEst().hasSoldat() && deplacementDispo < c.getSudEst().getCoutDeplacement()) {
+					cellules.put(c.getSudEst().getPos().toString(), deplacementDispo - c.getSudEst().getCoutDeplacement());
+					HashMap<String, Integer> listeDepSudEst = listeDeplacementAux(c.getSudEst(), deplacementDispo);
+					if (!listeDepSudEst.isEmpty()) {
+						cellules.putAll(listeDepSudEst);
+					}
+				}
+			} else {
+				HashMap<String, Integer> listeDepSudEst = listeDeplacementAux(c.getSudEst(), deplacementDispo);
+				if (!listeDepSudEst.isEmpty()) {
+					cellules.putAll(listeDepSudEst);
+				}
+			}
 		}
-		if(c.getSudOuest() != null && !this.accessible.containsKey(c.getSudOuest().getPos().toString())) {
-			cellules.putAll(listeDeplacementAux(c.getSudOuest(), deplacementDispo));
+		if(c.getSudOuest() != null) {
+			if (!this.accessible.containsKey(c.getSudOuest().getPos().toString())) {
+				if ( !c.getSudOuest().hasSoldat() && deplacementDispo < c.getSudOuest().getCoutDeplacement()) {
+					cellules.put(c.getSudOuest().getPos().toString(), deplacementDispo - c.getSudOuest().getCoutDeplacement());
+					HashMap<String, Integer> listeDepSudOuest = listeDeplacementAux(c.getSudOuest(), deplacementDispo);
+					if (!listeDepSudOuest.isEmpty()) {
+						cellules.putAll(listeDepSudOuest);
+					}
+				}
+			} else {
+				HashMap<String, Integer> listeDepSudOuest = listeDeplacementAux(c.getSudOuest(), deplacementDispo);
+				if (!listeDepSudOuest.isEmpty()) {
+					cellules.putAll(listeDepSudOuest);
+				}
+			}
 		}
 		return cellules;
 	}
