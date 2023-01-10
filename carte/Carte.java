@@ -17,6 +17,9 @@ public class Carte implements ICarte, IConfig {
 	private String name;
 	private int largeur;
 	private int hauteur;
+	private boolean finTour = false;
+
+	private boolean tourHeros = true;
 
 	private Cellule active = null;
 	private Cellule donjon = null;
@@ -68,6 +71,16 @@ public class Carte implements ICarte, IConfig {
 					iWantToBreakFree = true;
 				}
 				Position pos = new Position(i, j);
+				if (i == 2 && j == 2) {
+					carte.put(pos.toString(), new Cellule(pos, TerrainFactory.getTerrain("CHATEAU"))); // C'est le QG des gentils
+					this.chateau = carte.get(pos.toString());
+					continue;
+				}
+				if (i == hauteur-3 && j == largeur-3) {
+					carte.put(pos.toString(), new Cellule(pos, TerrainFactory.getTerrain("DONJON"))); // C'est le QG des méchants
+					this.donjon = carte.get(pos.toString());
+					continue;
+				}
 				switch(c) {
 					case 'P':
 						carte.put(pos.toString(), new Cellule(pos, TerrainFactory.getTerrain("PLAINE")));
@@ -354,5 +367,25 @@ public class Carte implements ICarte, IConfig {
 
 	public Cellule getCellule(Position position) {
 		return carte.get(position.toString());
+	}
+
+	public boolean isFinTour() {
+		return finTour;
+	}
+
+	public void inverseFinTour() {
+		this.finTour = !this.finTour;
+	}
+
+	public boolean isTourHeros() {
+		return tourHeros;
+	}
+
+	public void inverseTourHeros() {
+		this.tourHeros = !this.tourHeros;
+	}
+
+	public void spawnSoldat() {
+		
 	}
 }
