@@ -230,9 +230,16 @@ public class Cellule implements Serializable {
 	}
 
 	public void seDeplace(Cellule cible, int deplacement) {
-		cible.heros = this.heros;
-		this.heros = null;
-		cible.heros.setDeplacementRestant(deplacement);
+		if(monstre == null)
+		{
+			cible.heros = this.heros;
+			cible.heros.setDeplacementRestant(deplacement);
+			this.heros = null;
+		}else{
+			cible.monstre = this.monstre;
+			cible.monstre.setDeplacementRestant(deplacement);
+			this.monstre = null;
+		}
 	}
 
 	public void attaque(Cellule cible, int type) {

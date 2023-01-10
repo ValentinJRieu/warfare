@@ -99,6 +99,10 @@ public class CaseTable {
                     } else {
                         colorSoldat = colorTerrain;
                     }
+                    /*if(!c.getEstVisible()){
+                        colorTerrain = new Color(125,125,125);
+                        colorSoldat = colorTerrain;
+                    }*/
                 } else {
                     colorTerrain = Color.BLACK;
                     colorSoldat = colorTerrain;
