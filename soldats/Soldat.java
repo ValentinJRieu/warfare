@@ -84,6 +84,6 @@ public abstract class Soldat implements ISoldat {
 
     @Override
     public String toString() {
-        return this.getClass().getSimpleName() + " :\n" + this.pointsDeVie + " PV\n" + this.puissance + " DEG\n" + this.tir + " TIR";
+        return this.getClass().getSimpleName().toLowerCase() + " :\n" + this.pointsDeVie + " pv\n" + this.deplacementRestant + "/" + this.deplacement + " dep\n" + this.puissance + " deg\n" + this.tir + " tir";
     }
 }
