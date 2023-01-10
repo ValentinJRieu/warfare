@@ -11,13 +11,15 @@ import java.awt.event.MouseEvent;
 
 public class GameDownBar extends JPanel {
     private JLabel gameInfo;
+    public  GameWindow parent;
     public GameDownBar(GameWindow parent){
         super();
+        this.parent = parent;
         Dimension dim = new Dimension(parent.getWidth() * 9/10, parent.getHeight() * 1/10);
         this.setPreferredSize(dim);
         this.setMaximumSize(dim);
         JButton b1 = new JButton("Fin tour (t)");
-        gameInfo = new JLabel("<html>Nombre de tours : 0<br>Nombre de soldat restant : 0<br>Nombre de Hero restant : 0<br>Nombre d'ennemis restants : 0</html>");
+        gameInfo = new JLabel("<html>Nombre de tours : 0<br>Nombre de Hero restant : 0<br>Nombre d'ennemis restants : 0</html>");
         add(b1);
         add(gameInfo);
         b1.addMouseListener(new MouseAdapter() {
@@ -43,7 +45,7 @@ public class GameDownBar extends JPanel {
     }
     public void update()
     {
-        gameInfo.setText("<html>Nombre de tours : "+0+"<br>Nombre de soldat restant : "+0+"<br>Nombre de Hero restant : "+0+"<br>Nombre d'ennemis restants : "+0+"</html>");
+        gameInfo.setText("<html>Nombre de tours : "+ parent.gameDisplay.getCarte().getTour() +"<br>Nombre de Hero restant : "+ parent.gameDisplay.getCarte().getListeHeros().size() +"<br>Nombre d'ennemis restants : "+ parent.gameDisplay.getCarte().getListeMonstres().size() +"</html>");
         repaint();
     }
 }

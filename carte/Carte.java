@@ -240,7 +240,6 @@ public class Carte implements ICarte, IConfig {
 	public boolean action(Position cible) {
 		Cellule celluleCible = carte.get(cible.toString());
 		if(this.isTourHeros()) {
-			sout
 			return this.actionHeros(celluleCible);
 		}
 		return this.actionMonstre(celluleCible);
