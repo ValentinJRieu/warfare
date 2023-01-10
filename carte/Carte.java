@@ -4,6 +4,7 @@ import wargame.ICarte;
 import wargame.IConfig;
 import wargame.soldats.Heros;
 import wargame.soldats.Monstres;
+import wargame.soldats.Soldat;
 import wargame.soldats.SoldatFactory;
 
 import java.awt.*;
@@ -450,10 +451,26 @@ public class Carte implements ICarte, IConfig {
 
 	public void finTour() {
 		tour++;
+
+		if(isTourHeros()) {
+			for(Heros h : listeHeros) {
+				h.resetDeplacement();
+				h.resetPeutJouer();
+			}
+		}
+		else {
+
+			for (Monstres m : listeMonstres) {
+				m.resetDeplacement();
+				m.resetPeutJouer();
+			}
+		}
+
 		this.inverseTourHeros();
 		if(tour % 10 == 0) {
 			this.spawnSoldats();
 		}
+		rendInactif();
 	}
 
 	public void rendInactif() {
