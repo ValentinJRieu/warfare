@@ -19,11 +19,15 @@ public class Carte implements ICarte, IConfig {
 	private int hauteur;
 
 	private Cellule active = null;
+	private Cellule donjon = null;
+	private Cellule chateau = null;
 
 	private HashMap<String, Integer> accessible;
 
 
 
+	private HashMap<String, Cellule> spawnDonjons, spawnChateau;
+	private static final int DISTANCE_SPAWN = 3;
 	public Carte() {
 		carte = new TreeMap<>();
 		accessible = new HashMap<>();
