@@ -76,12 +76,12 @@ public class Cellule {
 
 	public boolean estVoisine(Cellule c) {
 
-		return this.nord.equals(c)
-				|| this.sud.equals(c)
-				|| this.nordEst.equals(c)
-				|| this.nordOuest.equals(c)
-				|| this.sudEst.equals(c)
-				|| this.sudOuest.equals(c);
+		return (this.nord != null && this.nord.equals(c))
+				|| (this.sud != null && this.sud.equals(c))
+				|| (this.nordEst != null && this.nordEst.equals(c))
+				|| (this.nordOuest != null && this.nordOuest.equals(c))
+				|| (this.sudEst != null && this.sudEst.equals(c))
+				|| (this.sudOuest != null && this.sudOuest.equals(c));
 	}
 
 	public Cellule getNord() {

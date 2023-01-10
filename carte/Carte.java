@@ -320,6 +320,13 @@ public class Carte implements ICarte, IConfig {
 			 this.accessible.putAll(this.porteeSoldat());
 			 return false;
 		 }
+		 if (this.active.hasMonstre()) {
+			 System.err.println("un monstre ne peut pas attaquer un monstre, nouvel actif");
+			 this.active = cible;
+			 this.accessible.clear();
+			 this.accessible.putAll(this.porteeSoldat());
+			 return false;
+		 }
 
 		 if(this.active.estVoisine(cible)) {
 			 System.err.println("combat entre deux cellules");
@@ -398,6 +405,15 @@ public class Carte implements ICarte, IConfig {
 
 		if(cible.hasMonstre()) {
 			System.err.println("cible a un monstre : nouvel actif");
+			this.active = cible;
+			this.accessible.clear();
+			this.accessible.putAll(this.porteeSoldat());
+			return false;
+		}
+
+
+		if (this.active.hasHeros()) {
+			System.err.println("un heros ne peut pas attaquer un autre hero, nouvel actif");
 			this.active = cible;
 			this.accessible.clear();
 			this.accessible.putAll(this.porteeSoldat());

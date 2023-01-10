@@ -102,13 +102,13 @@ public class GameDisplay extends JPanel {
 
     /**
      * Renvoie la couleur de la case donnée en paramètre
-     * @param overedCase la case
+     * @param hoveredCase la case
      * @return <code>Color</code> - la couleur de la case
      */
-    private Color getColorFromActiveDistance(RCPosition overedCase) {
+    private Color getColorFromActiveDistance(RCPosition hoveredCase) {
         Cellule active = carte.actif();
-        Cellule overed = carte.getCellule(overedCase);
-        if (overed == null) {
+        Cellule hovered = carte.getCellule(hoveredCase);
+        if (hovered == null) {
             return Color.BLACK;
         }
         if (active == null) {
@@ -119,9 +119,10 @@ public class GameDisplay extends JPanel {
             if (accessible == null || accessible.isEmpty()) {
                 return Color.red;
             }
-            Integer integer = accessible.get(overed.getPos());
+            Integer integer = accessible.get(hovered.getPos());
             int deplacementRestant = active.getSoldat().getDeplacementRestant();
-            if (integer < deplacementRestant) {
+
+            if (integer != null && integer < deplacementRestant) {
                 return Color.green;
             }
             return Color.red;

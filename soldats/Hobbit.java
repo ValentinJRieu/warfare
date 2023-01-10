@@ -6,7 +6,7 @@ import java.awt.*;
 
 public class Hobbit extends Heros{
 
-	private static final Color image = Color.BLACK ;
+	private static final Color image = Color.BLACK;
 
 	public Hobbit() {
 		pointsDeVie = TypesH.HOBBIT.getPoints();
