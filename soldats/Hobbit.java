@@ -17,12 +17,11 @@ public class Hobbit extends Heros{
 		deplacement = TypesH.HOBBIT.getDeplacement();
 		deplacementRestant = deplacement;
 	}
+
 	public Hobbit(Position pos) {
 		this();
 		this.position = pos;
 	}
-
-
 
 	@Override
 	public Color getImage() {
