@@ -5,7 +5,7 @@ import java.awt.*;
 
 public class Tests {
     public static void main(String[] args){
-        JFrame frame = new JFrame("WAR GAME");
+        JFrame frame = new JFrame("La Bagarre");
         frame.setVisible(true);
         frame.setPreferredSize(new Dimension(Option.WIDTH,Option.HEIGHT));
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

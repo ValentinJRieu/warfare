@@ -6,31 +6,99 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.awt.image.ImageProducer;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.net.URL;
 
 public class MainMenu extends JPanel {
-    MainMenu(JFrame frame){
+    private Font font,titleFont;
+    MainMenu(JFrame frame) {
         frame.setContentPane(this);
         setPreferredSize(new Dimension(Option.WIDTH,Option.HEIGHT));
-        setBackground(new Color(255,100,50));
-        JButton newButton = new JButton("NEW");
-        JButton loadButton = new JButton("LOAD");
-        JButton settingsButton = new JButton("SETTINGS");
+        setBackground(new Color(100,100,100));
+        GraphicsEnvironment genv = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        try
+        {
+            InputStream myStream = new BufferedInputStream(new FileInputStream("resources/fonts/MainMenu.ttf"));
+            font = Font.createFont(Font.TRUETYPE_FONT, myStream).deriveFont(Font.PLAIN, 72);
+            genv.registerFont(font);
+            myStream = new BufferedInputStream(new FileInputStream("resources/fonts/Title.ttf"));
+            titleFont = Font.createFont(Font.TRUETYPE_FONT, myStream).deriveFont(Font.PLAIN, 256);
+            genv.registerFont(font);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (FontFormatException e) {
+            throw new RuntimeException(e);
+        }
+
+        JLabel Title = new JLabel("La Bagarre");
+        Title.setFont(titleFont);
+        Title.setForeground(new Color(194, 187, 143));
+
+        JButton newButton = new JButton("Nouvelle Partie");
+        newButton.setFont(font);
+        newButton.setBackground(new Color(50,50,50));
+        newButton.setForeground(Color.WHITE);
+
+        JButton loadButton = new JButton("Charger Partie");
+        loadButton.setFont(font);
+        loadButton.setBackground(new Color(50,50,50));
+        loadButton.setForeground(Color.WHITE);
+
+        JButton settingsButton = new JButton("Options");
+        settingsButton.setFont(font);
+        settingsButton.setBackground(new Color(50,50,50));
+        settingsButton.setForeground(Color.WHITE);
         SettingsOpener sBo = new SettingsOpener(frame);
         GameStarter gs = new GameStarter(frame);
         settingsButton.addMouseListener(sBo);
         newButton.addMouseListener(gs);
-        this.add(newButton);
-        this.add(loadButton);
-        this.add(settingsButton);
+        setLayout(new GridBagLayout());
+
+
+        GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.VERTICAL;
+
+        c.gridy = 0;
+        c.gridx = 0;
+        c.weightx = 1;
+        c.weighty = 1;
+        c.insets = new Insets(0,10,0,10);
+        c.gridwidth = 2;
+        this.add(Title,c);
+
+        c.fill = GridBagConstraints.HORIZONTAL;
+
+        c.gridy = 1;
+        c.gridx = 0;
+        c.weightx = 0.4;
+        c.weighty = 1;
+        c.insets = new Insets(0,10,0,10);
+        this.add(newButton,c);
+
+        c.gridy = 2;
+        c.gridx = 0;
+        c.weightx = 0.4;
+        c.weighty = 1;
+        c.insets = new Insets(0,10,0,10);
+        this.add(loadButton,c);
+
+        c.gridy = 3;
+        c.gridx = 0;
+        c.weightx = 1;
+        c.weighty = 1;
+        c.gridwidth = 2;
+        c.insets = new Insets(0,10,0,10);
+        this.add(settingsButton,c);
+
         frame.pack();
     }
     /*public void paintComponent(Graphics g) {
         super.paintComponent(g);
         try {
             g.setClip(CaseTable.createHexagon(new Point(200,200),50));
-            BufferedImage ig = ImageIO.read(new File("C:\\Users\\NicoAngel\\IdeaProjects\\warfare\\textures\\terrain\\grass_1.png"));
+            BufferedImage ig = ImageIO.read(new File("resources/textures/terrain/grass_1.png"));
             TexturePaint tp = new TexturePaint(ig,new Rectangle(0,0,500, 500));
             Graphics2D g2 = (Graphics2D) g;
             g2.setPaint(tp);
