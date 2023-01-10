@@ -14,7 +14,8 @@ public class Nain extends Heros{
 		porteeVisuelle = TypesH.NAIN.getPortee();
 		puissance = TypesH.NAIN.getPuissance();
 		tir = TypesH.NAIN.getTir();
-		deplacement = TypesH.NAIN.getDeplacement();
+		deplacement = TypesH.NAIN.getDeplacement()*5;
+		deplacementRestant = deplacement;
 	}
 	public Nain(Position pos) {
 		this();

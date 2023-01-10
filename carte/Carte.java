@@ -508,22 +508,22 @@ public class Carte implements ICarte, IConfig {
 			cellules.put(c.getPos().toString(), deplacementDispo);
 		}
 
-		if(c.getNord() != null && this.accessible.containsKey(c.getNord().getPos().toString())) {
+		if(c.getNord() != null && !this.accessible.containsKey(c.getNord().getPos().toString())) {
 			cellules.putAll(listeDeplacementAux(c.getNord(), deplacementDispo));
 		}
-		if(c.getSud() != null && this.accessible.containsKey(c.getSud().getPos().toString())) {
+		if(c.getSud() != null && !this.accessible.containsKey(c.getSud().getPos().toString())) {
 			cellules.putAll(listeDeplacementAux(c.getSud(), deplacementDispo));
 		}
-		if(c.getNordEst() != null && this.accessible.containsKey(c.getNordEst().getPos().toString())) {
+		if(c.getNordEst() != null && !this.accessible.containsKey(c.getNordEst().getPos().toString())) {
 			cellules.putAll(listeDeplacementAux(c.getNordEst(), deplacementDispo));
 		}
-		if(c.getNordOuest() != null && this.accessible.containsKey(c.getNordOuest().getPos().toString())) {
+		if(c.getNordOuest() != null && !this.accessible.containsKey(c.getNordOuest().getPos().toString())) {
 			cellules.putAll(listeDeplacementAux(c.getNordOuest(), deplacementDispo));
 		}
-		if(c.getSudEst() != null && this.accessible.containsKey(c.getSudEst().getPos().toString())) {
+		if(c.getSudEst() != null && !this.accessible.containsKey(c.getSudEst().getPos().toString())) {
 			cellules.putAll(listeDeplacementAux(c.getSudEst(), deplacementDispo));
 		}
-		if(c.getSudOuest() != null && this.accessible.containsKey(c.getSudOuest().getPos().toString())) {
+		if(c.getSudOuest() != null && !this.accessible.containsKey(c.getSudOuest().getPos().toString())) {
 			cellules.putAll(listeDeplacementAux(c.getSudOuest(), deplacementDispo));
 		}
 		return cellules;
