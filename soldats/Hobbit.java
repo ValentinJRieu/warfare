@@ -14,6 +14,7 @@ public class Hobbit extends Heros{
 		puissance = TypesH.HOBBIT.getPuissance();
 		tir = TypesH.HOBBIT.getTir();
 		deplacement = TypesH.HOBBIT.getDeplacement();
+		deplacementRestant = deplacement;
 	}
 	public Hobbit(Position pos) {
 		this();

@@ -13,6 +13,7 @@ public class Troll extends Monstres{
 		puissance = TypesM.TROLL.getPuissance();
 		tir = TypesM.TROLL.getTir();
 		deplacement = TypesM.TROLL.getDeplacement();
+		deplacementRestant = deplacement;
 	}
 	public Troll(Position pos) {
 		this();

@@ -13,6 +13,7 @@ public class Elfe extends Heros{
 		puissance = TypesH.ELFE.getPuissance();
 		tir = TypesH.ELFE.getTir();
 		deplacement = TypesH.ELFE.getDeplacement();
+		deplacementRestant = deplacement;
 	}
 	public Elfe(Position pos) {
 		this();

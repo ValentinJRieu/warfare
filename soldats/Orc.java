@@ -12,6 +12,7 @@ public class Orc extends Monstres{
 		puissance = TypesM.ORC.getPuissance();
 		tir = TypesM.ORC.getTir();
 		deplacement = TypesM.ORC.getDeplacement();
+		deplacementRestant = deplacement;
 	}
 	public Orc(Position pos) {
 		this();

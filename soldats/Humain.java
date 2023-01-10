@@ -14,6 +14,7 @@ public class Humain extends Heros{
 		puissance = TypesH.HUMAIN.getPuissance();
 		tir = TypesH.HUMAIN.getTir();
 		deplacement = TypesH.HUMAIN.getDeplacement();
+		deplacementRestant = deplacement;
 	}
 
 	public Humain(Position pos) {
