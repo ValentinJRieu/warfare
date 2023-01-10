@@ -10,7 +10,7 @@ public class Vide extends Terrain implements Infranchissable, Serializable {
 	private static final Color color =  new Color(12, 12, 12);
 
 	public Vide() {
-		this.coutDeplacement = 0;
+		this.bonusDefense = 0;
 		this.coutDeplacement = 0;
 	}
 

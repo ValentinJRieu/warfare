@@ -133,10 +133,7 @@ public class GameDisplay extends JPanel {
             if (accessible == null || accessible.isEmpty()) {
                 return Color.red;
             }
-            Integer integer = accessible.get(hovered.getPos());
-            int deplacementRestant = active.getSoldat().getDeplacementRestant();
-
-            if (integer != null && integer < deplacementRestant) {
+            if (accessible.containsKey(hovered.getPos().toString())) {
                 return Color.green;
             }
             return Color.red;

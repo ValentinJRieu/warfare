@@ -511,21 +511,22 @@ public class Carte implements ICarte, IConfig, Serializable {
 		if(c.estInfranchissable()) {
 			return new HashMap<>();
 		}
-		deplacementDispo -= c.getTerrain().getCoutDeplacement();
-
-		if (deplacementDispo <= 0) {
-			return new HashMap<>();
-		}
 
 		HashMap<String, Integer> cellules = new HashMap<>();
 		if(!c.hasSoldat()) {
 			cellules.put(c.getPos().toString(), deplacementDispo);
 		}
 
+		deplacementDispo -= c.getTerrain().getCoutDeplacement();
+
+		if (deplacementDispo <= 0) {
+			return new HashMap<>();
+		}
+
 		if(c.getNord() != null) {
 			if (!this.accessible.containsKey(c.getNord().getPos().toString())) {
-				if ( !c.getNord().hasSoldat() && deplacementDispo < c.getNord().getCoutDeplacement()) {
-					cellules.put(c.getNord().getPos().toString(), deplacementDispo - c.getNord().getCoutDeplacement());
+				if ( !c.getNord().hasSoldat() && deplacementDispo >= c.getNord().getCoutDeplacement()) {
+					cellules.put(c.getNord().getPos().toString(), deplacementDispo);
 					HashMap<String, Integer> listeDepNord = listeDeplacementAux(c.getNord(), deplacementDispo);
 					if (!listeDepNord.isEmpty()) {
 						cellules.putAll(listeDepNord);
@@ -540,8 +541,8 @@ public class Carte implements ICarte, IConfig, Serializable {
 		}
 		if(c.getSud() != null) {
 			if (!this.accessible.containsKey(c.getSud().getPos().toString())) {
-				if ( !c.getSud().hasSoldat() && deplacementDispo < c.getSud().getCoutDeplacement()) {
-					cellules.put(c.getSud().getPos().toString(), deplacementDispo - c.getSud().getCoutDeplacement());
+				if ( !c.getSud().hasSoldat() && deplacementDispo >= c.getSud().getCoutDeplacement()) {
+					cellules.put(c.getSud().getPos().toString(), deplacementDispo);
 					HashMap<String, Integer> listeDepSud = listeDeplacementAux(c.getSud(), deplacementDispo);
 					if (!listeDepSud.isEmpty()) {
 						cellules.putAll(listeDepSud);
@@ -555,9 +556,9 @@ public class Carte implements ICarte, IConfig, Serializable {
 			}
 		}
 		if(c.getNordEst() != null) {
-			if (!this.accessible.containsKey(c.getNord().getPos().toString())) {
-				if ( !c.getNordEst().hasSoldat() && deplacementDispo < c.getNordEst().getCoutDeplacement()) {
-					cellules.put(c.getNordEst().getPos().toString(), deplacementDispo - c.getNordEst().getCoutDeplacement());
+			if (!this.accessible.containsKey(c.getNordEst().getPos().toString())) {
+				if ( !c.getNordEst().hasSoldat() && deplacementDispo >= c.getNordEst().getCoutDeplacement()) {
+					cellules.put(c.getNordEst().getPos().toString(), deplacementDispo);
 					HashMap<String, Integer> listeDepNordEst = listeDeplacementAux(c.getNordEst(), deplacementDispo);
 					if (!listeDepNordEst.isEmpty()) {
 						cellules.putAll(listeDepNordEst);
@@ -572,8 +573,8 @@ public class Carte implements ICarte, IConfig, Serializable {
 		}
 		if(c.getNordOuest() != null) {
 			if (!this.accessible.containsKey(c.getNordOuest().getPos().toString())) {
-				if ( !c.getNordOuest().hasSoldat() && deplacementDispo < c.getNordOuest().getCoutDeplacement()) {
-					cellules.put(c.getNordOuest().getPos().toString(), deplacementDispo - c.getNordOuest().getCoutDeplacement());
+				if ( !c.getNordOuest().hasSoldat() && deplacementDispo >= c.getNordOuest().getCoutDeplacement()) {
+					cellules.put(c.getNordOuest().getPos().toString(), deplacementDispo);
 					HashMap<String, Integer> listeDepNordOuest = listeDeplacementAux(c.getNordOuest(), deplacementDispo);
 					if (!listeDepNordOuest.isEmpty()) {
 						cellules.putAll(listeDepNordOuest);
@@ -588,8 +589,8 @@ public class Carte implements ICarte, IConfig, Serializable {
 		}
 		if(c.getSudEst() != null) {
 			if (!this.accessible.containsKey(c.getSudEst().getPos().toString())) {
-				if ( !c.getSudEst().hasSoldat() && deplacementDispo < c.getSudEst().getCoutDeplacement()) {
-					cellules.put(c.getSudEst().getPos().toString(), deplacementDispo - c.getSudEst().getCoutDeplacement());
+				if ( !c.getSudEst().hasSoldat() && deplacementDispo >= c.getSudEst().getCoutDeplacement()) {
+					cellules.put(c.getSudEst().getPos().toString(), deplacementDispo);
 					HashMap<String, Integer> listeDepSudEst = listeDeplacementAux(c.getSudEst(), deplacementDispo);
 					if (!listeDepSudEst.isEmpty()) {
 						cellules.putAll(listeDepSudEst);
@@ -604,8 +605,8 @@ public class Carte implements ICarte, IConfig, Serializable {
 		}
 		if(c.getSudOuest() != null) {
 			if (!this.accessible.containsKey(c.getSudOuest().getPos().toString())) {
-				if ( !c.getSudOuest().hasSoldat() && deplacementDispo < c.getSudOuest().getCoutDeplacement()) {
-					cellules.put(c.getSudOuest().getPos().toString(), deplacementDispo - c.getSudOuest().getCoutDeplacement());
+				if ( !c.getSudOuest().hasSoldat() && deplacementDispo >= c.getSudOuest().getCoutDeplacement()) {
+					cellules.put(c.getSudOuest().getPos().toString(), deplacementDispo);
 					HashMap<String, Integer> listeDepSudOuest = listeDeplacementAux(c.getSudOuest(), deplacementDispo);
 					if (!listeDepSudOuest.isEmpty()) {
 						cellules.putAll(listeDepSudOuest);

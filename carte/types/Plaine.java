@@ -9,7 +9,7 @@ public class Plaine extends Terrain implements Serializable {
 	private static final Color color =  new Color(102,153,0);
 
 	public Plaine() {
-		this.coutDeplacement = 4;
+		this.coutDeplacement = 1;
 		this.bonusDefense = 0;
 	}
 
