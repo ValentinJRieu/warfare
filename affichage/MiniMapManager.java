@@ -16,6 +16,16 @@ public class MiniMapManager extends MouseAdapter {
         int a = (e.getX()-(int)((double)(mm.getWidth()/2)-(double)(mm.w*mm.gameDisplay.ct.columns/2)))/mm.w;
         int b = (e.getY()-(int)((double)(mm.getHeight()/2)-(double)(mm.h*mm.gameDisplay.ct.rows/2)))/mm.h;
         System.out.println(mm.w + ":" + mm.h);
+        if(mm.gameDisplay.ct.columns%2 == 0)
+        {
+            a += a%2;
+        }
+        else{
+            if(a%2 == 0)
+            {
+                a++;
+            }
+        }
         if(a < 0 || b < 0){
             return;
         }
@@ -26,6 +36,16 @@ public class MiniMapManager extends MouseAdapter {
     public void mouseDragged(MouseEvent e) {
         int a = (e.getX()-(int)((double)(mm.getWidth()/2)-(double)(mm.w*mm.gameDisplay.ct.columns/2)))/mm.w;
         int b = (e.getY()-(int)((double)(mm.getHeight()/2)-(double)(mm.h*mm.gameDisplay.ct.rows/2)))/mm.h;
+        if(mm.gameDisplay.ct.columns%2 == 0)
+        {
+            a += a%2;
+        }
+        else{
+            if(a%2 == 0)
+            {
+                a++;
+            }
+        }
         if(a < 0 || b < 0){
             return;
         }
