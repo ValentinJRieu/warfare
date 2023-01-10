@@ -623,4 +623,6 @@ public class Carte implements ICarte, IConfig {
 		}
 		c.meurt();
 	}
+
+	public int getTour() { return tour; }
 }
