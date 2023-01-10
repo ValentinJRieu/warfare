@@ -1,5 +1,6 @@
 package wargame.affichage;
 
+import javax.sound.midi.Soundbank;
 import javax.swing.event.MouseInputListener;
 import java.awt.event.*;
 import java.util.HashSet;
@@ -48,7 +49,9 @@ public class GameEventHandler implements MouseMotionListener, MouseWheelListener
         if(pressed.contains(KeyEvent.VK_LEFT))
             gameDisplay.left();
         if(pressed.contains(KeyEvent.VK_T))
-            gameDisplay.getCarte().finTour();
+        {
+            GameEventManager.FireEvent("FinTour",null);
+        }
 
     }
 

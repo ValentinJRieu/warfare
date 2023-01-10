@@ -3,6 +3,9 @@ package wargame.affichage;
 import wargame.carte.Carte;
 import wargame.carte.Cellule;
 import wargame.carte.Terrain;
+import wargame.event.GameEvent;
+import wargame.event.GameEventManager;
+import wargame.event.GameListener;
 import wargame.soldats.Heros;
 import wargame.soldats.Monstres;
 
@@ -60,7 +63,14 @@ public class GameDisplay extends JPanel {
         setBackground(Color.BLACK);
         this.parent = parent;
         overedCase = new RCPosition(iStart, jStart);
-
+        //Initialisation des listeners
+        GameEventManager.addListener(new GameListener() {
+            @Override
+            public void triggered(GameEvent e) {
+                GameEventManager.FireEvent("UpdateGameInfo",null);
+                getCarte().finTour();
+            }
+        }, "FinTour");
     }
 
 

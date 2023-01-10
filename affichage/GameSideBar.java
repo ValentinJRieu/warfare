@@ -9,6 +9,8 @@ import wargame.carte.Carte;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.image.BufferedImage;
 import java.io.*;
 
@@ -16,6 +18,8 @@ public class GameSideBar extends JPanel {
     public GameWindow parent;
 
     public BufferedImage background;
+
+    public Image bgImage;
 
     private String[] terrainInfo,unitInfo;
 
@@ -36,6 +40,7 @@ public class GameSideBar extends JPanel {
         GraphicsEnvironment genv = GraphicsEnvironment.getLocalGraphicsEnvironment();
         try {
             background = ImageIO.read(new File("resources/textures/gui/side_bar.png"));
+            bgImage = background.getScaledInstance(parent.getWidth() * 2/10,parent.getHeight() * 9/10,Image.SCALE_FAST);
             InputStream myStream = new BufferedInputStream(new FileInputStream("resources/fonts/medieval2.ttf"));
             font = Font.createFont(Font.TRUETYPE_FONT, myStream).deriveFont(Font.PLAIN, 30);
             genv.registerFont(font);
@@ -46,6 +51,13 @@ public class GameSideBar extends JPanel {
         {
             throw new RuntimeException(e);
         }
+        addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                super.componentResized(e);
+                bgImage = background.getScaledInstance(getWidth(),getHeight(),Image.SCALE_FAST);
+            }
+        });
         terrainInfo = new String[5];
         unitInfo = new String[5];
         terrainInfoLabel = new JLabel();
@@ -119,7 +131,7 @@ public class GameSideBar extends JPanel {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        //g2.drawImage(background.getScaledInstance(getWidth(),getHeight(),Image.SCALE_FAST),0,0,null);
+        g2.drawImage(bgImage,0,0,null);
         g2.setColor(Color.BLACK);
         g2.setFont(font);
     }

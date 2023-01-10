@@ -46,13 +46,13 @@ public class MainMenu extends JPanel {
         loadButton.setBackground(new Color(50,50,50));
         loadButton.setForeground(Color.WHITE);
 
-        JButton settingsButton = new JButton("Options");
+        /*JButton settingsButton = new JButton("Options");
         settingsButton.setFont(font);
         settingsButton.setBackground(new Color(50,50,50));
-        settingsButton.setForeground(Color.WHITE);
+        settingsButton.setForeground(Color.WHITE);*/
         SettingsOpener sBo = new SettingsOpener(frame);
         GameStarter gs = new GameStarter(frame);
-        settingsButton.addMouseListener(sBo);
+        //settingsButton.addMouseListener(sBo);
         newButton.addMouseListener(gs);
         setLayout(new GridBagLayout());
 
@@ -84,13 +84,13 @@ public class MainMenu extends JPanel {
         c.insets = new Insets(0,10,0,10);
         this.add(loadButton,c);
 
-        c.gridy = 3;
+        /*c.gridy = 3;
         c.gridx = 0;
         c.weightx = 1;
         c.weighty = 1;
         c.gridwidth = 2;
         c.insets = new Insets(0,10,0,10);
-        this.add(settingsButton,c);
+        this.add(settingsButton,c);*/
 
         frame.pack();
     }
