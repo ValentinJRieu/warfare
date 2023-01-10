@@ -5,7 +5,8 @@ import java.awt.event.*;
 import java.util.HashSet;
 import java.util.Set;
 
-import wargame.affichage.events.UpdateInfoEvent;
+import wargame.event.GameEventManager;
+import wargame.event.events.UpdateInfoEvent;
 import wargame.carte.Carte;
 import wargame.carte.Position;
 
@@ -47,7 +48,7 @@ public class GameEventHandler implements MouseMotionListener, MouseWheelListener
         if(pressed.contains(KeyEvent.VK_LEFT))
             gameDisplay.left();
         if(pressed.contains(KeyEvent.VK_T))
-            gameDisplay.getCarte().inverseFinTour();
+            gameDisplay.getCarte().finTour();
 
     }
 
@@ -74,7 +75,7 @@ public class GameEventHandler implements MouseMotionListener, MouseWheelListener
         if(e.getButton() == MouseEvent.BUTTON1)
         {
             gameDisplay.getCarte().action(gameDisplay.getIJFromXY(e.getX(), e.getY()));
-            GraphicEventManager.FireEvent("RefreshSideBar",new UpdateInfoEvent(gameDisplay.getCarte()));
+            GameEventManager.FireEvent("RefreshSideBar",new UpdateInfoEvent(gameDisplay.getCarte()));
         }
         if(e.getButton() == MouseEvent.BUTTON3)
             gameDisplay.getCarte().rendInactif();
