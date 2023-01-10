@@ -12,7 +12,7 @@ public class Carte implements ICarte, IConfig {
 
 	/* Du coup, une carte serait consideree comme une Map<String, Element>, ou le String est le toString
 	 *  de la position de l'element sur la map */
-	private final String PATH_TO_MAPS = "data\\maps\\";
+	private final String PATH_TO_MAPS;
 	private Map<String, Cellule> carte;
 	private String name;
 	private int largeur;
@@ -34,6 +34,18 @@ public class Carte implements ICarte, IConfig {
 	public Carte() {
 		carte = new TreeMap<>();
 		accessible = new HashMap<>();
+		if(System.getProperty("os.name").equals("Linux")) {
+			System.out.println("sous linux");
+			PATH_TO_MAPS = "data/maps/";
+		}
+		else if(System.getProperty("os.name").equals("Windows")) {
+			System.out.println("Sous windows");
+			PATH_TO_MAPS = "data\\maps\\";
+		}
+		else {
+			System.out.println("sous jsp");
+			PATH_TO_MAPS ="data\\maps\\";
+		}
 	}
 
 
@@ -346,16 +358,42 @@ public class Carte implements ICarte, IConfig {
 	* @return {@link HashMap} liste des Deplacements possibles depuis case actif
 	* </pre>
 	* */
-	public HashMap<String, Integer> porteeSoldat() {
-
-		return listeDeplacement();
-	}
-
-	private HashMap<String, Integer> listeDeplacement() {
+	private HashMap<String, Integer> porteeSoldat() {
 		HashMap<String, Integer> cellules = new HashMap<>();
 		int deplacementDispo = active.getSoldat().getDeplacementRestant();
 
-		cellules.putAll(this.active.listeDeplacementAux(deplacementDispo));
+		cellules.putAll(this.listeDeplacementAux(this.active, deplacementDispo));
+		return cellules;
+	}
+
+	public HashMap<String, Integer> listeDeplacementAux(Cellule c, int deplacementDispo) {
+		if(deplacementDispo < c.getTerrain().getCoutDeplacement()) return null;
+		if(c.estInfranchissable()) return null;
+		deplacementDispo -= c.getTerrain().getCoutDeplacement();
+
+		HashMap<String, Integer> cellules = new HashMap<>();
+		if(!c.estInfranchissable() && !c.hasSoldat()) {
+			cellules.put(c.getPos().toString(), deplacementDispo);
+		}
+
+		if(this.accessible.containsKey(c.getNord().getPos().toString())) {
+			cellules.putAll(listeDeplacementAux(c.getNord(), deplacementDispo));
+		}
+		if(this.accessible.containsKey(c.getSud().getPos().toString())) {
+			cellules.putAll(listeDeplacementAux(c.getSud(), deplacementDispo));
+		}
+		if(this.accessible.containsKey(c.getNordEst().getPos().toString())) {
+			cellules.putAll(listeDeplacementAux(c.getNordEst(), deplacementDispo));
+		}
+		if(this.accessible.containsKey(c.getNordOuest().getPos().toString())) {
+			cellules.putAll(listeDeplacementAux(c.getNordOuest(), deplacementDispo));
+		}
+		if(this.accessible.containsKey(c.getSudEst().getPos().toString())) {
+			cellules.putAll(listeDeplacementAux(c.getSudEst(), deplacementDispo));
+		}
+		if(this.accessible.containsKey(c.getSudOuest().getPos().toString())) {
+			cellules.putAll(listeDeplacementAux(c.getSudOuest(), deplacementDispo));
+		}
 		return cellules;
 	}
 

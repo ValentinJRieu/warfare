@@ -261,22 +261,7 @@ public class Cellule {
 		this.heros = null;
 	}
 
-	public HashMap<String, Integer> listeDeplacementAux(int deplacementDispo) {
-		if(deplacementDispo < this.terrain.getCoutDeplacement()) return null;
-		deplacementDispo -= this.terrain.getCoutDeplacement();
 
-		HashMap<String, Integer> cellules = new HashMap<>();
-		cellules.put(this.posElem.toString(), deplacementDispo);
-
-		cellules.putAll(this.nord.listeDeplacementAux(deplacementDispo));
-		cellules.putAll(this.sud.listeDeplacementAux(deplacementDispo));
-		cellules.putAll(this.nordOuest.listeDeplacementAux(deplacementDispo));
-		cellules.putAll(this.nordEst.listeDeplacementAux(deplacementDispo));
-		cellules.putAll(this.sudOuest.listeDeplacementAux(deplacementDispo));
-		cellules.putAll(this.sudEst.listeDeplacementAux(deplacementDispo));
-
-		return cellules;
-	}
 
 
 

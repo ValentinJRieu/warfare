@@ -1,6 +1,7 @@
 package wargame;
 
 import java.io.FileNotFoundException;
+import java.time.OffsetTime;
 import java.util.ArrayList;
 import java.util.List;
 import wargame.affichage.GameDisplay;
@@ -18,8 +19,6 @@ public class Game {
 
 	private int tour = 0;
 
-	private boolean tourHumain = true;
-
 	private boolean estTerminee = false;
 
 	public Game() {
@@ -34,11 +33,38 @@ public class Game {
 
 	}
 
+	public void tourSuivant() {
+		tour++;
+		/* TODO : map.inverserTour */
+	}
+
 	public void run() {
-		while (!estTerminee && !J1.isEmpty() && !J2.isEmpty()) {
+		long now;
+		long update;
+		long toWait;
 
+		final int FPS = 24;
+		final long OPTIMAL = 1000000000 / FPS;
+
+		while (!estTerminee) {
+			now = System.nanoTime();
+
+
+			if(map.isTourHeros()) {
+				while (map.isTourHeros()) {
+
+				}
+			}
+
+			update = System.nanoTime() - now;
+			toWait = (OPTIMAL - update) / 1000000;
+
+			try {
+				Thread.sleep(toWait);
+			} catch( Exception e) {
+				e.printStackTrace();
+			}
 		}
-
 	}
 
 	public Carte getCarte() {

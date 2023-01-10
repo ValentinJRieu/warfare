@@ -11,5 +11,6 @@ public class Tests {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         new MainMenu(frame);
 
+
     }
 }
