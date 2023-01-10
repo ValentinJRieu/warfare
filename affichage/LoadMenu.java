@@ -187,13 +187,13 @@ public class LoadMenu extends JPanel {
                     .newDirectoryStream(dirPath)) {
                 for (Path file : dirPaths) {
                     switch (file.getFileName().toString()) {
-                        case "auto-save.save" -> autoSave.setText("Sauvegarde Automatique - PLEIN");
-                        case "slot1.save" -> save1.setText("Emplacement de Sauvegarde 1 - PLEIN");
-                        case "slot2.save" -> save2.setText("Emplacement de Sauvegarde 2 - PLEIN");
-                        case "slot3.save" -> save3.setText("Emplacement de Sauvegarde 3 - PLEIN");
-                        case "slot4.save" -> save4.setText("Emplacement de Sauvegarde 4 - PLEIN");
-                        case "slot5.save" -> save5.setText("Emplacement de Sauvegarde 5 - PLEIN");
-                        default -> throw new Error("Dossier de sauvegarde Corrompu");
+                        case "auto-save.save" : autoSave.setText("Sauvegarde Automatique - PLEIN");
+                        case "slot1.save" : save1.setText("Emplacement de Sauvegarde 1 - PLEIN");
+                        case "slot2.save" : save2.setText("Emplacement de Sauvegarde 2 - PLEIN");
+                        case "slot3.save" : save3.setText("Emplacement de Sauvegarde 3 - PLEIN");
+                        case "slot4.save" : save4.setText("Emplacement de Sauvegarde 4 - PLEIN");
+                        case "slot5.save" : save5.setText("Emplacement de Sauvegarde 5 - PLEIN");
+                        default : throw new Error("Dossier de sauvegarde Corrompu");
                     }
                 }
             }
