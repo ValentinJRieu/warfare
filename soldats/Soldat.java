@@ -59,6 +59,8 @@ public abstract class Soldat implements ISoldat, Serializable {
     public int getDeplacementRestant() { return deplacementRestant; }
 
     public void resetDeplacement() { deplacementRestant = deplacement; }
+
+    public void setDeplacementRestant(int deplacement) {deplacementRestant = deplacement; }
     public void resetPeutJouer() { peutJouer = true; }
     @Override
     public void joueTour() {

@@ -301,7 +301,8 @@ public class Carte implements ICarte, IConfig, Serializable {
 
 		 if(this.accessible.containsKey(cible.getPos().toString())) {
 			 System.err.println("Cible accessible, on se déplace");
-			 this.active.seDeplace(cible);
+			 int nouveauDeplacementRestant = this.accessible.get(cible.getSudOuest().toString());
+			 this.active.seDeplace(cible, nouveauDeplacementRestant);
 			 rendInactif();
 			 return false;
 		 }
@@ -388,13 +389,13 @@ public class Carte implements ICarte, IConfig, Serializable {
 			return false;
 		}
 
-
 		if(this.accessible.containsKey(cible.getPos().toString())) {
 			System.err.println("Cible accessible, on se déplace");
 			this.active.seDeplace(cible);
 			rendInactif();
 			return false;
 		}
+
 		if(!cible.hasSoldat()) {
 			System.err.println("Cible trop éloignée. nouvel actif");
 			this.active = cible;

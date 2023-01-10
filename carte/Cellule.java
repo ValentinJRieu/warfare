@@ -229,9 +229,10 @@ public class Cellule implements Serializable {
 		return terrain.getBonusDefense();
 	}
 
-	public void seDeplace(Cellule cible) {
+	public void seDeplace(Cellule cible, int deplacement) {
 		cible.heros = this.heros;
 		this.heros = null;
+		cible.heros.setDeplacementRestant(deplacement);
 	}
 
 	public void attaque(Cellule cible, int type) {
