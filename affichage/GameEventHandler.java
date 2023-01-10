@@ -46,8 +46,11 @@ public class GameEventHandler implements MouseMotionListener, MouseWheelListener
             gameDisplay.right();
         if(pressed.contains(KeyEvent.VK_LEFT))
             gameDisplay.left();
-        if(pressed.contains(KeyEvent.VK_T))
+        if(pressed.contains(KeyEvent.VK_T)) {
+            GraphicEventManager.FireEvent("UpdateGameInfo",null);
+            GraphicEventManager.FireEvent("FinTour",null);
             gameDisplay.getCarte().inverseFinTour();
+        }
 
     }
 
