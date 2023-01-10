@@ -1,13 +1,18 @@
 package wargame;
 
+import java.awt.*;
 import java.io.FileNotFoundException;
 import java.time.OffsetTime;
 import java.util.ArrayList;
 import java.util.List;
 import wargame.affichage.GameDisplay;
+import wargame.affichage.MainMenu;
+import wargame.affichage.Option;
 import wargame.carte.Carte;
 import wargame.soldats.Heros;
 import wargame.soldats.Monstres;
+
+import javax.swing.*;
 
 public class Game {
 
@@ -22,7 +27,7 @@ public class Game {
 	private boolean estTerminee = false;
 
 	public Game() {
-		map = new Carte();
+	/*	map = new Carte();
 		J1 = new ArrayList<>();
 		J2 = new ArrayList<>();
 		try {
@@ -31,14 +36,18 @@ public class Game {
 			throw new RuntimeException(e);
 		}
 
+	 */
 	}
 
-	public void tourSuivant() {
-		tour++;
-		/* TODO : map.inverserTour */
-	}
+
 
 	public void run() {
+		JFrame frame = new JFrame("La Bagarre");
+		frame.setVisible(true);
+		frame.setPreferredSize(new Dimension(Option.WIDTH,Option.HEIGHT));
+		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		new MainMenu(frame);
+		/*
 		long now;
 		long update;
 		long toWait;
@@ -46,9 +55,11 @@ public class Game {
 		final int FPS = 24;
 		final long OPTIMAL = 1000000000 / FPS;
 
+
+
 		while (!estTerminee) {
 			now = System.nanoTime();
-
+			System.out.println("testing of while");
 
 			if(map.isTourHeros()) {
 				while (map.isTourHeros()) {
@@ -64,7 +75,7 @@ public class Game {
 			} catch( Exception e) {
 				e.printStackTrace();
 			}
-		}
+		}*/
 	}
 
 	public Carte getCarte() {

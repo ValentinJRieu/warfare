@@ -11,7 +11,7 @@ import java.net.URL;
 
 public class MainMenu extends JPanel {
     private Font font,titleFont;
-    MainMenu(JFrame frame) {
+    public MainMenu(JFrame frame) {
         frame.setContentPane(this);
         setPreferredSize(new Dimension(Option.WIDTH,Option.HEIGHT));
         setBackground(new Color(100,100,100));

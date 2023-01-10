@@ -1,13 +1,16 @@
 package wargame.affichage;
 
-import wargame.Game;
 import wargame.carte.Carte;
 import wargame.carte.Cellule;
 import wargame.carte.Terrain;
+import wargame.soldats.Heros;
+import wargame.soldats.Monstres;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameDisplay extends JPanel {
 
@@ -19,7 +22,16 @@ public class GameDisplay extends JPanel {
     private int jEnd;
     private int radius;
 
-    private Game game;
+    private Carte carte;
+
+    private List<Heros> J1;
+
+    private List<Monstres> J2;
+
+    private int tour = 0;
+
+    private boolean estTerminee = false;
+
     public GameWindow parent;
 
     public RCPosition overedCase;
@@ -31,7 +43,14 @@ public class GameDisplay extends JPanel {
      * @param parent la fenêtre actuelle
      */
     GameDisplay(GameWindow parent) {
-        game = new Game();
+        carte = new Carte();
+        J1 = new ArrayList<>();
+        J2 = new ArrayList<>();
+        try {
+            carte.loadCarte("map1.txt");
+        } catch(FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
         Dimension dim = new Dimension(parent.getWidth() * 8 / 10, parent.getHeight() * 9 / 10);
         ctDim = new Dimension(25, 12);
         jStart = ctDim.width - (10 + ctDim.width%2);
@@ -40,7 +59,7 @@ public class GameDisplay extends JPanel {
         iEnd = ctDim.height;
         this.setPreferredSize(dim);
         this.setMaximumSize(dim);
-        ct = new CaseTable(game.getCarte());
+        ct = new CaseTable(carte);
         GameEventHandler geh = new GameEventHandler(this);
         addMouseListener(geh);
         addMouseMotionListener(geh);
@@ -52,6 +71,11 @@ public class GameDisplay extends JPanel {
 
     }
 
+    public void tourSuivant() {
+        tour++;
+        carte.inverseFinTour();
+        carte.inverseTourHeros();
+    }
 
     /**
      * Dessine les cases du plateau de jeu automatiquemet
@@ -60,6 +84,10 @@ public class GameDisplay extends JPanel {
      */
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        if(carte.isFinTour()) {
+            this.tourSuivant();
+
+        }
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         radius = (int) ((double) getWidth() / (double) (jEnd - jStart - 1) / 0.75);
@@ -74,8 +102,8 @@ public class GameDisplay extends JPanel {
     }
 
     private Color getColorFromActiveDistance(RCPosition overedCase) {
-        Cellule active = game.getCarte().actif();
-        Cellule overed = game.getCarte().getCellule(overedCase);
+        Cellule active = carte.actif();
+        Cellule overed = carte.getCellule(overedCase);
         if (overed == null) {
             return Color.BLACK;
         }
@@ -83,16 +111,12 @@ public class GameDisplay extends JPanel {
             return Color.WHITE;
         }
         if (active.getSoldat() == null) {
-            if (game.getCarte().getAccessible().get(overed.getPos()) == null) {
+            if (carte.getAccessible().get(overed.getPos()) == null) {
                 return Color.red;
             }
             return Color.green;
         }
         return Color.WHITE;
-    }
-
-    public Cellule getClickedCellule() {
-        return null;
     }
 
 
@@ -304,6 +328,6 @@ public class GameDisplay extends JPanel {
     }
 
     public Carte getCarte() {
-        return game.getCarte();
+        return carte;
     }
 }
