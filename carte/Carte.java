@@ -3,7 +3,10 @@ package wargame.carte;
 import wargame.ICarte;
 import wargame.IConfig;
 import wargame.soldats.Heros;
+import wargame.soldats.Monstres;
+import wargame.soldats.SoldatFactory;
 
+import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
@@ -27,13 +30,18 @@ public class Carte implements ICarte, IConfig {
 
 	private HashMap<String, Integer> accessible;
 
-
+	private ArrayList<Heros> listeHeros;
+	private ArrayList<Monstres> listeMonstres;
 
 	private HashMap<String, Cellule> spawnDonjons, spawnChateau;
 	private static final int DISTANCE_SPAWN = 3;
 	public Carte() {
 		carte = new TreeMap<>();
 		accessible = new HashMap<>();
+		spawnDonjons = new HashMap<>();
+		spawnChateau = new HashMap<>();
+		listeHeros = new ArrayList<>();
+		listeMonstres = new ArrayList<>();
 		if(System.getProperty("os.name").equals("Linux")) {
 			System.out.println("sous linux");
 			PATH_TO_MAPS = "data/maps/";
@@ -166,6 +174,8 @@ public class Carte implements ICarte, IConfig {
 				cellule.setSudEst(carte.get(voisin.toString()));
 			}
 		});
+		actualiseSpawnChateau(chateau, DISTANCE_SPAWN);
+		actualiseSpawnDonjons(donjon, DISTANCE_SPAWN);
 		System.err.println(carte);
 	}
 
@@ -305,7 +315,7 @@ public class Carte implements ICarte, IConfig {
 			this.active.attaqueCaC(celluleCible);
 			rendInactif();
 			if(celluleCible.getMonstre().estMort()) {
-				celluleCible.meurt();
+				this.faireMourir(celluleCible);
 			}
 			/* TODO : ouvre un panel de sélection d'action */
 			return true;
@@ -427,7 +437,88 @@ public class Carte implements ICarte, IConfig {
 		return this.accessible;
 	}
 
-	public void spawnSoldat() {
-		
+	public void actualiseSpawnChateau(Cellule c, Integer deplacementDispo) {
+		if (c == null) {
+			return;
+		}
+		deplacementDispo --;
+
+		if(!c.estInfranchissable() && !c.hasSoldat()) {
+			spawnChateau.put(c.getPos().toString(), c);
+		}
+
+		if(this.spawnChateau.containsKey(c.getNord().getPos().toString())) {
+			actualiseSpawnChateau(c.getNord(), deplacementDispo);
+		}
+		if(this.spawnChateau.containsKey(c.getSud().getPos().toString())) {
+			actualiseSpawnChateau(c.getSud(), deplacementDispo);
+		}
+		if(this.spawnChateau.containsKey(c.getNordEst().getPos().toString())) {
+			actualiseSpawnChateau(c.getNordEst(), deplacementDispo);
+		}
+		if(this.spawnChateau.containsKey(c.getNordOuest().getPos().toString())) {
+			actualiseSpawnChateau(c.getNordOuest(), deplacementDispo);
+		}
+		if(this.spawnChateau.containsKey(c.getSudEst().getPos().toString())) {
+			actualiseSpawnChateau(c.getSudEst(), deplacementDispo);
+		}
+		if(this.spawnChateau.containsKey(c.getSudOuest().getPos().toString())) {
+			actualiseSpawnChateau(c.getSudOuest(), deplacementDispo);
+		}
+	}
+
+	public void actualiseSpawnDonjons(Cellule c, Integer deplacementDispo) {
+		if (c == null) {
+			return;
+		}
+		deplacementDispo --;
+
+		if(!c.estInfranchissable() && !c.hasSoldat()) {
+			spawnDonjons.put(c.getPos().toString(), c);
+		}
+
+		if(this.spawnDonjons.containsKey(c.getNord().getPos().toString())) {
+			actualiseSpawnDonjons(c.getNord(), deplacementDispo);
+		}
+		if(this.spawnDonjons.containsKey(c.getSud().getPos().toString())) {
+			actualiseSpawnDonjons(c.getSud(), deplacementDispo);
+		}
+		if(this.spawnDonjons.containsKey(c.getNordEst().getPos().toString())) {
+			actualiseSpawnDonjons(c.getNordEst(), deplacementDispo);
+		}
+		if(this.spawnDonjons.containsKey(c.getNordOuest().getPos().toString())) {
+			actualiseSpawnDonjons(c.getNordOuest(), deplacementDispo);
+		}
+		if(this.spawnDonjons.containsKey(c.getSudEst().getPos().toString())) {
+			actualiseSpawnDonjons(c.getSudEst(), deplacementDispo);
+		}
+		if(this.spawnDonjons.containsKey(c.getSudOuest().getPos().toString())) {
+			actualiseSpawnDonjons(c.getSudOuest(), deplacementDispo);
+		}
+	}
+
+	public void spawnSoldats() {
+		Random generateur = new Random();
+		Cellule[] spawnHerosDispo = (Cellule[]) spawnChateau.values().toArray();
+		Cellule[] spawnMonstresDispo = (Cellule[]) spawnDonjons.values().toArray();
+		Cellule celluleSpawnHeros = spawnHerosDispo[generateur.nextInt(spawnHerosDispo.length)];
+		Cellule celluleSpawnMonstres = spawnMonstresDispo[generateur.nextInt(spawnMonstresDispo.length)];
+		String[] typesHeros = {"ELFE", "HOBBIT", "HUMAIN", "NAIN"}; // why not le mettre en global
+		String[] typesMonstres = {"GOBELIN", "ORC", "TROLL"}; // idem
+		celluleSpawnHeros.setHeros((Heros) SoldatFactory.getSoldat(typesHeros[generateur.nextInt(typesHeros.length)]));
+		celluleSpawnMonstres.setMonstre((Monstres) SoldatFactory.getSoldat(typesMonstres[generateur.nextInt(typesMonstres.length)]));
+		actualiseSpawnDonjons(donjon, DISTANCE_SPAWN);
+		actualiseSpawnChateau(chateau, DISTANCE_SPAWN);
+		listeHeros.add(celluleSpawnHeros.getHeros());
+		listeMonstres.add(celluleSpawnMonstres.getMonstre());
+	}
+
+	public void faireMourir(Cellule c) {
+		if (c.hasMonstre()) {
+			listeMonstres.remove(c.getMonstre());
+		} else {
+			listeHeros.remove(c.getHeros());
+		}
+		c.meurt();
 	}
 }

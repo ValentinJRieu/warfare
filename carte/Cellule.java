@@ -253,7 +253,6 @@ public class Cellule {
 	}
 
 	public void meurt() {
-
 		if(hasMonstre()) {
 			this.monstre = null;
 			return;
@@ -261,8 +260,11 @@ public class Cellule {
 		this.heros = null;
 	}
 
+	public void setHeros(Heros h) {
+		this.heros = h;
+	}
 
-
-
-
+	public void setMonstre(Monstres m) {
+		this.monstre = m;
+	}
 }
