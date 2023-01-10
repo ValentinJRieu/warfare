@@ -423,6 +423,10 @@ public class Carte implements ICarte, IConfig {
 		this.tourHeros = !this.tourHeros;
 	}
 
+	public Map<String, Integer> getAccessible() {
+		return this.accessible;
+	}
+
 	public void spawnSoldat() {
 		
 	}

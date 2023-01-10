@@ -83,7 +83,7 @@ public class GameDisplay extends JPanel {
             return Color.WHITE;
         }
         if (active.getSoldat() == null) {
-            if (overed.estInfranchissable() || overed.getSoldat() != null) {
+            if (game.getCarte().getAccessible().get(overed.getPos()) == null) {
                 return Color.red;
             }
             return Color.green;
