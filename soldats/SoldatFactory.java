@@ -2,6 +2,11 @@ package wargame.soldats;
 
 public class SoldatFactory {
 
+	/**
+	 * Renvoie le soldat en fonction du soldatTypeStr
+	 * @param soldatTypeStr la chaine contenant le nom du soldat
+	 * @return L'unité en question ou null si aucune correspondance
+	 */
 	public static Soldat getSoldat(String soldatTypeStr) {
 		if (soldatTypeStr == null) {
 			return null;

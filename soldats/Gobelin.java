@@ -23,6 +23,10 @@ public class Gobelin extends Monstres {
 		position = pos;
 	}
 
+	/**
+	 * Renvoie l'image associé à l'unité
+	 * @return
+	 */
 	@Override
 	public Color getImage() {
 		return image;
