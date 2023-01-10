@@ -3,9 +3,6 @@ package wargame.affichage;
 import wargame.event.GameEvent;
 import wargame.event.GameEventManager;
 import wargame.event.GameListener;
-import wargame.event.GraphicEvent;
-import wargame.event.GraphicEventManager;
-import wargame.event.GraphicListener;
 
 import javax.swing.*;
 import java.awt.*;

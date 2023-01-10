@@ -5,9 +5,6 @@ import wargame.event.GameEventManager;
 import wargame.event.GameListener;
 import wargame.event.events.UpdateInfoEvent;
 import wargame.carte.Carte;
-import wargame.event.GraphicEvent;
-import wargame.event.GraphicEventManager;
-import wargame.event.GraphicListener;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

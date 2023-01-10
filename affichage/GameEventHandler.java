@@ -7,7 +7,6 @@ import java.util.Set;
 
 import wargame.event.GameEventManager;
 import wargame.event.events.UpdateInfoEvent;
-import wargame.event.GraphicEventManager;
 
 public class GameEventHandler implements MouseMotionListener, MouseWheelListener, MouseInputListener, KeyListener {
     GameDisplay gameDisplay;
