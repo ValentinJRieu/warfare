@@ -22,6 +22,6 @@ public class Troll extends Monstres{
 
 	@Override
 	public Color getImage() {
-		return null;
+		return image;
 	}
 }
