@@ -499,11 +499,11 @@ public class Carte implements ICarte, IConfig {
 		HashMap<String, Integer> cellules = new HashMap<>();
 		int deplacementDispo = active.getSoldat().getDeplacementRestant();
 
-		cellules.putAll(this.listeDeplacementAux(this.active, deplacementDispo));
+		cellules.putAll(this.listeDeplacementAux(this.active, deplacementDispo, this.active));
 		return cellules;
 	}
 
-	public HashMap<String, Integer> listeDeplacementAux(Cellule c, int deplacementDispo) {
+	public HashMap<String, Integer> listeDeplacementAux(Cellule c, int deplacementDispo, Cellule previous) {
 		if(c==null || deplacementDispo < c.getTerrain().getCoutDeplacement()) return new HashMap<>();
 		if(c.estInfranchissable()) return new HashMap<>();
 		deplacementDispo -= c.getTerrain().getCoutDeplacement();
