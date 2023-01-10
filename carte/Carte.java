@@ -249,8 +249,10 @@ public class Carte implements ICarte, IConfig {
 	public boolean action(Position cible) {
 		Cellule celluleCible = carte.get(cible.toString());
 		if(this.isTourHeros()) {
+			System.out.println("action de héros");
 			return this.actionHeros(celluleCible);
 		}
+		System.out.println("action de monstre");
 		return this.actionMonstre(celluleCible);
 	}
 
@@ -449,6 +451,9 @@ public class Carte implements ICarte, IConfig {
 	public void finTour() {
 		tour++;
 		this.inverseTourHeros();
+		if(tour % 10 == 0) {
+			this.spawnSoldats();
+		}
 	}
 
 	public void rendInactif() {
