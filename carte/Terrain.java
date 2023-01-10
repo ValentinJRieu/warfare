@@ -11,4 +11,8 @@ public abstract class Terrain {
 
 	public abstract Color getImage();
 
+	@Override
+	public String toString() {
+		return this.getClass().getSimpleName() + " :\n" + this.coutDeplacement + " déplacement\n" + this.bonusDefense + " défense";
+	}
 }

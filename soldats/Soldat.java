@@ -78,5 +78,8 @@ public abstract class Soldat implements ISoldat {
         return this.peutJouer;
     }
 
-
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName() + " :\n" + this.pointsDeVie + " PV\n" + this.puissance + " DEG\n" + this.tir + " TIR";
+    }
 }

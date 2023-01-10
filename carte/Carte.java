@@ -274,9 +274,11 @@ public class Carte implements ICarte, IConfig {
 		String soldat;
 		String terrain;
 
-		if(!this.active.hasSoldat()) soldat = null;
-
-		else soldat = this.active.getSoldat().toString();
+		if(!this.active.hasSoldat()) {
+			soldat = null;
+		} else {
+			soldat = this.active.getSoldat().toString();
+		}
 
 		terrain = this.active.getTerrain().toString();
 
