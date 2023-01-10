@@ -5,7 +5,7 @@ import wargame.carte.Terrain;
 import java.awt.*;
 
 public class Ville extends Terrain {
-	private static final Color color = Color.BLUE;
+	private static final Color color = new Color(77,77,77);
 
 	public Ville() {
 		this.bonusDefense = 2;

@@ -5,7 +5,7 @@ import wargame.carte.Terrain;
 import java.awt.*;
 
 public class Foret extends Terrain {
-	private static final Color color =  Color.GREEN;
+	private static final Color color =  new Color(0, 102, 0);
 
 	public Foret() {
 		this.coutDeplacement = 2;

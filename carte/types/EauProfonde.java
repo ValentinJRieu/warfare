@@ -7,7 +7,7 @@ import java.awt.*;
 
 public class EauProfonde extends Terrain implements Infranchissable {
 
-    private static final Color color =  Color.BLUE;
+    private static final Color color = new Color(0, 0, 102);
 
     public EauProfonde() {
         this.coutDeplacement = 0;

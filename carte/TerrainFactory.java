@@ -17,6 +17,8 @@ public class TerrainFactory {
 			return new Ville();
 		} else if (terrainTypeStr.equalsIgnoreCase("EAUPROFONDE")) {
 			return new EauProfonde();
+		} else if (terrainTypeStr.equalsIgnoreCase("RIVIERE")) {
+			return new Riviere();
 		}
 
 		return new Vide();
