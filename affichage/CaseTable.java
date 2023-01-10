@@ -99,16 +99,16 @@ public class CaseTable {
                 g2.setColor(colorTerrain);
                 g2.fill(p);
                 g2.setColor(Color.BLACK);
+                if (c != null && cases.hasActif()) {
+                    if (cases.actif().equals(c)) {
+                        g2.setColor(Color.MAGENTA);
+                    }
+                }
                 g2.draw(p);
                 g2.setColor(colorSoldat);
                 Circle unit = createCircle(new RCPosition(i-iStart, j-jStart), radius);
                 g2.fillOval((int)unit.getCenterX()-(int)unit.getRadius(),(int)unit.getCenterY()-(int)unit.getRadius(),(int)unit.getRadius()*2,(int)unit.getRadius()*2);
-                if (c != null && cases.hasActif()) {
-                    if (cases.actif().equals(c)) {
-                        g2.setColor(Color.GRAY);
-                        g2.draw(CaseTable.createHexagon(new RCPosition(c.getPos().getX() - iStart, c.getPos().getY() - jStart), radius / 2));
-                    }
-                }
+
             }
         }
     }

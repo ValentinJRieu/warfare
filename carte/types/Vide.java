@@ -6,7 +6,7 @@ import wargame.carte.Terrain;
 import java.awt.*;
 
 public class Vide extends Terrain implements Infranchissable {
-	private static final Color color =  Color.BLACK;
+	private static final Color color =  new Color(12, 12, 12);
 
 	public Vide() {
 		this.coutDeplacement = 0;

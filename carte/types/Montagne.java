@@ -6,7 +6,7 @@ import java.awt.*;
 
 public class Montagne extends Terrain {
 
-	private static final Color color =  Color.ORANGE;
+	private static final Color color =  new Color(179, 134, 0);
 
 	public Montagne() {
 		this.coutDeplacement = 4;
