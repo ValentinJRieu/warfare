@@ -4,9 +4,10 @@ import wargame.soldats.Heros;
 import wargame.soldats.Monstres;
 import wargame.soldats.Soldat;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Cellule {
+public class Cellule implements Serializable {
 
 	private Cellule nord;
 	private Cellule nordEst;

@@ -29,7 +29,7 @@ public class GameDisplay extends JPanel {
     private int jEnd;
     private int radius;
 
-    private Carte carte;
+    private Carte carte = null;
 
     public GameWindow parent;
 
@@ -41,21 +41,30 @@ public class GameDisplay extends JPanel {
      *
      * @param parent la fenêtre actuelle
      */
-    GameDisplay(GameWindow parent) {
-        carte = new Carte();
+    GameDisplay(GameWindow parent,String save) {
+        if(save == null) {
+            carte = new Carte();
 
-        try {
-            carte.loadCarte("map1.txt");
-        } catch(FileNotFoundException e) {
-            throw new RuntimeException(e);
+            try {
+                carte.loadCarte("map1.txt");
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+
+            ctDim = new Dimension(25, 12);
+            jStart = ctDim.width - (10 + ctDim.width % 2);
+            jEnd = ctDim.width;
+            iStart = ctDim.height - (10 + ctDim.width % 2);
+            iEnd = ctDim.height;
+        }else{
+            carte = Carte.load(save);
+            ctDim = new Dimension(25, 12);
+            jStart = ctDim.width - (10 + ctDim.width % 2);
+            jEnd = ctDim.width;
+            iStart = ctDim.height - (10 + ctDim.width % 2);
+            iEnd = ctDim.height;
         }
-
         Dimension dim = new Dimension(parent.getWidth() * 8 / 10, parent.getHeight() * 9 / 10);
-        ctDim = new Dimension(25, 12);
-        jStart = ctDim.width - (10 + ctDim.width%2);
-        jEnd = ctDim.width;
-        iStart = ctDim.height - (10 + ctDim.width%2);
-        iEnd = ctDim.height;
         this.setPreferredSize(dim);
         this.setMaximumSize(dim);
         ct = new CaseTable(carte);
@@ -73,11 +82,16 @@ public class GameDisplay extends JPanel {
             public void triggered(GameEvent e) {
                 GameEventManager.FireEvent("UpdateGameInfo",null);
                 getCarte().finTour();
+                getCarte().save("auto-save");
             }
         }, "FinTour");
     }
 
 
+    public GameDisplay(GameWindow parent)
+    {
+        this(parent,null);
+    }
 
     /**
      * Dessine les cases du plateau de jeu automatiquemet

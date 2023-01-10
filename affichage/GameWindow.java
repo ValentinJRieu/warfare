@@ -2,6 +2,8 @@ package wargame.affichage;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 /**
  * L'affichage du jeu
@@ -21,12 +23,15 @@ public class GameWindow extends JPanel {
      * Met en place les éléments nécessaire pour voir le jeu
      * @param frame la fenêtre
      */
-    public GameWindow(JFrame frame){
+    public GameWindow(JFrame frame,String save){
         this.frame = frame;
         frame.setContentPane(this);
         frame.pack();
         setBackground(Color.black);
-        gameDisplay = new GameDisplay(this);
+        if(save != null)
+            gameDisplay = new GameDisplay(this,save);
+        else
+            gameDisplay = new GameDisplay(this);
         gsb = new GameSideBar(this);
         gdb = new GameDownBar(this);
         setMaximumSize(new Dimension(frame.getWidth(),frame.getHeight()));
@@ -51,6 +56,11 @@ public class GameWindow extends JPanel {
         c.gridy = 0;
         gsb.add(mm,c);
         frame.pack();
+    }
+
+    GameWindow(JFrame frame)
+    {
+        this(frame,null);
     }
 
     /**

@@ -8,11 +8,10 @@ import wargame.soldats.Soldat;
 import wargame.soldats.SoldatFactory;
 
 import java.awt.*;
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.*;
 
-public class Carte implements ICarte, IConfig {
+public class Carte implements ICarte, IConfig, Serializable {
 
 	/* Du coup, une carte serait consideree comme une Map<String, Element>, ou le String est le toString
 	 *  de la position de l'element sur la map */
@@ -741,5 +740,59 @@ public class Carte implements ICarte, IConfig {
 
 	public ArrayList<Monstres> getListeMonstres() {
 		return listeMonstres;
+	}
+
+	public void save(String name)
+	{
+		ObjectOutputStream outputStream = null;
+		try {
+			//Construct the LineNumberReader object
+			outputStream = new ObjectOutputStream(new FileOutputStream("saves/"+name+".save"));
+			outputStream.writeObject(this);
+		} catch (FileNotFoundException ex) {
+			ex.printStackTrace();
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		} finally {
+			//Close the ObjectOutputStream
+			try {
+				if (outputStream != null) {
+					outputStream.flush();
+					outputStream.close();
+				}
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		}
+	}
+	public static Carte load(String name)
+	{
+		Carte c = null;
+		ObjectInputStream inputStream = null;
+		try {
+			//Construct the LineNumberReader object
+			inputStream = new ObjectInputStream(new FileInputStream("saves/"+name+".save"));
+			c = (Carte) inputStream.readObject();
+		} catch (FileNotFoundException ex) {
+			ex.printStackTrace();
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException(e);
+		} finally {
+			//Close the ObjectOutputStream
+			try {
+				if (inputStream != null) {
+					inputStream.close();
+				}
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		}
+		if(c == null)
+		{
+			throw new Error("Impossible de charger la sauvegarde "+name);
+		}
+		return c;
 	}
 }
