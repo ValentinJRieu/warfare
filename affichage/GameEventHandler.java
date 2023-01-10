@@ -52,6 +52,10 @@ public class GameEventHandler implements MouseMotionListener, MouseWheelListener
         {
             GameEventManager.FireEvent("FinTour",null);
         }
+        if(pressed.contains(KeyEvent.VK_ESCAPE)){
+            gameDisplay.getCarte();
+            new MenuEchap(gameDisplay.parent.frame,gameDisplay.getCarte());
+        }
 
     }
 

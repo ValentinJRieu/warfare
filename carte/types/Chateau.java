@@ -1,9 +1,11 @@
 package wargame.carte.types;
 
 import java.awt.*;
+import java.io.Serializable;
+
 import wargame.carte.Terrain;
 
-public class Chateau extends Terrain {
+public class Chateau extends Terrain implements Serializable {
 
 	private static final Color color = new Color(50,50,250);
 

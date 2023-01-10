@@ -58,10 +58,11 @@ public class MainMenu extends JPanel {
         settingsButton.setFont(font);
         settingsButton.setBackground(new Color(50,50,50));
         settingsButton.setForeground(Color.WHITE);*/
-        SettingsOpener sBo = new SettingsOpener(frame);
         GameStarter gs = new GameStarter(frame);
+        GameLoaderOpener glo = new GameLoaderOpener(frame);
         //settingsButton.addMouseListener(sBo);
         newButton.addMouseListener(gs);
+        loadButton.addMouseListener(glo);
         setLayout(new GridBagLayout());
 
 

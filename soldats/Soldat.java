@@ -3,7 +3,9 @@ package wargame.soldats;
 import wargame.ISoldat;
 import wargame.carte.Position;
 
-public abstract class Soldat implements ISoldat {
+import java.io.Serializable;
+
+public abstract class Soldat implements ISoldat, Serializable {
     protected int pointsDeVie;
     protected int porteeVisuelle;
     protected int puissance;

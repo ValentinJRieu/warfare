@@ -4,8 +4,9 @@ import wargame.carte.Infranchissable;
 import wargame.carte.Terrain;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public class Montagne extends Terrain implements Infranchissable {
+public class Montagne extends Terrain implements Infranchissable , Serializable {
 
 	private static final Color color =  new Color(179, 134, 0);
 

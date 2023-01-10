@@ -2,7 +2,9 @@ package wargame.carte;
 
 import wargame.carte.types.*;
 
-public class TerrainFactory {
+import java.io.Serializable;
+
+public class TerrainFactory implements Serializable {
 
 	public static Terrain getTerrain(String terrainTypeStr) {
 		if (terrainTypeStr == null) {
