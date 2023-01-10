@@ -1,7 +1,13 @@
 package wargame.affichage;
 
-import wargame.affichage.events.UpdateInfoEvent;
+import wargame.event.GameEvent;
+import wargame.event.GameEventManager;
+import wargame.event.GameListener;
+import wargame.event.events.UpdateInfoEvent;
 import wargame.carte.Carte;
+import wargame.event.GraphicEvent;
+import wargame.event.GraphicEventManager;
+import wargame.event.GraphicListener;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -65,9 +71,9 @@ public class GameSideBar extends JPanel {
         c.weighty = 0.5;
         c.weightx = 1;
         add(unitInfoLabel,c);
-        GraphicEventManager.addListener(new GraphicListener() {
+        GameEventManager.addListener(new GameListener() {
             @Override
-            public void triggered(GraphicEvent e) {
+            public void triggered(GameEvent e) {
                 Carte c = ((UpdateInfoEvent) e).carte;
                 if(c.hasActif())
                 {

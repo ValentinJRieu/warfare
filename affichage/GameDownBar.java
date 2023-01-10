@@ -1,5 +1,12 @@
 package wargame.affichage;
 
+import wargame.event.GameEvent;
+import wargame.event.GameEventManager;
+import wargame.event.GameListener;
+import wargame.event.GraphicEvent;
+import wargame.event.GraphicEventManager;
+import wargame.event.GraphicListener;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -28,9 +35,9 @@ public class GameDownBar extends JPanel {
                 parent.gameDisplay.getCarte().inverseFinTour();
             }
         });
-        GraphicEventManager.addListener(new GraphicListener() {
+        GameEventManager.addListener(new GameListener() {
             @Override
-            public void triggered(GraphicEvent e) {
+            public void triggered(GameEvent e) {
                 update();
             }
         },"UpdateGameInfo");
