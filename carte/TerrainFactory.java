@@ -19,7 +19,9 @@ public class TerrainFactory {
 			return new EauProfonde();
 		} else if (terrainTypeStr.equalsIgnoreCase("RIVIERE")) {
 			return new Riviere();
-		}
+		} else if (terrainTypeStr.equalsIgnoreCase("DONJON")) {
+			return new Donjon();
+		} else if (terrainTypeStr.equalsIgnoreCase("CHATEAU"))
 
 		return new Vide();
 	}
