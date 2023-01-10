@@ -12,7 +12,8 @@ public class Troll extends Monstres{
 		porteeVisuelle = TypesM.TROLL.getPortee();
 		puissance = TypesM.TROLL.getPuissance();
 		tir = TypesM.TROLL.getTir();
-		deplacement = TypesM.TROLL.getDeplacement();
+		deplacement = TypesM.TROLL.getDeplacement()*5;
+		deplacementRestant = deplacement;
 	}
 	public Troll(Position pos) {
 		this();

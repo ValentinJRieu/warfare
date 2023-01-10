@@ -14,7 +14,8 @@ public class Gobelin extends Monstres {
 		porteeVisuelle = TypesM.GOBELIN.getPortee();
 		puissance = TypesM.GOBELIN.getPuissance();
 		tir = TypesM.GOBELIN.getTir();
-		deplacement = TypesM.GOBELIN.getDeplacement();
+		deplacement = TypesM.GOBELIN.getDeplacement()*5;
+		deplacementRestant = deplacement;
 	}
 
 	public Gobelin(Position pos) {
