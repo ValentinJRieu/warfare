@@ -14,6 +14,7 @@ import java.awt.*;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Le plateau de jeu
@@ -113,11 +114,17 @@ public class GameDisplay extends JPanel {
         if (active == null) {
             return Color.WHITE;
         }
-        if (active.getSoldat() == null) {
-            if (carte.getAccessible().get(overed.getPos()) == null) {
+        if (active.getSoldat() != null) {
+            Map<String, Integer> accessible = carte.getAccessible();
+            if (accessible == null || accessible.isEmpty()) {
                 return Color.red;
             }
-            return Color.green;
+            Integer integer = accessible.get(overed.getPos());
+            int deplacementRestant = active.getSoldat().getDeplacementRestant();
+            if (integer < deplacementRestant) {
+                return Color.green;
+            }
+            return Color.red;
         }
         return Color.WHITE;
     }
