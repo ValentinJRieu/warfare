@@ -62,7 +62,7 @@ public class GameDownBar extends JPanel {
         b1.setBackground(new Color(70, 58, 42));
         b1.setForeground(Color.WHITE);
         b1.setFont(font);
-        gameInfo = new JLabel("<html>Nombre de tours : 0<br>Nombre de Hero restant : 0<br>Nombre d'ennemis restants : 0</html>");
+        gameInfo = new JLabel("Chargement");
         gameInfo.setFont(font);
         gameInfo.setHorizontalTextPosition(JLabel.CENTER);
         gameInfo.setForeground(Color.WHITE);
@@ -120,7 +120,7 @@ public class GameDownBar extends JPanel {
             }
         }, "FinTour");
 
-
+        update();
     }
 
     /**
