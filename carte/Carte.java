@@ -422,10 +422,6 @@ public class Carte implements ICarte, IConfig {
 		return false;
 	}
 
-	private boolean aPorteeDeSoldat(Cellule celluleCible) {
-		return false;
-	}
-
 	public void finTour() {
 		tour++;
 
@@ -614,12 +610,16 @@ public class Carte implements ICarte, IConfig {
 		String[] typesMonstres = {"GOBELIN", "ORC", "TROLL"}; // idem
 		Cellule herosSpawn = (Cellule) celluleSpawnHeros;
 		Cellule monstreSpawn = (Cellule) celluleSpawnMonstres;
-		herosSpawn.setHeros((Heros) SoldatFactory.getSoldat(typesHeros[generateur.nextInt(typesHeros.length)]));
-		monstreSpawn.setMonstre((Monstres) SoldatFactory.getSoldat(typesMonstres[generateur.nextInt(typesMonstres.length)]));
-		actualiseSpawnDonjons(donjon, DISTANCE_SPAWN);
-		actualiseSpawnChateau(chateau, DISTANCE_SPAWN);
-		listeHeros.add(herosSpawn.getHeros());
-		listeMonstres.add(monstreSpawn.getMonstre());
+		if(!herosSpawn.hasSoldat()) {
+			herosSpawn.setHeros((Heros) SoldatFactory.getSoldat(typesHeros[generateur.nextInt(typesHeros.length)]));
+			actualiseSpawnDonjons(donjon, DISTANCE_SPAWN);
+			listeHeros.add(herosSpawn.getHeros());
+		}
+		if(!monstreSpawn.hasSoldat()) {
+			monstreSpawn.setMonstre((Monstres) SoldatFactory.getSoldat(typesMonstres[generateur.nextInt(typesMonstres.length)]));
+			actualiseSpawnChateau(chateau, DISTANCE_SPAWN);
+			listeMonstres.add(monstreSpawn.getMonstre());
+		}
 	}
 
 	public void faireMourir(Cellule c) {
