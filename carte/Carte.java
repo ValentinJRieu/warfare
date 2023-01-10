@@ -499,7 +499,7 @@ public class Carte implements ICarte, IConfig {
 		HashMap<String, Integer> cellules = new HashMap<>();
 		int deplacementDispo = active.getSoldat().getDeplacementRestant();
 
-		cellules.putAll(this.listeDeplacementAux(this.active, deplacementDispo, this.active));
+		cellules.putAll(this.listeDeplacementAux(this.active, deplacementDispo));
 		return cellules;
 	}
 
