@@ -208,7 +208,6 @@ public class Carte implements ICarte, IConfig {
 	 * */
 	@Override public boolean action(Position cible) {
 		Cellule celluleCible = carte.get(cible.toString());
-!
 		if(!hasActif()) {
 			System.err.println("nouvel actif");
 			this.active = celluleCible;
