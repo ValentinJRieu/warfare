@@ -20,7 +20,10 @@ public class Carte implements ICarte, IConfig {
 	private String name;
 	private int largeur;
 	private int hauteur;
-	private boolean finTour = false;
+
+	private int tour = 1;
+	private boolean estTerminee = false;
+
 
 	private boolean tourHeros = true;
 
@@ -233,19 +236,27 @@ public class Carte implements ICarte, IConfig {
 		return carte.get(pos.toString()).getHeros();
 	}
 
+	@Override
+	public boolean action(Position cible) {
+		Cellule celluleCible = carte.get(cible.toString());
+		if(this.isTourHeros()) {
+			return this.actionHeros(celluleCible);
+		}
+		return this.actionMonstre(celluleCible);
+	}
+
 	/**
-	 *	retourne l'action à réaliser entre la cellule active et la cellule cible
+	 *	retourne l'action à réaliser entre le héros de la cellule active et la cellule cible
 	 *	<pre>
 	 * 	en fonction de l'état de la cellule active, l'action diffère.
 	 * 	@param cible : Position
 	 * @return boolean
 	 * </pre>
 	 * */
-	@Override public boolean action(Position cible) {
-		Cellule celluleCible = carte.get(cible.toString());
+	 public boolean actionHeros(Cellule cible) {
 		if(!hasActif()) {
 			System.err.println("nouvel actif");
-			this.active = celluleCible;
+			this.active = cible;
 			if(this.active.hasSoldat()) {
 				this.accessible.putAll(this.porteeSoldat());
 			}
@@ -255,7 +266,7 @@ public class Carte implements ICarte, IConfig {
 
 		if(this.active.estInfranchissable()) {
 			System.err.println("actif infranchissable, toute action est par construction impossible. nouvel actif");
-			this.active = celluleCible;
+			this.active = cible;
 			this.accessible.clear();
 			if(this.active.hasSoldat()) {
 				this.accessible.putAll(this.porteeSoldat());
@@ -263,7 +274,7 @@ public class Carte implements ICarte, IConfig {
 			return false;
 		}
 
-		if(this.active.equals(celluleCible)) {
+		if(this.active.equals(cible)) {
 			System.err.println("double clic sur cellule : inactif");
 			rendInactif();
 			return false;
@@ -271,58 +282,152 @@ public class Carte implements ICarte, IConfig {
 
 		if(!this.active.hasSoldat()) {
 			System.err.println("remplacement de l'actif");
-			this.active = celluleCible;
+			this.active = cible;
 			this.accessible.clear();
 			if(this.active.hasSoldat()) this.accessible.putAll(this.porteeSoldat());
 			return false;
 		}
 
-		if(!this.accessible.containsKey(celluleCible.getPos().toString())) {
+		if(!this.accessible.containsKey(cible.getPos().toString())) {
 			System.err.println("Cible trop éloignée (ou soldat dessus) pour déplacement : nouvel actif");
-			this.active = celluleCible;
+			this.active = cible;
 			this.accessible.clear();
 			if(this.active.hasSoldat()) this.accessible.putAll(this.porteeSoldat());
 			return false;
 		}
 
-		if(!celluleCible.hasSoldat()) {
+		if(!cible.hasSoldat()) {
 			System.err.println("cible sans soldat");
-			if(celluleCible.estInfranchissable()) {
+			if(cible.estInfranchissable()) {
 				System.err.println("cible infranchissable");
-				this.active = celluleCible;
+				this.active = cible;
 				this.accessible.clear();
 				return false;
 			}
 
 			System.err.println("cible accessible, déplacement et actif null");
-			this.active.seDeplace(celluleCible);
+			this.active.seDeplace(cible);
 			rendInactif();
 			return false;
 		}
 
 		/* cible a un soldat */
 
-		if(celluleCible.hasHeros()) {
+		if(cible.hasHeros()) {
 			System.err.println("cible a un héros : nouvel actif");
-			this.active = celluleCible;
+			this.active = cible;
 			this.accessible.clear();
 			this.accessible.putAll(this.porteeSoldat());
 			return false;
 		}
 
-		if(this.active.estVoisine(celluleCible)) {
+		if(this.active.estVoisine(cible)) {
 			System.err.println("combat entre deux cellules");
-			this.active.attaqueCaC(celluleCible);
+			this.active.attaqueCaC(cible);
 			rendInactif();
-			if(celluleCible.getMonstre().estMort()) {
-				this.faireMourir(celluleCible);
+			if(cible.getMonstre().estMort()) {
+				this.faireMourir(cible);
 			}
 			/* TODO : ouvre un panel de sélection d'action */
 			return true;
 		}
 
 		System.err.println("ennemi trop éloigné : nouvel actif");
-		this.active = celluleCible;
+		this.active = cible;
+		this.accessible.clear();
+		this.accessible.putAll(this.porteeSoldat());
+		return false;
+	}
+
+
+	/**
+	 *	retourne l'action à réaliser entre le héros de la cellule active et la cellule cible
+	 *	<pre>
+	 * 	en fonction de l'état de la cellule active, l'action diffère.
+	 * 	@param cible : Position
+	 * @return boolean
+	 * </pre>
+	 * */
+	public boolean actionMonstre(Cellule cible) {
+		if(!hasActif()) {
+			System.err.println("nouvel actif");
+			this.active = cible;
+			if(this.active.hasSoldat()) {
+				this.accessible.putAll(this.porteeSoldat());
+			}
+			return false;
+		}
+
+		if(this.active.estInfranchissable()) {
+			System.err.println("actif infranchissable, toute action est par construction impossible. nouvel actif");
+			this.active = cible;
+			this.accessible.clear();
+			if(this.active.hasSoldat()) {
+				this.accessible.putAll(this.porteeSoldat());
+			}
+			return false;
+		}
+
+		if(this.active.equals(cible)) {
+			System.err.println("double clic sur cellule : inactif");
+			rendInactif();
+			return false;
+		}
+
+		if(!this.active.hasSoldat()) {
+			System.err.println("remplacement de l'actif");
+			this.active = cible;
+			this.accessible.clear();
+			if(this.active.hasSoldat()) this.accessible.putAll(this.porteeSoldat());
+			return false;
+		}
+
+		if(!this.accessible.containsKey(cible.getPos().toString())) {
+			System.err.println("Cible trop éloignée (ou soldat dessus) pour déplacement : nouvel actif");
+			this.active = cible;
+			this.accessible.clear();
+			if(this.active.hasSoldat()) this.accessible.putAll(this.porteeSoldat());
+			return false;
+		}
+
+		if(!cible.hasSoldat()) {
+			System.err.println("cible sans soldat");
+			if(cible.estInfranchissable()) {
+				System.err.println("cible infranchissable");
+				this.active = cible;
+				this.accessible.clear();
+				return false;
+			}
+
+			System.err.println("cible accessible, déplacement et actif null");
+			this.active.seDeplace(cible);
+			rendInactif();
+			return false;
+		}
+
+		/* cible a un soldat */
+
+		if(cible.hasHeros()) {
+			System.err.println("cible a un héros : nouvel actif");
+			this.active = cible;
+			this.accessible.clear();
+			this.accessible.putAll(this.porteeSoldat());
+			return false;
+		}
+
+		if(this.active.estVoisine(cible)) {
+			System.err.println("combat entre deux cellules");
+			this.active.attaqueCaC(cible);
+			rendInactif();
+			if(cible.getMonstre().estMort()) {
+				this.faireMourir(cible);
+			}
+			/* TODO : ouvre un panel de sélection d'action */
+			return true;
+		}
+
+		System.err.println("ennemi trop éloigné : nouvel actif");
+		this.active = cible;
 		this.accessible.clear();
 		this.accessible.putAll(this.porteeSoldat());
 		return false;
@@ -330,6 +435,11 @@ public class Carte implements ICarte, IConfig {
 
 	private boolean aPorteeDeSoldat(Cellule celluleCible) {
 		return false;
+	}
+
+	public void finTour() {
+		tour++;
+		this.inverseTourHeros();
 	}
 
 	public void rendInactif() {
@@ -415,14 +525,6 @@ public class Carte implements ICarte, IConfig {
 
 	public Cellule getCellule(Position position) {
 		return carte.get(position.toString());
-	}
-
-	public boolean isFinTour() {
-		return finTour;
-	}
-
-	public void inverseFinTour() {
-		this.finTour = !this.finTour;
 	}
 
 	public boolean isTourHeros() {
@@ -521,4 +623,6 @@ public class Carte implements ICarte, IConfig {
 		}
 		c.meurt();
 	}
+
+	public int getTour() { return tour; }
 }

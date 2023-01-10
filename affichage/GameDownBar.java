@@ -29,7 +29,9 @@ public class GameDownBar extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                parent.gameDisplay.getCarte().inverseFinTour();
+
+                parent.gameDisplay.getCarte().finTour();
+
             }
         });
         GameEventManager.addListener(new GameListener() {
