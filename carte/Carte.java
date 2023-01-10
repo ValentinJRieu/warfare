@@ -270,6 +270,10 @@ public class Carte implements ICarte, IConfig {
 		return false;
 	}
 
+	private boolean aPorteeDeSoldat(Cellule celluleCible) {
+		return false;
+	}
+
 	public void rendInactif() {
 		this.active = null;
 		this.accessible.clear();
@@ -304,7 +308,7 @@ public class Carte implements ICarte, IConfig {
 	}
 
 	private HashMap<String, Integer> listeDeplacement() {
-		HashMap<String, Integer> cellules = new HashMap<>()
+		HashMap<String, Integer> cellules = new HashMap<>();
 		int deplacementDispo = active.getSoldat().getDeplacementRestant();
 
 		cellules.putAll(this.active.listeDeplacementAux(deplacementDispo));
