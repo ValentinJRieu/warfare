@@ -514,7 +514,6 @@ public class Carte implements ICarte, IConfig, Serializable {
 	 * @param c la cellule actuelle
 	 * @param deplacementDispo le deplacement restant
 	 * @return {@link HashMap} liste des cellules accessibles depuis c
-	 * </pre>
 	 * */
 
 	public HashMap<String, Integer> listeDeplacementAux(Cellule c, int deplacementDispo) {
