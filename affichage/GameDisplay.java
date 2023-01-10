@@ -68,9 +68,27 @@ public class GameDisplay extends JPanel {
         int cols = jEnd;
         ct.draw(g2, radius / 2, iStart, jStart, rows, cols);
         if (overedCase != null) {
-            g2.setColor(Color.WHITE);
+            g2.setColor(getColorFromActiveDistance(overedCase));
             g2.draw(CaseTable.createHexagon(new RCPosition(overedCase.getX() - iStart, overedCase.getY() - jStart), radius / 2));
         }
+    }
+
+    private Color getColorFromActiveDistance(RCPosition overedCase) {
+        Cellule active = game.getCarte().actif();
+        Cellule overed = game.getCarte().getCellule(overedCase);
+        if (overed == null) {
+            return Color.BLACK;
+        }
+        if (active == null) {
+            return Color.WHITE;
+        }
+        if (active.getSoldat() == null) {
+            if (overed.estInfranchissable() || overed.getSoldat() != null) {
+                return Color.red;
+            }
+            return Color.green;
+        }
+        return Color.WHITE;
     }
 
     public Cellule getClickedCellule() {
