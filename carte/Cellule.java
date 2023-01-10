@@ -237,7 +237,6 @@ public class Cellule {
 		if(type == 1) attaqueCaC(cible);
 
 		else attaqueDist(cible);
-		/*TODO: test si mort */
 
 	}
 
@@ -251,6 +250,15 @@ public class Cellule {
 		int deg = this.heros.getTir() - cible.getBonusDefense();
 		if(deg < 0) deg = 0;
 		cible.getMonstre().degat(deg);
+	}
+
+	public void meurt() {
+
+		if(hasMonstre()) {
+			this.monstre = null;
+			return;
+		}
+		this.heros = null;
 	}
 
 	public HashMap<String, Integer> listeDeplacementAux(int deplacementDispo) {

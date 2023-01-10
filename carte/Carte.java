@@ -140,8 +140,9 @@ public class Carte implements ICarte, IConfig {
 		System.err.println(carte);
 	}
 
-	/*
-	 * On retourne l'element a la position pos.
+	/**
+	 * Retourne l'element a la position donnée.
+	 *
 	 * */
 	@Override public Terrain getElement(Position pos) {
 		return carte.get(pos.toString()).getTerrain();
@@ -174,8 +175,8 @@ public class Carte implements ICarte, IConfig {
 		return pos;
 	}
 
-	/*
-	 * On parcours la carte pour touver un heros
+	/**
+	 * parcoure la carte pour touver un heros
 	 * */
 	@Override public Heros trouveHeros() {
 		for(Map.Entry<String, Cellule> entry : carte.entrySet()) {
@@ -186,34 +187,41 @@ public class Carte implements ICarte, IConfig {
 		return null;
 	}
 
-	/*
-	 * On renvoie le heros a la position pos (S'il n'y a pas de heros, null est renvoye)
+	/**
+	 * Renvoie le heros a la position pos (S'il n'y a pas de heros, null est renvoye)
 	 * */
 	@Override public Heros trouveHeros(Position pos) {
 		return carte.get(pos.toString()).getHeros();
 	}
 
-	/*
-	 * retourne l'action à réaliser entre la cellule active et la cellule cible
-	 *
-	 * en fonction de l'état de la cellule active, l'action diffère.
+	/**
+	 *	retourne l'action à réaliser entre la cellule active et la cellule cible
+	 *	<pre>
+	 * 	en fonction de l'état de la cellule active, l'action diffère.
+	 * 	@param cible : Position
+	 * @return boolean
+	 * </pre>
 	 * */
 	@Override public boolean action(Position cible) {
 		Cellule celluleCible = carte.get(cible.toString());
-
+!
 		if(!hasActif()) {
 			System.err.println("nouvel actif");
 			this.active = celluleCible;
-
 			if(this.active.hasSoldat()) {
 				this.accessible.putAll(this.porteeSoldat());
 			}
+
 			return false;
 		}
 
 		if(this.active.estInfranchissable()) {
 			System.err.println("actif infranchissable, toute action est par construction impossible. nouvel actif");
 			this.active = celluleCible;
+			this.accessible.clear();
+			if(this.active.hasSoldat()) {
+				this.accessible.putAll(this.porteeSoldat());
+			}
 			return false;
 		}
 
@@ -226,12 +234,16 @@ public class Carte implements ICarte, IConfig {
 		if(!this.active.hasSoldat()) {
 			System.err.println("remplacement de l'actif");
 			this.active = celluleCible;
+			this.accessible.clear();
+			if(this.active.hasSoldat()) this.accessible.putAll(this.porteeSoldat());
 			return false;
 		}
 
-		if(!aPorteeDeSoldat(celluleCible)) {
-			System.err.println("Cible trop éloignée pour déplacement : nouvel actif");
+		if(!this.accessible.containsKey(celluleCible.getPos().toString())) {
+			System.err.println("Cible trop éloignée (ou soldat dessus) pour déplacement : nouvel actif");
 			this.active = celluleCible;
+			this.accessible.clear();
+			if(this.active.hasSoldat()) this.accessible.putAll(this.porteeSoldat());
 			return false;
 		}
 
@@ -240,6 +252,7 @@ public class Carte implements ICarte, IConfig {
 			if(celluleCible.estInfranchissable()) {
 				System.err.println("cible infranchissable");
 				this.active = celluleCible;
+				this.accessible.clear();
 				return false;
 			}
 
@@ -254,19 +267,26 @@ public class Carte implements ICarte, IConfig {
 		if(celluleCible.hasHeros()) {
 			System.err.println("cible a un héros : nouvel actif");
 			this.active = celluleCible;
+			this.accessible.clear();
+			this.accessible.putAll(this.porteeSoldat());
 			return false;
 		}
 
 		if(this.active.estVoisine(celluleCible)) {
 			System.err.println("combat entre deux cellules");
-			// this.active.combat(celluleCible);
-			// rendInactif();
+			this.active.attaqueCaC(celluleCible);
+			rendInactif();
+			if(celluleCible.getMonstre().estMort()) {
+				celluleCible.meurt();
+			}
 			/* TODO : ouvre un panel de sélection d'action */
 			return true;
 		}
 
 		System.err.println("ennemi trop éloigné : nouvel actif");
 		this.active = celluleCible;
+		this.accessible.clear();
+		this.accessible.putAll(this.porteeSoldat());
 		return false;
 	}
 
@@ -275,11 +295,13 @@ public class Carte implements ICarte, IConfig {
 		this.accessible.clear();
 	}
 
-	/*
-	* retourne des informations concernant la cellule active
-	*
-	* Utilisé pour l'affichage du panel d'informations
-	*
+	/**
+	 *	retourne des informations concernant la cellule active
+	 *
+	 * @param void
+	 *
+	 * @return {@link String}[] informations de la cellule active
+	 * @return null si pas de cellule active
 	 */
 	public String[] returnActif() {
 		if(!this.hasActif()) return null;
@@ -298,13 +320,19 @@ public class Carte implements ICarte, IConfig {
 		return new String[] {soldat, terrain};
 	}
 
+	/**
+	* retourne une hashmap des cases accessibles depuis la case actif
+	*
+	* @return {@link HashMap} liste des Deplacements possibles depuis case actif
+	* </pre>
+	* */
 	public HashMap<String, Integer> porteeSoldat() {
 
 		return listeDeplacement();
 	}
 
 	private HashMap<String, Integer> listeDeplacement() {
-		HashMap<String, Integer> cellules = new HashMap<>()
+		HashMap<String, Integer> cellules = new HashMap<>();
 		int deplacementDispo = active.getSoldat().getDeplacementRestant();
 
 		cellules.putAll(this.active.listeDeplacementAux(deplacementDispo));
