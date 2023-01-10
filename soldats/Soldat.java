@@ -56,6 +56,8 @@ public abstract class Soldat implements ISoldat {
 
     public int getDeplacementRestant() { return deplacementRestant; }
 
+    public void resetDeplacement() { deplacementRestant = deplacement; }
+    public void resetPeutJouer() { peutJouer = true; }
     @Override
     public void joueTour() {
         this.peutJouer = false;

@@ -334,8 +334,16 @@ public class Carte implements ICarte, IConfig {
 		}
 
 		if(this.active.estVoisine(cible)) {
+			if(!this.active.getHeros().peutJouer()) {
+				System.err.println("combat impossible : déjà fait changement actif");
+				this.active = cible;
+				this.accessible.clear();
+				this.accessible.putAll(this.porteeSoldat());
+				return false;
+			}
 			System.err.println("combat entre deux cellules");
 			this.active.attaqueCaC(cible);
+			this.active.getHeros().joueTour();
 			rendInactif();
 			if(cible.getMonstre().estMort()) {
 				this.faireMourir(cible);
@@ -459,7 +467,6 @@ public class Carte implements ICarte, IConfig {
 			}
 		}
 		else {
-
 			for (Monstres m : listeMonstres) {
 				m.resetDeplacement();
 				m.resetPeutJouer();
