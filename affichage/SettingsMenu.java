@@ -3,6 +3,10 @@ package wargame.affichage;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Menu des option
+ * Abandonné faute d'options à mettre dedans
+ */
 public class SettingsMenu extends JPanel{
     JFrame frame;
     JComboBox<String> jb;

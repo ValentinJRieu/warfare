@@ -3,6 +3,9 @@ package wargame.affichage;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+/**
+ * La gestion des evenements de la minimap
+ */
 public class MiniMapManager extends MouseAdapter {
 
     MiniMap mm;
@@ -11,6 +14,10 @@ public class MiniMapManager extends MouseAdapter {
         this.mm = mm;
     }
 
+    /**
+     * En cas de click sur la minimap
+     * @param e L'event
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
         int a = (e.getX()-(int)((double)(mm.getWidth()/2)-(double)(mm.w*mm.gameDisplay.ct.columns/2)))/mm.w;
@@ -32,6 +39,10 @@ public class MiniMapManager extends MouseAdapter {
         mm.gameDisplay.goTo(b,a);
     }
 
+    /**
+     * Lorsqu'on maintien le click et qu'on bouge la souris
+     * @param e L'event
+     */
     @Override
     public void mouseDragged(MouseEvent e) {
         int a = (e.getX()-(int)((double)(mm.getWidth()/2)-(double)(mm.w*mm.gameDisplay.ct.columns/2)))/mm.w;

@@ -11,10 +11,18 @@ import wargame.soldats.Soldat;
 
 import java.awt.*;
 
+/**
+ * Gère les cases du jeu graphiquement
+ */
 public class CaseTable {
     private final Carte cases;
     int columns;
     int rows;
+
+    /**
+     * Initialise la table
+     * @param map la carte à charger
+     */
     CaseTable(Carte map){
         cases = map;
         int i = 0,j=0;
@@ -128,6 +136,12 @@ public class CaseTable {
         return p;
     }
 
+    /**
+     * Crée un cercle ce centre center et de rayon radius
+     * @param center le centre du cercle
+     * @param radius le rayon du cercle
+     * @return un joli cercle
+     */
     public static Circle createCircle(Point center, int radius){
         Circle p = new Circle();
         p.setCenterX(center.x);
@@ -136,6 +150,12 @@ public class CaseTable {
         return p;
     }
 
+    /**
+     * Renvoie le cercle centré par rapport à la case donnée
+     * @param rcp la position de la case
+     * @param radius le rayon du cercle
+     * @return un jolie cercle au centre de la case ij
+     */
     public static Circle createCircle(RCPosition rcp,int radius){
         int height = (int)CaseTable.height(radius);
         int width = (int)CaseTable.width(radius);

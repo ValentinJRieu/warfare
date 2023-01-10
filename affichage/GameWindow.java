@@ -3,6 +3,9 @@ package wargame.affichage;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * L'affichage du jeu
+ */
 public class GameWindow extends JPanel {
     public JFrame frame;
     public GameDisplay gameDisplay;
@@ -14,7 +17,10 @@ public class GameWindow extends JPanel {
     public MiniMap mm;
 
 
-
+    /**
+     * Met en place les éléments nécessaire pour voir le jeu
+     * @param frame la fenêtre
+     */
     public GameWindow(JFrame frame){
         this.frame = frame;
         frame.setContentPane(this);
@@ -47,6 +53,10 @@ public class GameWindow extends JPanel {
         frame.pack();
     }
 
+    /**
+     * Affiche les different objets nécessaire.
+     * @param g Les <code>Graphics</code>
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);

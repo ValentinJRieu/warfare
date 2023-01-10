@@ -7,6 +7,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * La minimap et ses fonctionnalités
+ */
 public class MiniMap extends JPanel {
     public GameSideBar parent;
     public GameDisplay gameDisplay;
@@ -14,6 +17,11 @@ public class MiniMap extends JPanel {
     public BufferedImage background;
 
     public int w,h;
+
+    /**
+     * Initialisation de la minimap
+     * @param parent le menu des information relative aux cases
+     */
     MiniMap(GameSideBar parent) {
         super();
         Dimension dim = new Dimension(parent.getWidth(), parent.getHeight()*3/10);
@@ -33,6 +41,10 @@ public class MiniMap extends JPanel {
         }
     }
 
+    /**
+     * Rafraichissement de la minimap
+     * @param g the <code>Graphics</code> object to protect
+     */
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;

@@ -14,6 +14,9 @@ import java.awt.event.ComponentEvent;
 import java.awt.image.BufferedImage;
 import java.io.*;
 
+/**
+ * La classe permettant d'afficher les informations relative à la case et la minimap
+ */
 public class GameSideBar extends JPanel {
     public GameWindow parent;
 
@@ -27,6 +30,10 @@ public class GameSideBar extends JPanel {
 
     private Font font;
 
+    /**
+     * Initialise le panneau des informations relative à la case et la minimap
+     * @param parent La fenêtre de jeu
+     */
     public GameSideBar(GameWindow parent){
         super();
         Dimension dim = new Dimension(parent.getWidth() * 2/10, parent.getHeight() * 9/10);
@@ -52,6 +59,10 @@ public class GameSideBar extends JPanel {
             throw new RuntimeException(e);
         }
         addComponentListener(new ComponentAdapter() {
+            /**
+             * Adapte la taille de l'image à l'écran
+             * @param e L'event
+             */
             @Override
             public void componentResized(ComponentEvent e) {
                 super.componentResized(e);

@@ -9,8 +9,16 @@ import java.awt.image.ImageProducer;
 import java.io.*;
 import java.net.URL;
 
+/**
+ * Le Menu Principal
+ */
 public class MainMenu extends JPanel {
     private Font font,titleFont;
+
+    /**
+     * Initialise le menu principal a l'aide de la fenêtre
+     * @param frame la fenêtre
+     */
     public MainMenu(JFrame frame) {
         frame.setContentPane(this);
         setPreferredSize(new Dimension(Option.WIDTH,Option.HEIGHT));

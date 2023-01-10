@@ -15,6 +15,9 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Le plateau de jeu
+ */
 public class GameDisplay extends JPanel {
 
     CaseTable ct;
@@ -96,6 +99,11 @@ public class GameDisplay extends JPanel {
         }
     }
 
+    /**
+     * Renvoie la couleur de la case donnée en paramètre
+     * @param overedCase la case
+     * @return <code>Color</code> - la couleur de la case
+     */
     private Color getColorFromActiveDistance(RCPosition overedCase) {
         Cellule active = carte.actif();
         Cellule overed = carte.getCellule(overedCase);
@@ -231,6 +239,20 @@ public class GameDisplay extends JPanel {
     }
 
 
+    /**
+     * Converti les coordonnées graphiques en des coordonnées de case
+     * @param startX la position x de départ de la recherche
+     * @param endX la position x de fin de la recherche
+     * @param startY la position y de départ de la recherche
+     * @param endY la position y de fin de la recherche
+     * @param startI la position de la ligne de départ
+     * @param endI la position de la ligne de fin
+     * @param startJ la position de la colonne de départ
+     * @param endJ la position de la colonne de fin
+     * @param x la coordonnée x graphique
+     * @param y la coordonnée y graphique
+     * @return RCPosition la postion de la case le cas échéant
+     */
     public RCPosition getIJFromXY(int startX, int endX, int startY, int endY, int startI, int endI, int startJ, int endJ, int x, int y) {//TODO certaines positions ne sont pas détectée
         int width = endX - startX, height = endY - startY, jSize = endJ - startJ, iSize = endI - startI;
 
@@ -322,6 +344,10 @@ public class GameDisplay extends JPanel {
         parent.frame.repaint();
     }
 
+    /**
+     * Getter de la carte
+     * @return la carte du jeu
+     */
     public Carte getCarte() {
         return carte;
     }
