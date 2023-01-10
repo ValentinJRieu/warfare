@@ -6,7 +6,7 @@ import java.awt.*;
 
 public class Nain extends Heros{
 
-	private static final Color image = Color.GRAY;
+	private static final Color image = new Color(255, 102, 0);
 
 
 	public Nain() {

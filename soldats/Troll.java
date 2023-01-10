@@ -6,7 +6,7 @@ import java.awt.*;
 
 public class Troll extends Monstres{
 
-	private static final Color image = Color.red;
+	private static final Color image = new Color(102, 0, 102);
 	public Troll() {
 		pointsDeVie = TypesM.TROLL.getPoints();
 		porteeVisuelle = TypesM.TROLL.getPortee();
