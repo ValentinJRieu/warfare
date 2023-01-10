@@ -13,6 +13,7 @@ public class Hobbit extends Heros{
 		porteeVisuelle = TypesH.HOBBIT.getPortee();
 		puissance = TypesH.HOBBIT.getPuissance();
 		tir = TypesH.HOBBIT.getTir();
+		deplacement = TypesH.HOBBIT.getDeplacement();
 	}
 	public Hobbit(Position pos) {
 		this();

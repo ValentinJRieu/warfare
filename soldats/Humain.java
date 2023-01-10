@@ -13,6 +13,7 @@ public class Humain extends Heros{
 		porteeVisuelle = TypesH.HUMAIN.getPortee();
 		puissance = TypesH.HUMAIN.getPuissance();
 		tir = TypesH.HUMAIN.getTir();
+		deplacement = TypesH.HUMAIN.getDeplacement();
 	}
 
 	public Humain(Position pos) {

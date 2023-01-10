@@ -6,10 +6,7 @@ import wargame.soldats.Heros;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Map;
-import java.util.Random;
-import java.util.Scanner;
-import java.util.TreeMap;
+import java.util.*;
 
 public class Carte implements ICarte, IConfig {
 
@@ -23,11 +20,15 @@ public class Carte implements ICarte, IConfig {
 
 	private Cellule active = null;
 
+	private HashMap<String, Integer> accessible;
+
 
 
 	public Carte() {
 		carte = new TreeMap<>();
+		accessible = new HashMap<>();
 	}
+
 
 	public void loadCarte(String path) throws FileNotFoundException {
 		System.err.println(PATH_TO_MAPS + path);
@@ -199,14 +200,23 @@ public class Carte implements ICarte, IConfig {
 	 * */
 	@Override public boolean action(Position cible) {
 		Cellule celluleCible = carte.get(cible.toString());
+
 		if(!hasActif()) {
 			System.err.println("nouvel actif");
 			this.active = celluleCible;
+
+			if(this.active.hasSoldat()) {
+				this.accessible.putAll(this.porteeSoldat());
+			}
 			return false;
 		}
+
 		if(this.active.estInfranchissable()) {
 			System.err.println("actif infranchissable, toute action est par construction impossible. nouvel actif");
+			this.active = celluleCible;
+			return false;
 		}
+
 		if(this.active.equals(celluleCible)) {
 			System.err.println("double clic sur cellule : inactif");
 			rendInactif();
@@ -260,7 +270,10 @@ public class Carte implements ICarte, IConfig {
 		return false;
 	}
 
-	public void rendInactif() { this.active = null; }
+	public void rendInactif() {
+		this.active = null;
+		this.accessible.clear();
+	}
 
 	/*
 	* retourne des informations concernant la cellule active
@@ -268,7 +281,7 @@ public class Carte implements ICarte, IConfig {
 	* Utilisé pour l'affichage du panel d'informations
 	*
 	 */
-	public String[] afficheActif() {
+	public String[] returnActif() {
 		if(!this.hasActif()) return null;
 
 		String soldat;
@@ -285,10 +298,19 @@ public class Carte implements ICarte, IConfig {
 		return new String[] {soldat, terrain};
 	}
 
+	public HashMap<String, Integer> porteeSoldat() {
 
-	public boolean aPorteeDeSoldat(Cellule cible) {
-		return true;
+		return listeDeplacement();
 	}
+
+	private HashMap<String, Integer> listeDeplacement() {
+		HashMap<String, Integer> cellules = new HashMap<>()
+		int deplacementDispo = active.getSoldat().getDeplacementRestant();
+
+		cellules.putAll(this.active.listeDeplacementAux(deplacementDispo));
+		return cellules;
+	}
+
 
 
 	public boolean hasActif() { return this.active != null; }

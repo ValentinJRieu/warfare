@@ -8,6 +8,8 @@ public abstract class Soldat implements ISoldat {
     protected int porteeVisuelle;
     protected int puissance;
     protected int tir;
+    protected int deplacement;
+    protected int deplacementRestant;
     protected Position position;
     protected boolean peutJouer = true;
 
@@ -52,7 +54,7 @@ public abstract class Soldat implements ISoldat {
         this.position = position;
     }
 
-
+    public int getDeplacementRestant() { return deplacementRestant; }
 
     @Override
     public void joueTour() {
