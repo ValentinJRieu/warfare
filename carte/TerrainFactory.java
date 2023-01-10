@@ -21,7 +21,9 @@ public class TerrainFactory {
 			return new Riviere();
 		} else if (terrainTypeStr.equalsIgnoreCase("DONJON")) {
 			return new Donjon();
-		} else if (terrainTypeStr.equalsIgnoreCase("CHATEAU"))
+		} else if (terrainTypeStr.equalsIgnoreCase("CHATEAU")) {
+			return new Chateau();
+		}
 
 		return new Vide();
 	}
