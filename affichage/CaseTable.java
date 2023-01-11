@@ -1,6 +1,5 @@
 package wargame.affichage;
 
-import javafx.scene.shape.Circle;
 import wargame.ISoldat;
 import wargame.carte.Carte;
 import wargame.carte.Cellule;

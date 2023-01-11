@@ -1,5 +1,8 @@
 package wargame.affichage;
 
+import wargame.Main;
+import wargame.RessourceLoader;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -8,6 +11,7 @@ import java.awt.image.ImageObserver;
 import java.awt.image.ImageProducer;
 import java.io.*;
 import java.net.URL;
+import java.util.Objects;
 
 /**
  * Le Menu Principal
@@ -26,10 +30,10 @@ public class MainMenu extends JPanel {
         GraphicsEnvironment genv = GraphicsEnvironment.getLocalGraphicsEnvironment();
         try
         {
-            InputStream myStream = new BufferedInputStream(new FileInputStream("resources/fonts/MainMenu.ttf"));
+            InputStream myStream = new BufferedInputStream(Objects.requireNonNull(InputStream.class.getResourceAsStream("/wargame/resources/fonts/MainMenu.ttf")));
             font = Font.createFont(Font.TRUETYPE_FONT, myStream).deriveFont(Font.PLAIN, 72);
             genv.registerFont(font);
-            myStream = new BufferedInputStream(new FileInputStream("resources/fonts/Title.ttf"));
+            myStream = new BufferedInputStream(Objects.requireNonNull(getClass().getResourceAsStream("/wargame/resources/fonts/Title.ttf")));
             titleFont = Font.createFont(Font.TRUETYPE_FONT, myStream).deriveFont(Font.PLAIN, 256);
             genv.registerFont(font);
         } catch (FileNotFoundException e) {

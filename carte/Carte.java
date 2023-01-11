@@ -67,8 +67,7 @@ public class Carte implements ICarte, IConfig, Serializable {
 
 
 	public void loadCarte(String path) throws FileNotFoundException {
-		System.err.println(PATH_TO_MAPS + path);
-		File f = new File(PATH_TO_MAPS + path);
+		InputStream f = Objects.requireNonNull(InputStream.class.getResourceAsStream("/wargame/data/maps/" + path));
 		Scanner myReader = new Scanner(f);
 		/* On va lire le nom de la map a la premiere ligne */
 		if(myReader.hasNextLine()) {
@@ -747,10 +746,12 @@ public class Carte implements ICarte, IConfig, Serializable {
 
 	public void save(String name)
 	{
+		String SavePath = java.nio.file.Paths.get("").toAbsolutePath() + "/saves";
+		new File(SavePath).mkdirs();
 		ObjectOutputStream outputStream = null;
 		try {
 			//Construct the LineNumberReader object
-			outputStream = new ObjectOutputStream(new FileOutputStream("saves/"+name+".save"));
+			outputStream = new ObjectOutputStream(new FileOutputStream(SavePath+"/"+name+".save"));
 			outputStream.writeObject(this);
 		} catch (FileNotFoundException ex) {
 			ex.printStackTrace();
@@ -770,11 +771,13 @@ public class Carte implements ICarte, IConfig, Serializable {
 	}
 	public static Carte load(String name)
 	{
+		String SavePath = java.nio.file.Paths.get("").toAbsolutePath() + "/saves";
+		new File(SavePath).mkdirs();
 		Carte c = null;
 		ObjectInputStream inputStream = null;
 		try {
 			//Construct the LineNumberReader object
-			inputStream = new ObjectInputStream(new FileInputStream("saves/"+name+".save"));
+			inputStream = new ObjectInputStream(new FileInputStream(SavePath + "/"+name+".save"));
 			c = (Carte) inputStream.readObject();
 		} catch (FileNotFoundException ex) {
 			ex.printStackTrace();

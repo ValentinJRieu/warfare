@@ -11,6 +11,7 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Objects;
 
 public class LoadMenu extends JPanel {
     public Font titleFont,font;
@@ -26,10 +27,10 @@ public class LoadMenu extends JPanel {
         GraphicsEnvironment genv = GraphicsEnvironment.getLocalGraphicsEnvironment();
         try
         {
-            InputStream myStream = new BufferedInputStream(new FileInputStream("resources/fonts/MainMenu.ttf"));
+            InputStream myStream = new BufferedInputStream(Objects.requireNonNull(InputStream.class.getResourceAsStream("/wargame/resources/fonts/MainMenu.ttf")));
             font = Font.createFont(Font.TRUETYPE_FONT, myStream).deriveFont(Font.PLAIN, 72);
             genv.registerFont(font);
-            myStream = new BufferedInputStream(new FileInputStream("resources/fonts/Title.ttf"));
+            myStream = new BufferedInputStream(Objects.requireNonNull(getClass().getResourceAsStream("/wargame/resources/fonts/Title.ttf")));
             titleFont = Font.createFont(Font.TRUETYPE_FONT, myStream).deriveFont(Font.PLAIN, 128);
             genv.registerFont(font);
         } catch (FileNotFoundException e) {
@@ -182,17 +183,19 @@ public class LoadMenu extends JPanel {
 
 
         try {
-            Path dirPath = Paths.get("saves/");
+            String SavePath = java.nio.file.Paths.get("").toAbsolutePath() + "/saves";
+            new File(SavePath).mkdirs();
+            Path dirPath = Paths.get(SavePath);
             try (DirectoryStream<Path> dirPaths = Files
                     .newDirectoryStream(dirPath)) {
                 for (Path file : dirPaths) {
                     switch (file.getFileName().toString()) {
-                        case "auto-save.save" : autoSave.setText("Sauvegarde Automatique - PLEIN");
-                        case "slot1.save" : save1.setText("Emplacement de Sauvegarde 1 - PLEIN");
-                        case "slot2.save" : save2.setText("Emplacement de Sauvegarde 2 - PLEIN");
-                        case "slot3.save" : save3.setText("Emplacement de Sauvegarde 3 - PLEIN");
-                        case "slot4.save" : save4.setText("Emplacement de Sauvegarde 4 - PLEIN");
-                        case "slot5.save" : save5.setText("Emplacement de Sauvegarde 5 - PLEIN");
+                        case "auto-save.save" : autoSave.setText("Sauvegarde Automatique - PLEIN");break;
+                        case "slot1.save" : save1.setText("Emplacement de Sauvegarde 1 - PLEIN");break;
+                        case "slot2.save" : save2.setText("Emplacement de Sauvegarde 2 - PLEIN");break;
+                        case "slot3.save" : save3.setText("Emplacement de Sauvegarde 3 - PLEIN");break;
+                        case "slot4.save" : save4.setText("Emplacement de Sauvegarde 4 - PLEIN");break;
+                        case "slot5.save" : save5.setText("Emplacement de Sauvegarde 5 - PLEIN");break;
                         default : throw new Error("Dossier de sauvegarde Corrompu");
                     }
                 }

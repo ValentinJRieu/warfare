@@ -13,6 +13,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.util.Objects;
 
 /**
  * La classe permettant d'afficher les informations relative à la case et la minimap
@@ -46,9 +47,9 @@ public class GameSideBar extends JPanel {
         this.parent = parent;
         GraphicsEnvironment genv = GraphicsEnvironment.getLocalGraphicsEnvironment();
         try {
-            background = ImageIO.read(new File("resources/textures/gui/side_bar.png"));
+            background = ImageIO.read(Objects.requireNonNull(InputStream.class.getResourceAsStream("/wargame/resources/textures/gui/side_bar.png")));
             bgImage = background.getScaledInstance(parent.getWidth() * 2/10,parent.getHeight() * 9/10,Image.SCALE_FAST);
-            InputStream myStream = new BufferedInputStream(new FileInputStream("resources/fonts/medieval2.ttf"));
+            InputStream myStream = new BufferedInputStream(Objects.requireNonNull(InputStream.class.getResourceAsStream("/wargame/resources/fonts/medieval2.ttf")));
             font = Font.createFont(Font.TRUETYPE_FONT, myStream).deriveFont(Font.PLAIN, 30);
             genv.registerFont(font);
         } catch (IOException e) {

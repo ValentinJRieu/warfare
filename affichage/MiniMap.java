@@ -6,6 +6,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Objects;
 
 /**
  * La minimap et ses fonctionnalités
@@ -34,11 +36,11 @@ public class MiniMap extends JPanel {
         MiniMapManager mmm = new MiniMapManager(this);
         addMouseListener(mmm);
         addMouseMotionListener(mmm);
-        try {
-            background = ImageIO.read(new File("resources/textures/gui/minimap.png"));
+        /*try {
+            background = ImageIO.read(Objects.requireNonNull(InputStream.class.getResourceAsStream("/wargame/resources/textures/gui/minimap.png")));
         } catch (IOException e) {
             throw new RuntimeException(e);
-        }
+        }*/
     }
 
     /**

@@ -11,6 +11,7 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Objects;
 
 public class MenuEchap extends JPanel {
     public Font titleFont,font;
@@ -26,10 +27,10 @@ public class MenuEchap extends JPanel {
         GraphicsEnvironment genv = GraphicsEnvironment.getLocalGraphicsEnvironment();
         try
         {
-            InputStream myStream = new BufferedInputStream(new FileInputStream("resources/fonts/MainMenu.ttf"));
+            InputStream myStream = new BufferedInputStream(Objects.requireNonNull(InputStream.class.getResourceAsStream("/wargame/resources/fonts/MainMenu.ttf")));
             font = Font.createFont(Font.TRUETYPE_FONT, myStream).deriveFont(Font.PLAIN, 72);
             genv.registerFont(font);
-            myStream = new BufferedInputStream(new FileInputStream("resources/fonts/Title.ttf"));
+            myStream = new BufferedInputStream(Objects.requireNonNull(getClass().getResourceAsStream("/wargame/resources/fonts/Title.ttf")));
             titleFont = Font.createFont(Font.TRUETYPE_FONT, myStream).deriveFont(Font.PLAIN, 128);
             genv.registerFont(font);
         } catch (FileNotFoundException e) {

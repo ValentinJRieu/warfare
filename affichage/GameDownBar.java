@@ -13,6 +13,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.util.Objects;
 
 /**
  * le menu d'en bas permettant de terminer son tour et de voir des information de jeu générales
@@ -40,7 +41,7 @@ public class GameDownBar extends JPanel {
         this.setPreferredSize(dim);
         this.setMaximumSize(dim);
         try {
-            background = ImageIO.read(new File("resources/textures/gui/side_bar.png"));
+            background = ImageIO.read(Objects.requireNonNull(InputStream.class.getResourceAsStream("/wargame/resources/textures/gui/side_bar.png")));
             bgImage = background.getScaledInstance(dim.width,dim.height,Image.SCALE_FAST);
 
         } catch (IOException e) {
