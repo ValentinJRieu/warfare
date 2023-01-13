@@ -71,7 +71,7 @@ public class Carte implements ICarte, IConfig, Serializable {
 	 */
 
 	public void loadCarte(String path) throws FileNotFoundException {
-		InputStream f = Objects.requireNonNull(InputStream.class.getResourceAsStream("/wargame/data/maps/" + path));
+		InputStream f = Objects.requireNonNull(getClass().getResourceAsStream("/wargame/data/maps/" + path));
 		Scanner myReader = new Scanner(f);
 		/* On va lire le nom de la map a la premiere ligne */
 		if(myReader.hasNextLine()) {

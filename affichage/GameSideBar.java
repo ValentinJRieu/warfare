@@ -47,9 +47,9 @@ public class GameSideBar extends JPanel {
         this.parent = parent;
         GraphicsEnvironment genv = GraphicsEnvironment.getLocalGraphicsEnvironment();
         try {
-            background = ImageIO.read(Objects.requireNonNull(InputStream.class.getResourceAsStream("/wargame/resources/textures/gui/side_bar.png")));
+            background = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/wargame/resources/textures/gui/side_bar.png")));
             bgImage = background.getScaledInstance(parent.getWidth() * 2/10,parent.getHeight() * 9/10,Image.SCALE_FAST);
-            InputStream myStream = new BufferedInputStream(Objects.requireNonNull(InputStream.class.getResourceAsStream("/wargame/resources/fonts/medieval2.ttf")));
+            InputStream myStream = new BufferedInputStream(Objects.requireNonNull(getClass().getResourceAsStream("/wargame/resources/fonts/medieval2.ttf")));
             font = Font.createFont(Font.TRUETYPE_FONT, myStream).deriveFont(Font.PLAIN, 30);
             genv.registerFont(font);
         } catch (IOException e) {

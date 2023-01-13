@@ -41,7 +41,7 @@ public class GameDownBar extends JPanel {
         this.setPreferredSize(dim);
         this.setMaximumSize(dim);
         try {
-            background = ImageIO.read(Objects.requireNonNull(InputStream.class.getResourceAsStream("/wargame/resources/textures/gui/side_bar.png")));
+            background = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/wargame/resources/textures/gui/side_bar.png")));
             bgImage = background.getScaledInstance(dim.width,dim.height,Image.SCALE_FAST);
 
         } catch (IOException e) {
